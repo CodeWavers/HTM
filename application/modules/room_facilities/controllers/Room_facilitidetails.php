@@ -11,7 +11,7 @@ class Room_facilitidetails extends MX_Controller {
 		));	
     }
     public function testdatatable(){
-		$this->permission->method('room_facilities','read')->redirect();
+		$this->permission->method('Room_serviceModel','read')->redirect();
         $data['title']    = display('room_facilities_list'); 
 		$data['module'] = "room_facilities";
         $data['page']   = "roomfacilitydetailslist";   
@@ -57,10 +57,10 @@ class Room_facilitidetails extends MX_Controller {
 		$row = array();
 		$update='';
 		$delete='';
-		if($this->permission->method('room_facilities','update')->access()):
+		if($this->permission->method('Room_serviceModel','update')->access()):
 		$update='<input name="url" type="hidden" id="url_'.$value->facilityid.'" value="'.base_url().'room_facilities/room_facilitidetails/updateintfrm" /><a onclick="editinforoom('.$value->facilityid.')" class="btn btn-info btn-sm margin_right_5px" data-toggle="tooltip" data-placement="left" title="Update"><i class="ti-pencil-alt text-white" aria-hidden="true"></i></a>';
 		endif;
-		 if($this->permission->method('room_facilities','delete')->access()):
+		 if($this->permission->method('Room_serviceModel','delete')->access()):
 		 $delete='<input name="delurl" type="hidden" id="delurl_'.$value->facilityid.'" value="'.base_url().'room_facilities/room-facilities-details-delete/'.$value->facilityid.'" /><a onclick="deleteitem('.$value->facilityid.');" class="btn btn-danger btn-sm color_fff" data-toggle="tooltip" data-placement="right" title="Delete "><i class="ti-trash text-white"></i></a>';
 		 endif;
 		$row[] =$i;
@@ -83,7 +83,7 @@ class Room_facilitidetails extends MX_Controller {
 	}
     public function index($id = null)
     {
-		$this->permission->method('room_facilities','read')->redirect();
+		$this->permission->method('Room_serviceModel','read')->redirect();
         $data['title']    = 'Facility Details'; 
 		$data['facilitytype']   = $this->roomfacilitidetails_model->allfacilitytype();
 		$data['module'] = "room_facilities";
@@ -109,7 +109,7 @@ class Room_facilitidetails extends MX_Controller {
 		$query = $this->db->get();
 		$result = $query->row();
 		if($result<=0){
-		 $data['room_facilities']   = (Object) $postData = array(
+		 $data['Room_serviceModel']   = (Object) $postData = array(
 		   'facilityid'     	 => $this->input->post('facilityid', TRUE),
 		   'facilitytypeid'      => $this->input->post('facilititypeyname', TRUE),
 		   'facilitytitle' 	     => $this->input->post('facilityname',TRUE),
@@ -118,7 +118,7 @@ class Room_facilitidetails extends MX_Controller {
 			$this->session->set_flashdata('exception',  display('facility_details'));
 			redirect("room_facilities/room-facilities-details-list"); 
 		   }
-		$this->permission->method('room_facilities','create')->redirect();
+		$this->permission->method('Room_serviceModel','create')->redirect();
 		if ($this->roomfacilitidetails_model->create($postData)) { 
 		 $this->session->set_flashdata('message', display('save_successfully'));
 		 redirect('room_facilities/room-facilities-details-list');
@@ -128,8 +128,8 @@ class Room_facilitidetails extends MX_Controller {
 		redirect("room_facilities/room-facilities-details-list"); 
 	
 	   } else {
-		$this->permission->method('room_facilities','update')->redirect();
-		$data['room_facilities']   = (Object) $postData = array(
+		$this->permission->method('Room_serviceModel','update')->redirect();
+		$data['Room_serviceModel']   = (Object) $postData = array(
 		    'facilityid'     	 => $this->input->post('facilityid', TRUE),
 		   'facilitytypeid'      => $this->input->post('facilititypeyname', TRUE),
 		   'facilitytitle' 	     => $this->input->post('facilityname',TRUE),
@@ -156,7 +156,7 @@ class Room_facilitidetails extends MX_Controller {
 	}
    public function updateintfrm($id){
 	  
-		$this->permission->method('room_facilities','update')->redirect();
+		$this->permission->method('Room_serviceModel','update')->redirect();
 		$data['title'] = display('room_facilities_edit');
 		$data['intinfo']   = $this->roomfacilitidetails_model->findById($id);
 		$data['facilitytype']   = $this->roomfacilitidetails_model->allfacilitytype();
@@ -167,7 +167,7 @@ class Room_facilitidetails extends MX_Controller {
  
     public function delete($id = null)
     {
-        $this->permission->module('room_facilities','delete')->redirect();
+        $this->permission->module('Room_serviceModel','delete')->redirect();
 		
 		if ($this->roomfacilitidetails_model->delete($id)) {
 			#set success message

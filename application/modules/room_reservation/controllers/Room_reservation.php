@@ -207,9 +207,10 @@ class Room_reservation extends MX_Controller {
 		$data['room_reservation']   = (Object) $updateData = array(
 		   'room_no'              	 => $roomnosel,
 		   'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
+		   'total_price' 	         => $this->input->post('grand_total', TRUE),
 		   'bookingstatus' 	         => $this->input->post('status', TRUE)
 		  );
-		if ($this->roomreservation_model->update($updateData)) { 
+		if ($this->roomreservation_model->update($updateData,$bookingnumber)) {
 		if($status==2){
 			$type = "completeorder";
 			$response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
@@ -265,6 +266,8 @@ class Room_reservation extends MX_Controller {
 		$totalroomfound=$this->db->select("count(roomid) as totalroom")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->row();
 		$roomdetails=$this->db->select("*")->from('roomdetails')->where('roomid',$roomname)->get()->row();
 		$numberlist=$this->db->select("*")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->result();
+       $service_list=$this->db->select('*')->from('roomfacilitydetails')->where('facilitytypeid',1)->get()->result();
+
 		$roomlist='';
 		foreach($numberlist as $singleno){
 			$roomlist.=$singleno->roomno.',';
@@ -315,7 +318,9 @@ class Room_reservation extends MX_Controller {
 
         $data['module'] = "room_reservation";  
         $data['page']   = "reservationedit";
-		$this->load->view('room_reservation/reservationedit', $data);   
+        $data['service_list']   = $service_list;
+        $data['service']   = $service_list;
+		$this->load->view('room_reservation/reservationedit', $data);
 	   }
  
     public function delete($id = null)
@@ -347,6 +352,8 @@ class Room_reservation extends MX_Controller {
 		$totalroomfound=$this->db->select("count(roomid) as totalroom")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->row();
 		$roomdetails=$this->db->select("*")->from('roomdetails')->where('roomid',$roomname)->get()->row();
 		$numberlist=$this->db->select("*")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->result();
+
+		$service_list=$this->db->select('*')->from('roomfacilitytype')->get()->result();
 		$roomlist='';
 		foreach($numberlist as $singleno){
 			$roomlist.=$singleno->roomno.',';
@@ -400,9 +407,11 @@ class Room_reservation extends MX_Controller {
 		$data['guest']=$guest;
 		$data['roomno']=$roomname;
 		$data['roominfo']=$roomdetails;
+		$data['service_list']=$service_list;
 		$data['chargeinfo']=$this->roomreservation_model->chargeinfo();
 		$data['module'] = "room_reservation";
-	    $data['page']   = "bookinginfo";   
+	    $data['page']   = "bookinginfo";
+	   // echo '<pre>';print_r()
 	    $this->load->view('room_reservation/bookinginfo', $data);  
 	 }
 	 

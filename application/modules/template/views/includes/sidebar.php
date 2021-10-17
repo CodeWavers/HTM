@@ -42,7 +42,7 @@
                 // module name
                 $HmvcMenu2["accounts"] = array(
                     //set icon
-                    "icon"           => "<i class='ti-bag'></i>", 
+                    "icon"           => "<i class='ti-bag'></i>",
 
                     // stockmovment
                 "c_o_a" => array( 
@@ -138,6 +138,8 @@
                                         ),  
                     ), 
                 );
+
+
                 // module name
                 $HmvcMenu2["customer"] = array(
                     //set icon
@@ -429,6 +431,21 @@
                     ),
                     
                 );
+
+                // module name
+                $HmvcMenu2["room_service"] = array(
+                            //set icon
+                            "icon"           => "<i class='ti-headphone-alt'></i>",
+
+                            // stockmovment
+                            "service_add" => array(
+                                "controller" => "room_service",
+                                "method"     => "show_tree",
+                                "url"		 => "room_service/",
+                                "permission" => "read"
+                            ),
+
+                        );
                 // module name
                 $HmvcMenu2["room_facilities"] = array(
                     //set icon

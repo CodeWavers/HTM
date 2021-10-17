@@ -1,5 +1,5 @@
 <div class="card">
-    <?php if($this->permission->method('room_facilities','create')->access()): ?>
+    <?php if($this->permission->method('Room_serviceModel','create')->access()): ?>
     <div class="card-header">
         <h4><?php echo display('room_facility_details_list') ?><small class="float-right"><button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="ti-plus" aria-hidden="true"></i>
         <?php echo display('add_facility_details')?></button></small></h4>

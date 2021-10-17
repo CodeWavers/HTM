@@ -14,7 +14,7 @@ class Room_size extends MX_Controller {
     public function index($id = null)
     {
         
-		$this->permission->method('room_facilities','read')->redirect();
+		$this->permission->method('Room_serviceModel','read')->redirect();
         $data['title']    = display('roomsize_list'); 
         #
         #pagination starts
@@ -70,11 +70,11 @@ class Room_size extends MX_Controller {
 	  $data['intinfo']="";
 	  if ($this->form_validation->run()) { 
 	   if(empty($this->input->post('mesurementid', TRUE))) {
-		 $data['room_facilities']   = (Object) $postData = array(
+		 $data['Room_serviceModel']   = (Object) $postData = array(
 		   'mesurementid'     	     => $this->input->post('mesurementid', TRUE),
 		   'roommesurementitle' 	 => $this->input->post('room_size',TRUE),
 		  );
-		$this->permission->method('room_facilities','create')->redirect();
+		$this->permission->method('Room_serviceModel','create')->redirect();
 		if ($this->roomsize_model->create($postData)) { 
 		 $this->session->set_flashdata('message', display('save_successfully'));
 		 redirect('room_facilities/room-size-list');
@@ -85,7 +85,7 @@ class Room_size extends MX_Controller {
 	
 	   } else {
 		$this->permission->method('roomfaciliti','update')->redirect();
-		$data['room_facilities']   = (Object) $postData = array(
+		$data['Room_serviceModel']   = (Object) $postData = array(
 		     'mesurementid'     	     => $this->input->post('mesurementid', TRUE),
 		   'roommesurementitle' 	 => $this->input->post('room_size',TRUE),
 		  );
@@ -111,7 +111,7 @@ class Room_size extends MX_Controller {
     }
    public function updateintfrm($id){
 	  
-		$this->permission->method('room_facilities','update')->redirect();
+		$this->permission->method('Room_serviceModel','update')->redirect();
 		$data['title'] = display('room_facilities_edit');
 		$data['intinfo']   = $this->roomsize_model->findById($id);
         $data['module'] = "room_facilities";  
@@ -121,7 +121,7 @@ class Room_size extends MX_Controller {
  
     public function delete($id = null)
     {
-        $this->permission->module('room_facilities','delete')->redirect();
+        $this->permission->module('Room_serviceModel','delete')->redirect();
 		
 		if ($this->roomsize_model->delete($id)) {
 			#set success message

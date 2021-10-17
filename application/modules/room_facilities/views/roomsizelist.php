@@ -1,5 +1,5 @@
 <div class="card">
-    <?php if($this->permission->method('room_facilities','create')->access()): ?>
+    <?php if($this->permission->method('Room_serviceModel','create')->access()): ?>
     <div class="card-header">
         <h4><?php echo display('roomsize_list')?><small class="float-right"><button type="button" class="btn btn-primary btn-md" data-target="#add0" data-toggle="modal"  ><i class="fa fa-plus-circle" aria-hidden="true"></i>
         <?php echo display('roomsize_name')?></button></small></h4>
@@ -86,11 +86,11 @@
                             <td><?php echo $sl; ?></td>
                             <td><?php echo html_escape($type->roommesurementitle); ?></td>
                             <td class="center">
-                                <?php if($this->permission->method('room_facilities','update')->access()): ?>
+                                <?php if($this->permission->method('Room_serviceModel','update')->access()): ?>
                                 <input name="url" type="hidden" id="url_<?php echo html_escape($type->mesurementid); ?>" value="<?php echo base_url("room_facilities/room_size/updateintfrm") ?>" />
                                 <a onclick="editinfo('<?php echo html_escape($type->mesurementid); ?>')" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="left" title="Update"><i class="ti-pencil-alt text-white" aria-hidden="true"></i></a>
                                 <?php endif;
-                                if($this->permission->method('room_facilities','delete')->access()): ?>
+                                if($this->permission->method('Room_serviceModel','delete')->access()): ?>
                                 <a href="<?php echo base_url("room_facilities/room-size-delete/".html_escape($type->mesurementid)) ?>" onclick="return confirm('<?php echo display("are_you_sure") ?>')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Delete "><i class="ti-trash"></i></a>
                                 <?php endif; ?>
                             </td>

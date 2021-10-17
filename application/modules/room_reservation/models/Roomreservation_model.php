@@ -20,8 +20,35 @@ class Roomreservation_model extends CI_Model {
 			return false;
 		}
 	} 
-	public function update($data = array())
+	public function update($data = array(),$bookingnumber)
 	{
+
+      $service_id=  $this->input->post('service', TRUE);
+      $rate=  $this->input->post('rate', TRUE);
+
+        if ( ! empty($service_id) && ! empty($rate) )
+        {
+
+            foreach ($service_id as $key => $value )
+            {
+
+
+                $data_service['service_no'] = $value;
+                $data_service['booking_number']=$bookingnumber;
+                $data_service['rate']=$rate[$key];
+
+
+                //  echo '<pre>';print_r($data);
+                // $this->ProductModel->add_products($data);
+                if ( ! empty($data_service))
+                {
+                    $this->db->insert('booked_services', $data_service);
+                }
+            }
+
+        }
+
+
 		return $this->db->where('bookedid',$data["bookedid"])
 			->update($this->table, $data);
 	}

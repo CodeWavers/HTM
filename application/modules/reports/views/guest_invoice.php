@@ -63,8 +63,8 @@
                               </tr>
                               <tr>
                                 <td colspan="2"><strong><?php echo display('nationality') ?>: </strong><input type="checkbox"  <?php if($customerinfo->isnationality=='native'){ echo display('checked');}?> disabled="disabled"  name="isnationality" value="Native"> <?php echo html_escape($storeinfo->country);?> 
-                                                                              <input type="checkbox" <?php if($customerinfo->isnationality=='foreigner'){ echo display('checked');}?> disabled="disabled" name="isnationality" id="materialInline2" value="Foreign"> <?php echo display('foreign') ?>
-                                                                                    </td>
+                                    <input type="checkbox" <?php if($customerinfo->isnationality=='foreigner'){ echo display('checked');}?> disabled="disabled" name="isnationality" id="materialInline2" value="Foreign"> <?php echo display('foreign') ?>
+                                </td>
                                 <td colspan="2"><strong><?php echo display('visa_reg_no') ?>: </strong><?php echo html_escape($customerinfo->visano);?></td>
                               </tr>
                               <tr>

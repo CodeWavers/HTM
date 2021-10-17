@@ -7,7 +7,7 @@ class Room_facilities extends MX_Controller {
     {
         parent::__construct();
 		$this->load->model(array(
-			'roomfaciliti_model'
+            'roomfaciliti_model'
 		));	
     }
  
