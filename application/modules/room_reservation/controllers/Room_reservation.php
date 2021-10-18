@@ -266,7 +266,7 @@ class Room_reservation extends MX_Controller {
 		$totalroomfound=$this->db->select("count(roomid) as totalroom")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->row();
 		$roomdetails=$this->db->select("*")->from('roomdetails')->where('roomid',$roomname)->get()->row();
 		$numberlist=$this->db->select("*")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->result();
-       $service_list=$this->db->select('*')->from('roomfacilitydetails')->where('facilitytypeid',1)->get()->result();
+       $service_list=$this->db->select('*')->from('service_table')->get()->result();
 
 		$roomlist='';
 		foreach($numberlist as $singleno){
@@ -730,6 +730,76 @@ class Room_reservation extends MX_Controller {
 	    echo Modules::run('template/layout', $data); 
 	   }   
 	 }
+
+    public function var_by_service() {
+
+
+        $CI = & get_instance();
+        $CI->load->model('roomreservation_model');
+        $service_id = $this->input->post('service_id',TRUE);
+
+        $variation = $CI->roomreservation_model->var_by_service_id($service_id);
+        $var_selected = $this->input->post('var_selected',TRUE);
+
+
+           // $var_list[]='';
+
+        foreach ($variation as $v) {
+            $var_list[]=array('var_name'=>$v->variation_name,'var_id'=>$v->id);
+
+        }
+        $var= "";
+
+        //echo '<pre>';print_r($var_list);exit();
+        if (empty($var_list)) {
+            $var .="No Variation Found !";
+        }else{
+            $var .="<select name=\"variation[]\"  class=\" form-control\" id=\"\">";
+            $var .= "<option value=''>Select Variation</option>";
+             foreach ($var_list as $s) {
+
+                $var .="<option  value=".$s['var_id'].">".$s['var_name']."</option>";
+//                if(!empty($var_selected) && ($s['var_id'] == $var_selected)){
+//                    $var .="<option selected value=".$s['var_id'].">".$s['var_name']."</option>";
+//                }else{
+//                    $var .="<option value=".$s['var_id'].">".$s['var_name']."</option>";
+//                }
+
+            }
+            $var .="</select>";
+        }
+
+       // echo '<pre>';print_r($var);exit();
+
+        $data['var_list']  =$var;
+       // $data['service_id']  =$var_list['service_id'];
+
+
+
+        //$data2['txnmber']        = $num_column;
+        echo json_encode($data);
+
+    }
+
+    public function rate_by_service() {
+
+
+        $CI = & get_instance();
+        $CI->load->model('roomreservation_model');
+        $var_id = $this->input->post('var_id',TRUE);
+
+        $variation = $CI->roomreservation_model->rate_by_service_id($var_id);
+
+
+        $data['rate']  =$variation->rate;
+       // $data['service_id']  =$var_list['service_id'];
+
+
+
+        //$data2['txnmber']        = $num_column;
+        echo json_encode($data);
+
+    }
 
  
 }

@@ -92,6 +92,28 @@
         $datediff = strtotime($lastdate) - strtotime($firstdate);
         $datediff = floor($datediff/(60*60*24));
         ?>
+        <table class="table table-bordered table-striped table-hover table-nowrap">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Service Name</th>
+                    <th>Variation</th>
+                    <th><?php echo display('price') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <div><strong></strong></div>
+                    </td>
+                    <td>   <div><strong></strong></div></td>
+                    <td>   <div><strong></strong></div></td>
+                </tr>
+
+            </tbody>
+        </table>
         <table class="table table-striped table-nowrap">
             <thead>
                 <tr>

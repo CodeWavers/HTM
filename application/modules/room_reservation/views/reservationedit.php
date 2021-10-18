@@ -38,7 +38,7 @@
                         <input name="room_no" autocomplete="off" class="form-control" type="text"  readonly="readonly" placeholder="<?php echo display('select_room_no') ?>" value="<?php echo html_escape((!empty($intinfo->room_no)?$intinfo->room_no:null)) ?>" id="select_room_no" >
                         <input name="total_price"  autocomplete="off" class="form-control total_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:null)) ?>" id="total_price" >
                         <input name="grand_total"  autocomplete="off" class="form-control grand_total" type="hidden"  readonly="readonly" placeholder="" value="" id="grand_total" >
-                    </div>
+
                 </div>
                 <?php }else{ ?>
                 <?php if($isfound==2){ ?>
@@ -65,11 +65,11 @@
                 <div class="form-group row">
                     <label for="no_of_people" class="col-sm-4 col-form-label">Select Service <span class="text-danger">*</span></label>
                     <div class="col-sm-6">
-                        <select name="service[]" class="selectpicker form-control"  data-live-search="true"  id="">
+                        <select name="service[]" class="selectpicker form-control "  data-live-search="true"  id="service_id_1" onchange="select_var(1)">
                             <option value="" >Select Service</option>
                             <?php
                             foreach($service_list as $service_list) {?>
-                                <option value="<?php echo html_escape($service_list->facilityid);?>"><?php echo html_escape($service_list->facilitytitle);?> </option>
+                                <option value="<?php echo html_escape($service_list->service_id);?>"><?php echo html_escape($service_list->service_name);?> </option>
                             <?php } ?>
                         </select>
                     </div>
@@ -79,14 +79,27 @@
                     </div>
 
                 </div>
+                        <div id="subCat_div" style="">
                         <div class="form-group row">
-                            <label for="no_of_people" class="col-sm-4 col-form-label">Rate:<span class="text-danger">*</span></label>
-                            <div class="col-sm-6">
-                                <input name="rate[]" autocomplete="off" class="rate form-control" type="text"  value="" id="rate" onkeyup="calculation()">
+                            <label for="no_of_people" class="col-sm-4 col-form-label">Variation & Rate <span class="text-danger">*</span></label>
+                            <div class="col-sm-4">
+                                <select name="variation_id[]" class="selectpicker form-control variation_id"  data-live-search="true"  id="variation_id_1" onchange="select_rate(1)" ">
+                              <option></option>
+                                </select>
                             </div>
 
+                            <div class="col-sm-2">
+                                <input name="rate[]" autocomplete="off" class="rate form-control" type="text"  value="" id="rate_1" placeholder="Rate" onkeyup="calculation(1)" readonly>
+                            </div>
 
                         </div>
+                        </div>
+<!--                        <div class="form-group row">-->
+<!--                            <label for="no_of_people" class="col-sm-4 col-form-label">Rate:<span class="text-danger">*</span></label>-->
+<!--                            -->
+<!---->
+<!---->
+<!--                        </div>-->
 
                     </div>
                 </div>
@@ -94,7 +107,7 @@
 
 
 
-                <input type="hidden" id="service_list" value='<?php foreach ($service as $se) {?>  <option value="<?php echo $se->facilityid?>" ><?php echo $se->facilitytitle?></option><?php } ?>' name="">
+                <input type="hidden" id="service_list" value='<?php foreach ($service as $se) {?>  <option value="<?php echo $se->service_id?>" ><?php echo $se->service_name?></option><?php } ?>' name="">
 <!--                    <div id="cheque" class="cheque">-->
 <!--            -->
 <!--                        <div class="form-group row">-->
@@ -145,48 +158,67 @@
 <script src="<?php echo MOD_URL.$module;?>/assets/js/reservationEdit.js"></script>
 
     <script type="text/javascript">
+
         $(document).ready(function(){
 
             var service = $("#service_list").val();
+            var count = 1;
 
+            var variation_id='variation_id_'+count;
             $("select.form-control:not(.dont-select-me)").select2({
                 placeholder: "Select option",
                 allowClear: true
             })
 
 
-          //  console.log(service)
+
+
+            //  console.log(service)
 
             $(".add_service").click(function(){
 
-                $(".addService").append(" <div id=\"service\" class=\"service\">\n" +
+
+                count++;
+              //  var service_id='service_id_'+count;
+
+                $(".addService").append("<div id=\"service\" class=\"service\">\n" +
                     "                <div class=\"form-group row\">\n" +
                     "                    <label for=\"no_of_people\" class=\"col-sm-4 col-form-label\">Select Service <span class=\"text-danger\">*</span></label>\n" +
                     "                    <div class=\"col-sm-6\">\n" +
-                    "                        <select name=\"service[]\" class=\"service_picker form-control\" data-live-search=\"true\" id=\"\">\n" +
+                    "                                               <select name=\"service[]\" class=\" form-control \"  data-live-search=\"true\"  id=\"service_id_" + count + "\"  onchange='select_var(" + count + ");'>\n" +
                     "                            <option value=\"\" >Select Service</option>\n" +service+
                     "                         \n" +
                     "                        </select>\n" +
                     "                    </div>\n" +
+
                     "\n" +
                     "                    <div  class=\" col-sm-2\">\n" +
                     "                        <a href=\"#\" id=\"remove_service\" class=\"client-add-btn btn-sm btn btn-danger-soft remove_service\" ><i class=\"fa fa-minus-circle m-r-2\"></i></a>\n" +
                     "                    </div>\n" +
                     "\n" +
                     "                </div>\n" +
+                    " <div id=\"subCat_div\" style=\"\">\n" +
                     "                        <div class=\"form-group row\">\n" +
-                    "                            <label for=\"no_of_people\" class=\"col-sm-4 col-form-label\">Rate:<span class=\"text-danger\">*</span></label>\n" +
-                    "                            <div class=\"col-sm-6\">\n" +
-                    "                                <input name=\"rate[]\" autocomplete='off' class=\"rate form-control\" type=\"text\"  value=\"\" id=\"rate\" onkeyup='calculation()'>\n" +
+                    "                            <label for=\"no_of_people\" class=\"col-sm-4 col-form-label\">Variation & Rate <span class=\"text-danger\">*</span></label>\n" +
+                    "                            <div class=\"col-sm-4\">\n" +
+                    "                                <select name=\"variation_id[]\" class=\" form-control\"  data-live-search=\"true\"  id=\"variation_id_" + count + "\"  onchange='select_rate(" + count + ");'>\n" +
+                    "                            <option value=\"\" >Select Variation</option>\n" +
+                    "                                </select>\n" +
+                    "                            </div>\n" +
+
+                    "\n" +
+                    "                            <div class=\"col-sm-2\">\n" +
+                    "                                <input name=\"rate[]\" autocomplete=\"off\" class=\"rate form-control\" type=\"text\"  value=\"\"  id=\"rate_" + count + "\"  placeholder=\"Rate\" onkeyup=\"calculation()\" readonly>\n" +
                     "                            </div>\n" +
                     "\n" +
-                    "\n" +
                     "                        </div>\n" +
+                    "                        </div> " +
                     "\n" +
                     "                    </div>");
             });
 
-          //  $('select').select2();
+
+            //  $('select').select2();
 
 
         });
@@ -199,9 +231,86 @@
         });
 
 
+        function select_var(sl) {
+            var service_id = $("#service_id_"+sl).val();
+
+           // alert(sl)
+
+            var base_url = "<?= base_url() ?>";
+            var csrf_test_name = $('[name="csrf_test_name"]').val();
+            var var_selected = ""
+
+
+
+            $.ajax( {
+                url: base_url + "Room_reservation/var_by_service",
+                method: 'post',
+                data: {
+                    service_id:service_id,
+                    var_selected: var_selected,
+                    csrf_test_name:csrf_test_name
+                },
+                cache: false,
+                success: function( data ) {
+                    let obj = jQuery.parseJSON(data);
+
+
+                 //   console.log(obj.var_list)
+
+                     $('#variation_id_'+sl).html(obj.var_list);
+
+                }
+            })
+
+        }
+
+        function select_rate(sl) {
+            var var_id = $("#variation_id_"+sl).val();
+
+            var base_url = "<?= base_url() ?>";
+            var csrf_test_name = $('[name="csrf_test_name"]').val();
+            var var_selected = ""
+
+
+
+            $.ajax( {
+                url: base_url + "Room_reservation/rate_by_service",
+                method: 'post',
+                data: {
+                    var_id:var_id,
+                    var_selected: var_selected,
+                    csrf_test_name:csrf_test_name
+                },
+                cache: false,
+                success: function( data ) {
+                    let obj = jQuery.parseJSON(data);
+
+
+                    console.log(obj.rate)
+
+                     $('#rate_'+sl).val(obj.rate);
+                    calculation()
+                    //
+                    //
+                    // if(category_id == obj.c_id ){
+                    //     $("#subCat_div").css("display", "block");
+                    // }else{
+                    //     $("#subCat_div").css("display", "none");
+                    // }
+                }
+            })
+
+
+
+        }
+
+
+
         function calculation() {
             var t = 0;
             var total_price=parseFloat($('#total_price').val());
+
+
 
             $(".rate").each(function () {
                 isNaN(this.value) || 0 == this.value.length || (t += parseFloat(this.value))
@@ -210,7 +319,7 @@
 
             var grand_total=total_price+t;
             $('#grand_total').val(grand_total.toFixed(2,2));
-            //console.log(grand_total)
+            console.log(grand_total)
 
         }
     </script>
