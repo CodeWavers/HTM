@@ -103,14 +103,26 @@
             </thead>
             <tbody>
 
+            <?php $x=0 ?>
+            <?php if ($booking_service) {?>
+            <?php foreach ($booking_service as $s)
+            {?>
+                <?php $x++?>
                 <tr>
-                    <td></td>
+                    <td><?php echo $x ?></td>
                     <td>
-                        <div><strong></strong></div>
+                        <div><strong><?php echo $s->service_name?></strong></div>
                     </td>
-                    <td>   <div><strong></strong></div></td>
-                    <td>   <div><strong></strong></div></td>
+                    <td>
+                        <div><strong><?php echo $s->variation_name?></strong></div>
+                    </td>
+                    <td>
+                        <div><strong><?php echo $s->rate?></strong></div>
+                    </td>
                 </tr>
+
+            <?php } ?>
+            <?php } ?>
 
             </tbody>
         </table>
@@ -174,6 +186,9 @@
                 </li>
                 <li>
                     <strong><?php echo display('taxes_and_service_charge') ?> :</strong> <?php echo $scharge+$tax;?>
+                </li>
+                <li>
+                   <strong>Room Service:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php  echo html_escape(number_format($bookinfo->service_total,2));?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
                 </li>
                 <li>
                     <strong><?php echo display('grand_total') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo number_format($scharge+$tax+$grprice,2);?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>

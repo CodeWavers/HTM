@@ -27,6 +27,7 @@ class Roomreservation_model extends CI_Model
     {
 
         $service_id = $this->input->post('service', TRUE);
+        $variation_id = $this->input->post('variation_id', TRUE);
         $rate = $this->input->post('rate', TRUE);
 
         if (!empty($service_id) && !empty($rate)) {
@@ -36,6 +37,7 @@ class Roomreservation_model extends CI_Model
 
                 $data_service['service_no'] = $value;
                 $data_service['booking_number'] = $bookingnumber;
+                $data_service['variation_no'] = $variation_id[$key];
                 $data_service['rate'] = $rate[$key];
 
 
@@ -210,6 +212,20 @@ class Roomreservation_model extends CI_Model
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->row();
+        }
+        return false;
+    }
+
+    public function booked_service($bookno){
+        $this->db->select('d.variation_name,a.variation_no,a.rate,c.service_name,a.service_no');
+        $this->db->from('booked_services a');
+        $this->db->join('service_table c','a.service_no=c.service_id','left');
+        $this->db->join('service_variation d','a.variation_no=d.id','left');
+        $this->db->where('a.booking_number',$bookno);
+        //$this->db->group_by('a.id');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
         }
         return false;
     }

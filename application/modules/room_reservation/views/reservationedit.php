@@ -38,6 +38,8 @@
                         <input name="room_no" autocomplete="off" class="form-control" type="text"  readonly="readonly" placeholder="<?php echo display('select_room_no') ?>" value="<?php echo html_escape((!empty($intinfo->room_no)?$intinfo->room_no:null)) ?>" id="select_room_no" >
                         <input name="total_price"  autocomplete="off" class="form-control total_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:null)) ?>" id="total_price" >
                         <input name="grand_total"  autocomplete="off" class="form-control grand_total" type="hidden"  readonly="readonly" placeholder="" value="" id="grand_total" >
+                        <input name="s_price"  autocomplete="off" class="form-control s_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->service_total)?$intinfo->service_total:null)) ?>" id="s_price" >
+                        <input name="service_total"  autocomplete="off" class="form-control service_total" type="hidden"  readonly="readonly" placeholder="" value="" id="service_total" >
 
                 </div>
                 <?php }else{ ?>
@@ -60,48 +62,124 @@
                 <?php } ?>
 
 
-                <div class="addService">
-                    <div id="service" class="service">
-                <div class="form-group row">
-                    <label for="no_of_people" class="col-sm-4 col-form-label">Select Service <span class="text-danger">*</span></label>
-                    <div class="col-sm-6">
-                        <select name="service[]" class="selectpicker form-control "  data-live-search="true"  id="service_id_1" onchange="select_var(1)">
-                            <option value="" >Select Service</option>
-                            <?php
-                            foreach($service_list as $service_list) {?>
-                                <option value="<?php echo html_escape($service_list->service_id);?>"><?php echo html_escape($service_list->service_name);?> </option>
-                            <?php } ?>
-                        </select>
+<!--                <div class="addService">-->
+<!--                    <div id="service" class="service">-->
+<!--                        --><?php //if ($v_list){
+//                            foreach($v_list as $int) {?>
+<!--                                <div class="form-group row margin_top_10px">-->
+<!---->
+<!--                                    <label for="no_of_people" class="col-sm-4 col-form-label">Select Service <span class="text-danger">*</span></label>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <input name="" autocomplete="off" class=" form-control" type="text"  value="--><?php //echo $int->service_name ?><!--" id="" placeholder="" readonly>-->
+<!--                                        <input name="service[]" autocomplete="off" class="rate form-control" type="hidden"  value="--><?php //echo $int->service_no ?><!--" id="" placeholder="" readonly>-->
+<!--                                    </div>-->
+<!---->
+<!--                                </div>-->
+<!---->
+<!--                                <div class="form-group row">-->
+<!--                                    <label for="no_of_people" class="col-sm-4 col-form-label">Variation & Rate <span class="text-danger">*</span></label>-->
+<!--                                    <div class="col-sm-3">-->
+<!--                                        <input name="[]" autocomplete="off" class=" form-control" type="text"  value="--><?php //echo $int->variation_name ?><!--" id="" placeholder=""  readonly>-->
+<!--                                        <input name="variation_id[]" autocomplete="off" class=" form-control" type="hidden" value="--><?php //echo $int->variation_no ?><!--" id="" placeholder=""  readonly>-->
+<!--                                    </div>-->
+<!---->
+<!--                                    <div class="col-sm-3">-->
+<!--                                        <input name="rate[]" autocomplete="off" class=" form-control" type="text"  value="--><?php //echo $int->rate ?><!--" id="" placeholder="Rate"  readonly>-->
+<!--                                    </div>-->
+<!---->
+<!--                                </div>-->
+<!---->
+<!---->
+<!---->
+<!--                            --><?php //} ?>
+<!--                        <div class="form-group row" style="justify-content: center">-->
+<!--                            <div  class=" col-sm-2">-->
+<!--                                <a href="#" id="" class=" btn-sm btn btn-danger-soft remove_service" ><i class="fa fa-minus-circle m-r-2"></i></a>-->
+<!---->
+<!--                            </div>-->
+<!--                            <div  class=" col-sm-2">-->
+<!--                                     <a href="#" id="" class="btn-sm btn btn-black-soft add_service" ><i class="fa fa-plus-circle m-r-2"></i></a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                            --><?php //} else {?>
+<!--                                <div class="form-group row margin_top_10px">-->
+<!---->
+<!--                                    <label for="no_of_people" class="col-sm-4 col-form-label">Select Service <span class="text-danger">*</span></label>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <select name="service[]" class="selectpicker form-control"  data-live-search="true"  id="service_id_1" onchange="select_var(1)">-->
+<!--                                            <option value="" >Select Service</option>-->
+<!--                                            --><?php
+//                                            foreach($service_list as $service_list) {?>
+<!--                                                <option value="--><?php //echo html_escape($service_list->service_id);?><!--">--><?php //echo html_escape($service_list->service_name);?><!-- </option>-->
+<!--                                            --><?php //} ?>
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!---->
+<!--                                    <div  class=" col-sm-2">-->
+<!--                                        <a href="#" id="" class=" btn-sm btn btn-black-soft add_service" ><i class="fa fa-plus-circle m-r-2"></i></a>-->
+<!--                                    </div>-->
+<!---->
+<!--                                </div>-->
+<!--                                <div id="subCat_div" style="">-->
+<!--                                    <div class="form-group row">-->
+<!--                                        <label for="no_of_people" class="col-sm-4 col-form-label">Variation & Rate <span class="text-danger">*</span></label>-->
+<!--                                        <div class="col-sm-4">-->
+<!--                                            <select name="variation_id[]" class="selectpicker form-control variation_id"  data-live-search="true"  id="variation_id_1" onchange="select_rate(1)">-->
+<!--                                                <option></option>-->
+<!--                                            </select>-->
+<!--                                        </div>-->
+<!---->
+<!--                                        <div class="col-sm-2">-->
+<!--                                            <input name="rate[]" autocomplete="off" class="rate form-control" type="text"  value="" id="rate_1" placeholder="Rate" onkeyup="calculation(1)" readonly>-->
+<!--                                        </div>-->
+<!---->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!---->
+<!--                        --><?php //} ?>
+<!---->
+<!--                    </div>-->
+
+                    <div class="addService">
+                        <div id="service" class="service">
+                            <div class="form-group row margin_top_10px">
+
+                                <label for="no_of_people" class="col-sm-4 col-form-label">Select Service <span class="text-danger">*</span></label>
+                                <div class="col-sm-6">
+                                    <select name="service[]" class="selectpicker form-control"  data-live-search="true"  id="service_id_1" onchange="select_var(1)">
+                                        <option value="" >Select Service</option>
+                                        <?php
+                                        foreach($service_list as $service_list) {?>
+                                            <option value="<?php echo html_escape($service_list->service_id);?>"><?php echo html_escape($service_list->service_name);?> </option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+
+                                <div  class=" col-sm-2">
+                                    <a href="#" id="" class=" btn-sm btn btn-black-soft add_service" ><i class="fa fa-plus-circle m-r-2"></i></a>
+                                </div>
+
+                            </div>
+                            <div id="subCat_div" style="">
+                                <div class="form-group row">
+                                    <label for="no_of_people" class="col-sm-4 col-form-label">Variation & Rate <span class="text-danger">*</span></label>
+                                    <div class="col-sm-4">
+                                        <select name="variation_id[]" class="selectpicker form-control variation_id"  data-live-search="true"  id="variation_id_1" onchange="select_rate(1)">
+                                            <option></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <input name="rate[]" autocomplete="off" class="rate form-control" type="text"  value="" id="rate_1" placeholder="Rate" onkeyup="calculation(1)" readonly>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div  class=" col-sm-2">
-                        <a href="#" id="" class=" btn-sm btn btn-black-soft add_service" ><i class="fa fa-plus-circle m-r-2"></i></a>
-                    </div>
 
                 </div>
-                        <div id="subCat_div" style="">
-                        <div class="form-group row">
-                            <label for="no_of_people" class="col-sm-4 col-form-label">Variation & Rate <span class="text-danger">*</span></label>
-                            <div class="col-sm-4">
-                                <select name="variation_id[]" class="selectpicker form-control variation_id"  data-live-search="true"  id="variation_id_1" onchange="select_rate(1)" ">
-                              <option></option>
-                                </select>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <input name="rate[]" autocomplete="off" class="rate form-control" type="text"  value="" id="rate_1" placeholder="Rate" onkeyup="calculation(1)" readonly>
-                            </div>
-
-                        </div>
-                        </div>
-<!--                        <div class="form-group row">-->
-<!--                            <label for="no_of_people" class="col-sm-4 col-form-label">Rate:<span class="text-danger">*</span></label>-->
-<!--                            -->
-<!---->
-<!---->
-<!--                        </div>-->
-
-                    </div>
                 </div>
 
 
@@ -286,7 +364,7 @@
                     let obj = jQuery.parseJSON(data);
 
 
-                    console.log(obj.rate)
+                 //   console.log(obj.rate)
 
                      $('#rate_'+sl).val(obj.rate);
                     calculation()
@@ -309,6 +387,7 @@
         function calculation() {
             var t = 0;
             var total_price=parseFloat($('#total_price').val());
+            var s_price=parseFloat($('#s_price').val());
 
 
 
@@ -317,7 +396,9 @@
             })
 
 
+            var service_total=s_price+t;
             var grand_total=total_price+t;
+            $('#service_total').val(service_total.toFixed(2,2));
             $('#grand_total').val(grand_total.toFixed(2,2));
             console.log(grand_total)
 

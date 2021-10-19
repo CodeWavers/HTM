@@ -208,6 +208,7 @@ class Room_reservation extends MX_Controller {
 		   'room_no'              	 => $roomnosel,
 		   'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
 		   'total_price' 	         => $this->input->post('grand_total', TRUE),
+		   'service_total' 	         => $this->input->post('service_total', TRUE),
 		   'bookingstatus' 	         => $this->input->post('status', TRUE)
 		  );
 		if ($this->roomreservation_model->update($updateData,$bookingnumber)) {
@@ -252,10 +253,13 @@ class Room_reservation extends MX_Controller {
 		$data["customerlist"] = $this->roomreservation_model->customerlist();
 		$data['intinfo']   = $this->roomreservation_model->findById($id);
 
+
+		$booking_number=$data['intinfo']->booking_number;
 		$roomname=$data['intinfo']->roomid;
 		$checkin=$data['intinfo']->checkindate;
 		$checkout=$data['intinfo']->checkoutdate;
 		$status=1;
+       $data['v_list']   = $this->roomreservation_model->booked_service($booking_number);
 		$exits = $this->db->select("*")->from('booked_info')->where('checkindate<=',$checkin)->where('checkoutdate>',$checkin)->where('bookingstatus!=',$status)->where('roomid',$roomname)->get()->result();
 		$exit = $this->db->select("*")->from('booked_info')->where('checkindate<',$checkout)->where('checkoutdate>=',$checkout)->where('bookingstatus!=',$status)->get()->result();
 		$check = $this->db->select("*")->from('booked_info')->where('checkindate>',$checkin)->where('checkoutdate<=',$checkout)->where('bookingstatus!=',$status)->get()->result();
@@ -754,7 +758,7 @@ class Room_reservation extends MX_Controller {
         if (empty($var_list)) {
             $var .="No Variation Found !";
         }else{
-            $var .="<select name=\"variation[]\"  class=\" form-control\" id=\"\">";
+            $var .="<select name=\"variation_id[]\"  class=\" form-control\" id=\"\">";
             $var .= "<option value=''>Select Variation</option>";
              foreach ($var_list as $s) {
 

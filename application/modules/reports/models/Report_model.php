@@ -90,6 +90,20 @@ class report_model extends CI_Model {
 			}
 			return false;
 		}
+
+		public function booked_service($bookno){
+			$this->db->select('d.variation_name,a.rate,c.service_name');
+			$this->db->from('booked_services a');
+			$this->db->join('service_table c','a.service_no=c.service_id','left');
+			$this->db->join('service_variation d','a.variation_no=d.id','left');
+			$this->db->where('a.booking_number',$bookno);
+			//$this->db->group_by('a.id');
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+				return $query->result();
+			}
+			return false;
+		}
 		
 	public function pruchasereport($start_date,$end_date)
 	{
