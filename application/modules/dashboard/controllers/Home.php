@@ -76,7 +76,8 @@ class Home extends MX_Controller {
 		 $oderpending=$this->home_model->monthlybookingpending($syearformat,$month);
 		 $odercancel=$this->home_model->monthlybookingcancel($syearformat,$month);
 		 $odertotal=$this->home_model->monthlybookingtotal($syearformat,$month);
-		 
+
+
 		 $totalamount.=$monthly.', ';
 		 $totalorder.=$odernum.', ';
 		 $totalpending.=$oderpending.', ';
@@ -84,6 +85,7 @@ class Home extends MX_Controller {
 		 $months.=  ''.date('F-'.$syear, strtotime("+$k month")).', '; 
 		 $shortmonths.=  ''.date('M-'.$syear, strtotime("+$k month")).', '; 
 		}
+        $floor_rooms=$this->home_model->floor_rooms();
 		$data["monthlytotalamount"] =trim($totalamount,',');
 		$data["monthlytotalorder"] =trim($totalorder,',');
 		$data["monthlytotalpending"] =trim($totalpending,',');
@@ -92,8 +94,11 @@ class Home extends MX_Controller {
 		$data["monthname"]=trim($months,',');
 		$data["shortmonthname"]=trim($shortmonths,',');
 		#page path 
-		$data['module'] = "dashboard";  
-		$data['page']   = "home/home";  
+		$data['floor_rooms'] = $floor_rooms;
+
+	//	echo '<pre>';print_r($floor_rooms);exit();
+		$data['module'] = "dashboard";
+		$data['page']   = "home/home";
 		echo Modules::run('template/layout', $data); 
 	}
 	public function checkmonth(){

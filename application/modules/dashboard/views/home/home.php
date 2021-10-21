@@ -17,6 +17,7 @@
              </div>
          </div>
      </div>
+
      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
          <div class="card card-stats statistic-box mb-4">
              <div
@@ -34,6 +35,7 @@
              </div>
          </div>
      </div>
+
      <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
          <div class="card card-stats statistic-box mb-4">
              <div
@@ -67,6 +69,84 @@
              </div>
          </div>
      </div>
+     <div class="col-lg-12 col-xl-12" >
+         <!--Basic Line Chart-->
+         <a class="btn btn-primary" data-toggle="popover-hover" data-img="https://mdbootstrap.com/img/logo/mdb192x192.jpg">Hover
+             over me</a>
+         <div class="card md-6 mb-4 height_400 " >
+<!--             <div class="card-header">-->
+<!--                 <div class="d-flex justify-content-between align-items-center">-->
+<!--                     <div>-->
+<!--                         <h6 class="fs-17 font-weight-600 mb-0">Room</h6>-->
+<!--                     </div>-->
+<!--                 </div>-->
+<!--             </div>-->
+
+             <div class="row">
+
+                 <?php foreach ($floor_rooms as $floor) {?>
+
+                 <div class="col-sm-6 col-md-6 col-cxl-4" >
+                     <div class="card card-stats statistic-box mb-4 height_400" style="border-color: #26c6da">
+                         <div class="card-header card-header-info card-header-icon position-relative border-0 text-center px-3 py-0">
+                             <div class="d-flex justify-content-between align-items-center ">
+                                 <div class="card-icon d-flex align-items-center justify-content-center">
+                                     <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">
+                                         <?php echo $floor['floor_name']?></p>
+                                 </div>
+<!--                                 <div>-->
+<!--                                     <h6 class="fs-17 font-weight-600 mb-0">--><?php //echo $floor['floor_name']?><!--</h6>-->
+<!--                                 </div>-->
+                             </div>
+                         </div>
+
+<!--                         --><?php //echo $floor['room_nos']?>
+                         <div class="card-body p-2 col-sm-12">
+
+
+                             <div class="row">
+                                 <?php echo $floor['room_nos']?>
+<!--                                 <div class="col-sm-4" >-->
+<!--                                     <div class="card card-stats statistic-box mb-4" style="background-color: #0d95e8">-->
+<!--                                         <div-->
+<!--                                                 class="card-header card-header-danger card-header-icon position-relative border-0 text-center px-3 py-0" style="background-color: #0d95e8">-->
+<!--                                             <div class="card-icon d-flex align-items-center justify-content-center">-->
+<!--                                                 <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">-->
+<!--                                                     --><?php //echo '101'?><!--</p>-->
+<!--                                             </div>-->
+<!---->
+<!---->
+<!--                                         </div>-->
+<!--                                         <div class="card-footer p-3 " >-->
+<!--                                             <div class="stats" >-->
+<!--                                                 <p class="card-category text-uppercase fs-14 font-weight-bold text-center" style="color: whitesmoke">-->
+<!--                                                     Family Suite</p>-->
+<!--                                             </div>-->
+<!--                                         </div>-->
+<!--                                     </div>-->
+<!--                                 </div>-->
+
+
+
+
+
+
+                             </div>
+
+                         </div>
+
+                     </div>
+                 </div>
+
+                 <?php } ?>
+
+             </div>
+
+
+         </div>
+
+     </div>
+
      <div class="col-lg-12 col-xl-12">
          <!--Basic apexMixedChart Chart-->
          <div class="card mb-4">
@@ -108,6 +188,7 @@
              <div class="card-body p-2">
                  <div id="apexLineChart"></div>
              </div>
+
          </div>
      </div>
 
@@ -248,3 +329,24 @@
  <script src="<?php echo MOD_URL.$module;?>/assets/js/barchart.js"></script>
  <script src="<?php echo MOD_URL.$module;?>/assets/js/apexcharts.min.js"></script>
  <script src="<?php echo MOD_URL.$module;?>/assets/js/apexcharts.active.js"></script>
+
+
+ <script type="text/javascript">
+     // $(function () {
+     //     $('.room').popover({
+     //         container: 'body'
+     //     })
+     // })
+
+
+         $(document).ready(function(){
+             $('[data-toggle="popover-hover"]').popover({
+                 html: true,
+                 trigger: 'hover',
+                 placement: 'bottom',
+                 content: function () { return '<img src="' + $(this).data('img') + '" />'; }
+             });
+
+
+
+ </script>

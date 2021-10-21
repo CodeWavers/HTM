@@ -431,5 +431,83 @@ class Home_model extends CI_Model {
 			return 0;
 		}
 
+    public function floor_rooms_test(){
+        $this->db->select('*');
+        $this->db->from('tbl_roomnofloorassign a');
+      //  $this->db->where('a.status',1);
+        //$this->db->group_by('a.id');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $result= $query->result();
+        }
+
+        return false;
+    }
+    public function floor_rooms(){
+        $this->db->select('*');
+        $this->db->from('tbl_floor a');
+        $this->db->where('a.status',1);
+        //$this->db->group_by('a.id');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $result= $query->result();
+        }
+        $data = array();
+
+        $sl =1;
+        foreach ($result as $r){
+
+            $room_no=$this->db->select('*')
+                ->from('tbl_roomnofloorassign a')
+                ->join('roomdetails b','a.roomid=b.roomid')
+                ->where('floorid',$r->floorid)->order_by('a.roomno','asc')->get()->result();
+
+                        $rooms='';
+                    foreach ($room_no as $ro){
+
+
+
+                        $rooms .='
+                                 <div class="col-sm-4 room" >
+                                     <div class="card card-stats statistic-box mb-4" style="background-color: #0073e6">
+                                         <div
+                                                 class="card-header card-header-danger card-header-icon text-center " style="background-color: #0d95e8">
+                                             <div class="card-icon d-flex align-items-center justify-content-center">
+                                                 <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">
+                                                    '.$ro->roomno.' </p>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="card-footer p-3 " style="padding: revert">
+                                             <div class="" >
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold text-center" style="color: whitesmoke">
+                                                    '.$ro->roomtype.'</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+
+
+
+
+                        ';
+                    }
+
+
+            $data[]=array(
+                'sl'=>$sl,
+                'floor_name'=>$r->floorname,
+                'room_nos'=>$rooms,
+
+
+            );
+
+            $sl++;
+        }
+
+        return $data;
+    }
+
 }
  
