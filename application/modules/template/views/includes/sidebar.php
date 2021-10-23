@@ -492,6 +492,14 @@
                             "permission" => "read"
                         
                     ),
+                    "room_view" => array(
+                        //menu name
+                            "controller" => "room_reservation",
+                            "method"     => "index",
+                            "url"        => "room_reservation/room_view",
+                            "permission" => "read"
+
+                    ),
                 );
                 $HmvcMenu2["room_setting"] = array(
                     //set icon

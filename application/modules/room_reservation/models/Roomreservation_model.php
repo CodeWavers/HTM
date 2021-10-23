@@ -23,12 +23,40 @@ class Roomreservation_model extends CI_Model
         }
     }
 
-    public function update($data = array(), $bookingnumber)
+    public function update($data = array(), $bookingnumber,$status)
     {
 
+        $room=$this->input->post('room_no', TRUE);
         $service_id = $this->input->post('service', TRUE);
         $variation_id = $this->input->post('variation_id', TRUE);
         $rate = $this->input->post('rate', TRUE);
+
+        $room_Array = explode(',',$room);
+
+        foreach ($room_Array as $key => $value) {
+
+
+            $data4['room'] = $value;
+
+
+            if($status==2){
+                $this->db->where('roomno', $data4['room']);
+                $this->db->set(array('booking_number'=>$bookingnumber,'status'=>1));
+                $this->db->update('tbl_roomnofloorassign');
+            }else{
+                $this->db->where('roomno', $data4['room']);
+                $this->db->set('status',0);
+                $this->db->update('tbl_roomnofloorassign');
+
+            }
+             // echo '<pre>';print_r($data4);
+            // $this->ProductModel->add_products($data);
+           // if (!empty($data4)) {
+              //  $this->db->insert('booked_services', $data_service);
+           // }
+        }
+
+   //     echo '<pre>';print_r($myArray);exit();
 
         if (!empty($service_id) && !empty($rate)) {
 
@@ -49,6 +77,8 @@ class Roomreservation_model extends CI_Model
             }
 
         }
+
+
 
 
         return $this->db->where('bookedid', $data["bookedid"])
@@ -230,6 +260,114 @@ class Roomreservation_model extends CI_Model
         return false;
     }
 
+    public function floor_rooms(){
+        $this->db->select('*');
+        $this->db->from('tbl_floor a');
+        $this->db->where('a.status',1);
+        //$this->db->group_by('a.id');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $result= $query->result();
+        }
+        $data = array();
 
+        $sl =1;
+        foreach ($result as $r){
+
+
+
+            $room_no=$this->db->select('*')
+                ->from('tbl_roomnofloorassign a')
+                ->join('roomdetails b','a.roomid=b.roomid')
+                ->join('booked_info c','a.roomno=c.room_no','left')
+                ->join('customerinfo x','c.cutomerid=x.customerid','left')
+                ->where('floorid',$r->floorid)
+                ->group_by('a.roomno')
+                ->order_by('a.roomno','asc')
+                ->get()->result();
+
+            $rooms='';
+
+
+
+            foreach ($room_no as $ro){
+
+                if ($ro->status == 1){
+                    $rooms .='
+                                 <div class="col-sm-4 room" data-toggle="popover-hover"   title="'.$ro->firstname.' '.$ro->lastname.'"  data-phone="'.$ro->cust_phone.'" data-email="'.$ro->email.'" >
+                                     <div class="card card-stats statistic-box mb-4" style="background-color: #0073e6">
+                                         <div
+                                                 class="card-header card-header-danger card-header-icon text-center " style="background-color: #0d95e8">
+                                             <div class="card-icon d-flex align-items-center justify-content-center">
+                                                 <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">
+                                                    '.$ro->roomno.' </p>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="card-footer p-3 " style="padding:auto;max-height: 84.24px">
+                                             <div class="" >
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold text-center" style="color: whitesmoke">
+                                                    '.$ro->roomtype.'</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+
+
+
+
+                        ';
+
+                }
+                else{
+
+                    $rooms .= '
+                                 <div class="col-sm-4 room" >
+                                     <div class="card card-stats statistic-box mb-4" style="background-color: #ffffff">
+                                         <div
+                                                 class="card-header card-header-success card-header-icon text-center " style="background-color: #d0dce3">
+                                             <div class="card-icon d-flex align-items-center justify-content-center">
+                                                 <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">
+                                                    ' .$ro->roomno.' </p>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="card-footer p-3 " style="padding:auto;max-height: 84.24px">
+                                             <div class="" >
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold text-center" style="color: black">
+                                                    '.$ro->roomtype.'</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+
+
+
+
+                        ';
+                }
+
+
+
+
+            }
+
+            // echo '<pre>';print_r($booked_room);exit();
+            $data[]=array(
+                'sl'=>$sl,
+                'floor_name'=>$r->floorname,
+                'room_nos'=>$rooms,
+                // 'booked_room'=>$booked_room,
+
+
+            );
+
+            $sl++;
+        }
+
+        return $data;
+    }
 
     }

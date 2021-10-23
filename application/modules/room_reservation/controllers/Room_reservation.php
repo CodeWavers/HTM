@@ -8,7 +8,10 @@ class Room_reservation extends MX_Controller {
         parent::__construct();
 		$this->load->model(array(
 			'roomreservation_model'
-		));	
+
+		));
+
+		//$this->load->model('home_model');
     }
     public function bookingdatatable(){
 		$params = $columns = $totalRecords = $data = array();
@@ -192,6 +195,7 @@ class Room_reservation extends MX_Controller {
 	   } else {
 		$this->permission->method('room_reservation','update')->redirect();
 		$roomnosel=$this->input->post('room_no', TRUE);
+		$room_no=$this->input->post('room_no', TRUE);
 		$status = $this->input->post('status', TRUE);
 		$bookingnumber = $this->input->post('bookingnumber', TRUE);
 		$custID = $this->input->post('guest', TRUE);
@@ -211,12 +215,13 @@ class Room_reservation extends MX_Controller {
 		   'service_total' 	         => $this->input->post('service_total', TRUE),
 		   'bookingstatus' 	         => $this->input->post('status', TRUE)
 		  );
-		if ($this->roomreservation_model->update($updateData,$bookingnumber)) {
+		if ($this->roomreservation_model->update($updateData,$bookingnumber,$status)) {
 		if($status==2){
 			$type = "completeorder";
 			$response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
 			$data = json_decode($response);
 			$msg = $data->message;
+
 		}
 		if($status==1){
 			$type = "cancel";
@@ -802,6 +807,27 @@ class Room_reservation extends MX_Controller {
 
         //$data2['txnmber']        = $num_column;
         echo json_encode($data);
+
+
+
+    }
+
+
+    public function room_view(){
+
+
+        $this->permission->method('room_reservation','read')->redirect();
+        $floor_rooms=$this->roomreservation_model->floor_rooms();
+        $data['title']    = display('room_view');
+        $data['floor_rooms'] = $floor_rooms;
+        #
+        #pagination ends
+        #
+        $data['module'] = "room_reservation";
+        $data['page']   = "room_view";
+        echo Modules::run('template/layout', $data);
+
+
 
     }
 

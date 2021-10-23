@@ -454,21 +454,43 @@ class Home_model extends CI_Model {
         }
         $data = array();
 
+
         $sl =1;
         foreach ($result as $r){
 
+//            $room_A=$this->db->select('room_no')->from('booked_info')->get()->result_array();
+//           // $room_Array = explode(',',$room_A[2]['room_no']);
+//            $data4 = array();
+//            $room_Array = '';
+//            foreach ($room_A as $vs) {
+//
+//
+//                $data4['room'] = $vs['room_no'];
+//
+//                $room_Array = explode(',',$data4['room']);
+//
+//            }
+
+          //  echo '<pre>';print_r($room_Array);exit();
             $room_no=$this->db->select('*')
                 ->from('tbl_roomnofloorassign a')
                 ->join('roomdetails b','a.roomid=b.roomid')
-                ->where('floorid',$r->floorid)->order_by('a.roomno','asc')->get()->result();
+                ->join('booked_info c','a.booking_number=c.booking_number','left')
+                ->join('customerinfo x','c.cutomerid=x.customerid','left')
+                ->where('floorid',$r->floorid)
+                ->group_by('a.roomno')
+                ->order_by('a.roomno','asc')
+                ->get()->result();
 
                         $rooms='';
+
+
+
                     foreach ($room_no as $ro){
 
-
-
-                        $rooms .='
-                                 <div class="col-sm-4 room" >
+                        if ($ro->status == 1){
+                            $rooms .='
+                                 <div class="col-sm-4 room" data-toggle="popover-hover"   title="'.$ro->firstname.' '.$ro->lastname.'"  data-phone="'.$ro->cust_phone.'" data-email="'.$ro->email.'" >
                                      <div class="card card-stats statistic-box mb-4" style="background-color: #0073e6">
                                          <div
                                                  class="card-header card-header-danger card-header-icon text-center " style="background-color: #0d95e8">
@@ -479,7 +501,7 @@ class Home_model extends CI_Model {
 
 
                                          </div>
-                                         <div class="card-footer p-3 " style="padding: revert">
+                                         <div class="card-footer p-3 " style="padding:auto;max-height: 84.24px">
                                              <div class="" >
                                                  <p class="card-category text-uppercase fs-12 font-weight-bold text-center" style="color: whitesmoke">
                                                     '.$ro->roomtype.'</p>
@@ -492,13 +514,48 @@ class Home_model extends CI_Model {
 
 
                         ';
+
+                        }
+                    else{
+
+                            $rooms .= '
+                                 <div class="col-sm-4 room" >
+                                     <div class="card card-stats statistic-box mb-4" style="background-color: #ffffff">
+                                         <div
+                                                 class="card-header card-header-success card-header-icon text-center " style="background-color: #d0dce3">
+                                             <div class="card-icon d-flex align-items-center justify-content-center">
+                                                 <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">
+                                                    ' .$ro->roomno.' </p>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="card-footer p-3 " style="padding:auto;max-height: 84.24px">
+                                             <div class="" >
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold text-center" style="color: black">
+                                                    '.$ro->roomtype.'</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+
+
+
+
+                        ';
+                        }
+
+
+
+
                     }
 
-
+           // echo '<pre>';print_r($booked_room);exit();
             $data[]=array(
                 'sl'=>$sl,
                 'floor_name'=>$r->floorname,
                 'room_nos'=>$rooms,
+
 
 
             );

@@ -71,8 +71,7 @@
      </div>
      <div class="col-lg-12 col-xl-12" >
          <!--Basic Line Chart-->
-         <a class="btn btn-primary" data-toggle="popover-hover" data-img="https://mdbootstrap.com/img/logo/mdb192x192.jpg">Hover
-             over me</a>
+<!--         <a class="btn btn-dark-green" data-toggle="popover-hover" data-img="//placehold.it/100x50">Hover over me</a>-->
          <div class="card md-6 mb-4 height_400 " >
 <!--             <div class="card-header">-->
 <!--                 <div class="d-flex justify-content-between align-items-center">-->
@@ -332,19 +331,21 @@
 
 
  <script type="text/javascript">
-     // $(function () {
-     //     $('.room').popover({
-     //         container: 'body'
-     //     })
-     // })
-
 
          $(document).ready(function(){
              $('[data-toggle="popover-hover"]').popover({
                  html: true,
                  trigger: 'hover',
                  placement: 'bottom',
-                 content: function () { return '<img src="' + $(this).data('img') + '" />'; }
+                 content: function () { return '<div class="card border-secondary mb-3" style="max-width: 18rem;">\n' +
+
+                     '  <div class="card-body text-secondary">\n' +
+                     '    <h5 class="card-title">' + $(this).data('email') + '</h5>\n' +
+                     '    <h5 class="card-title">' + $(this).data('phone') + '.</h5>\n' +
+                     '  </div>\n' +
+                     '</div>'; }
+             });
+
              });
 
 
