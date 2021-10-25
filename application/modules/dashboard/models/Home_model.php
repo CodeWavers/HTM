@@ -446,6 +446,7 @@ class Home_model extends CI_Model {
     public function floor_rooms(){
         $this->db->select('*');
         $this->db->from('tbl_floor a');
+        //$this->db->join('tbl_floorplan b','a.floorid=b.floorName');
         $this->db->where('a.status',1);
         //$this->db->group_by('a.id');
         $query = $this->db->get();
@@ -454,6 +455,7 @@ class Home_model extends CI_Model {
         }
         $data = array();
 
+        //echo '<pre>';print_r($result);exit();
 
         $sl =1;
         foreach ($result as $r){
@@ -472,21 +474,89 @@ class Home_model extends CI_Model {
 //            }
 
           //  echo '<pre>';print_r($room_Array);exit();
-            $room_no=$this->db->select('*')
-                ->from('tbl_roomnofloorassign a')
-                ->join('roomdetails b','a.roomid=b.roomid')
+            $room_no=$this->db->select('a.roomno,a.status,z.roomtype,x.*,c.*')
+                ->from('tbl_floorplan a')
+                ->join('tbl_roomnofloorassign b','a.roomno=b.roomno','left')
+                ->join('roomdetails z','z.roomid=b.roomid','left')
                 ->join('booked_info c','a.booking_number=c.booking_number','left')
                 ->join('customerinfo x','c.cutomerid=x.customerid','left')
-                ->where('floorid',$r->floorid)
-                ->group_by('a.roomno')
+                ->where('a.floorName',$r->floorid)
+               // ->group_by('a.roomno')
                 ->order_by('a.roomno','asc')
                 ->get()->result();
 
+
+
+
+           // echo '<pre>';print_r($room_no);exit();
                         $rooms='';
 
 
 
                     foreach ($room_no as $ro){
+
+//                        $date=date('Y-m-d');
+//
+//                        $exits = $this->db->select("*")->from('booked_info')->where('checkoutdate>',$date)->where('bookingstatus!=',1)->where('roomid',$ro->roomid)->get()->result();
+//                        $exit = $this->db->select("*")->from('booked_info')->where('checkoutdate>=',$date)->where('bookingstatus!=',1)->where('roomid',$ro->roomid)->get()->result();
+//                        $check = $this->db->select("*")->from('booked_info')->where('checkoutdate<=',$date)->where('bookingstatus!=',1)->where('roomid',$ro->roomid)->get()->result();
+//                        $totalroom1 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkoutdate>',$date)->where('bookingstatus!=',1)->where('roomid',$ro->roomid)->get()->row();
+//                      $totalroom2 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkoutdate>=',$date)->where('bookingstatus!=',1)->where('roomid',$ro->roomid)->get()->row();
+//                      $totalroom3 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkoutdate<=',$date)->where('bookingstatus!=',1)->where('roomid',$ro->roomid)->group_by('checkindate')->get()->result();
+//                      $allbokedroom3 = (!empty($allbokedroom3)?max(array_column($totalroom3, 'allroom')):0);
+//                      $totalroomfound=$this->db->select("count(roomid) as totalroom")->from('tbl_roomnofloorassign')->where('roomid',$ro->roomid)->get()->row();
+//                      $roomdetails=$this->db->select("*")->from('roomdetails')->where('roomid',$ro->roomid)->get()->row();
+//                      $numberlist=$this->db->select("*")->from('tbl_roomnofloorassign')->where('roomid',$ro->roomid)->get()->result();
+//
+//                        $roomlist='';
+//                        foreach($numberlist as $singleno){
+//                            $roomlist.=$singleno->roomno.',';
+//                        }
+//                        $gtroomno=rtrim($roomlist,',');
+//                        if(empty($exits)&&empty($exit)&&empty($check)){
+//                            $data['freeroom']=$gtroomno;
+//                            $data['isfound']=0;
+//                        }
+//                        else{
+//                            $bookedroom="";
+//                            if(!empty($exit)){
+//                                foreach($exits as $booked){
+//                                    $bookedroom.=$booked->room_no.',';
+//                                }
+//                            }
+//                            if(!empty($exit)){
+//                                foreach($exit as $ex){
+//                                    $bookedroom.=$ex->room_no.',';
+//                                }
+//                            }
+//                            if(!empty($check)){
+//                                foreach($check as $ch){
+//                                    $bookedroom.=$ch->room_no.',';
+//                                }
+//                            }
+//
+//                            $getbookedall=rtrim($bookedroom,',');
+//                            $allbokedroom1=$totalroom1->allroom;
+//                            $allbokedroom2=$totalroom2->allroom;
+//                            $allbokedroom=max((int)$allbokedroom1,(int)$allbokedroom2,(int)$allbokedroom3);
+//                            $allfreeroom=$totalroomfound->totalroom;
+//                            if($allfreeroom>$allbokedroom){
+//                                $output=$this->Differences($getbookedall, $gtroomno);
+//                                if(!empty($output)){
+//                                    $data['freeroom']=$output;
+//                                    $data['isfound']='1';
+//                                }
+//                                else{
+//                                    $data['freeroom']='';
+//                                    $data['isfound']='2';
+//                                }
+//                            }
+//                            else{
+//                                $data['freeroom']='';
+//                                $data['isfound']='2';
+//                            }
+//                        }
+
 
                         if ($ro->status == 1){
                             $rooms .='
@@ -558,12 +628,24 @@ class Home_model extends CI_Model {
 
 
 
+
             );
 
             $sl++;
         }
 
         return $data;
+    }
+
+    public function Differences ($Arg1, $Arg2){
+        $Arg1 = explode (',', $Arg1);
+        $Arg2 = explode (',', $Arg2);
+
+        $Difference_1 = array_diff($Arg1, $Arg2);
+        $Difference_2 = array_diff($Arg2, $Arg1);
+        $Diff = array_merge($Difference_1, $Difference_2);
+        $Difference = implode(',', $Diff);
+        return $Difference;
     }
 
 }

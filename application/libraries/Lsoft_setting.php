@@ -11,7 +11,7 @@ class Lsoft_setting
     } 
 	
 	//send sms after order completed
-    public function send_sms($order_no=null,$customer_id=null,$type=null){
+    public function  send_sms($order_no=null,$customer_id=null,$type=null){
 
         $CI =& get_instance();
         $CI->load->model('dashboard/Sms_model','sms_model');

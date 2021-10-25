@@ -76,6 +76,9 @@ class Room_reservation extends MX_Controller {
 		else if($value->bookingstatus==1){
 			$status="Cancel";
 			}
+		else if($value->bookingstatus==3){
+			$status="Checked Out";
+			}
 		else if($value->bookingstatus==2){
 			$status="Success";
 			}
@@ -213,6 +216,7 @@ class Room_reservation extends MX_Controller {
 		   'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
 		   'total_price' 	         => $this->input->post('grand_total', TRUE),
 		   'service_total' 	         => $this->input->post('service_total', TRUE),
+		   'checkoutdate' 	         => $this->input->post('check_out', TRUE),
 		   'bookingstatus' 	         => $this->input->post('status', TRUE)
 		  );
 		if ($this->roomreservation_model->update($updateData,$bookingnumber,$status)) {
@@ -415,7 +419,9 @@ class Room_reservation extends MX_Controller {
 		$data['checkout']=$checkout;
 		$data['guest']=$guest;
 		$data['roomno']=$roomname;
+
 		$data['roominfo']=$roomdetails;
+       // echo '<pre>';print_r($data);exit();
 		$data['service_list']=$service_list;
 		$data['chargeinfo']=$this->roomreservation_model->chargeinfo();
 		$data['module'] = "room_reservation";

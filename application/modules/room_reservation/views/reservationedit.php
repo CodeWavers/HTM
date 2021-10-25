@@ -37,7 +37,7 @@
                     <div class="col-sm-8">
                         <input name="room_no" autocomplete="off" class="form-control" type="text"  readonly="readonly" placeholder="<?php echo display('select_room_no') ?>" value="<?php echo html_escape((!empty($intinfo->room_no)?$intinfo->room_no:null)) ?>" id="select_room_no" >
                         <input name="total_price"  autocomplete="off" class="form-control total_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:null)) ?>" id="total_price" >
-                        <input name="grand_total"  autocomplete="off" class="form-control grand_total" type="hidden"  readonly="readonly" placeholder="" value="" id="grand_total" >
+                        <input name="grand_total"  autocomplete="off" class="form-control grand_total" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:null)) ?>" id="grand_total" >
                         <input name="s_price"  autocomplete="off" class="form-control s_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->service_total)?$intinfo->service_total:null)) ?>" id="s_price" >
                         <input name="service_total"  autocomplete="off" class="form-control service_total" type="hidden"  readonly="readonly" placeholder="" value="" id="service_total" >
 
@@ -209,7 +209,8 @@
                 <div class="form-group row">
                     <label for="check_out" class="col-sm-4 col-form-label"><?php echo display('check_out') ?> <span class="text-danger">*</span></label>
                     <div class="col-sm-8">
-                        <input name="check_out" autocomplete="off" class="form-control" readonly="readonly" type="text" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_in" >
+
+                        <input name="check_out" autocomplete="off" class="datepickers form-control "  type="date" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_in" >
                     </div>
                 </div>
                 <?php if(!empty($intinfo->bookingstatus!='1')){ ?>
@@ -221,6 +222,7 @@
                             <option value="0" <?php if($intinfo->bookingstatus=='0'){ echo "selected";}?>><?php echo display('pending') ?></option>
                             <option value="1" <?php if($intinfo->bookingstatus=='1'){ echo "selected";}?>><?php echo display('cancel') ?></option>
                             <option value="2" <?php if($intinfo->bookingstatus=='2'){ echo "selected";}?>><?php echo display('complete') ?></option>
+                            <option value="3" <?php if($intinfo->bookingstatus=='3'){ echo "selected";}?>><?php echo 'Checkout' ?></option>
                         </select>
                     </div>
                 </div>

@@ -42,11 +42,11 @@ class Roomreservation_model extends CI_Model
             if($status==2){
                 $this->db->where('roomno', $data4['room']);
                 $this->db->set(array('booking_number'=>$bookingnumber,'status'=>1));
-                $this->db->update('tbl_roomnofloorassign');
+                $this->db->update('tbl_floorplan');
             }else{
                 $this->db->where('roomno', $data4['room']);
-                $this->db->set('status',0);
-                $this->db->update('tbl_roomnofloorassign');
+                $this->db->set(array('booking_number'=>'','status'=>0));
+                $this->db->update('tbl_floorplan');
 
             }
              // echo '<pre>';print_r($data4);
