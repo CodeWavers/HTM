@@ -345,7 +345,9 @@
 
                      '  <div class="card-body text-secondary">\n' +
                      '    <h5 class="card-category text-uppercase fs-14 font-weight-bold">' + $(this).data('email') + '</h5>\n' +
-                     '    <h5 class="card-category text-uppercase fs-14 font-weight-bold">' + $(this).data('phone') + '.</h5>\n' +
+                     '    <h5 class="card-category text-uppercase fs-14 font-weight-bold">' + $(this).data('phone') + '</h5>\n' +
+                     '    <h5 class="card-category text-uppercase fs-14 font-weight-bold">Check In:' + $(this).data('ci') + '</h5>\n' +
+                     '    <h5 class="card-category text-uppercase fs-14 font-weight-bold">Check Out:' + $(this).data('co') + '</h5>\n' +
                      '  </div>\n' +
                      '</div>'; }
              });

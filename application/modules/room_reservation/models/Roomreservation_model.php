@@ -38,15 +38,29 @@ class Roomreservation_model extends CI_Model
 
             $data4['room'] = $value;
 
+            $booked_room=array(
+                'booking_number'=>$bookingnumber,
+                'room_no'=>$value,
+                'status'=>1,
+
+            );
+
 
             if($status==2){
-                $this->db->where('roomno', $data4['room']);
-                $this->db->set(array('booking_number'=>$bookingnumber,'status'=>1));
-                $this->db->update('tbl_floorplan');
-            }else{
-                $this->db->where('roomno', $data4['room']);
-                $this->db->set(array('booking_number'=>'','status'=>0));
-                $this->db->update('tbl_floorplan');
+
+                $this->db->insert('booked_room',$booked_room);
+
+
+
+//                $this->db->where('roomno', $data4['room']);
+//                $this->db->set(array('booking_number'=>$bookingnumber,'status'=>1));
+//                $this->db->update('tbl_floorplan');
+            }else if ($status==3){
+                $this->db->where('booking_number',$bookingnumber);
+                $this->db->delete('booked_room');
+//                $this->db->where('roomno', $data4['room']);
+//                $this->db->set(array('booking_number'=>'','status'=>0));
+//                $this->db->update('tbl_floorplan');
 
             }
              // echo '<pre>';print_r($data4);
@@ -264,43 +278,55 @@ class Roomreservation_model extends CI_Model
         $this->db->select('*');
         $this->db->from('tbl_floor a');
         $this->db->where('a.status',1);
-        //$this->db->group_by('a.id');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $result= $query->result();
         }
         $data = array();
 
+
+
         $sl =1;
         foreach ($result as $r){
 
 
 
-            $room_no=$this->db->select('*')
-                ->from('tbl_roomnofloorassign a')
-                ->join('roomdetails b','a.roomid=b.roomid')
-                ->join('booked_info c','a.roomno=c.room_no','left')
+
+            $room_no=$this->db->select('a.roomno,z.roomtype,d.*,c.*,x.*,d.room_no as rooms,d.status as st')
+                ->from('tbl_floorplan a')
+                ->join('tbl_roomnofloorassign b','a.roomno=b.roomno','left')
+                ->join('roomdetails z','z.roomid=b.roomid','left')
+                ->join('booked_room d','a.roomno=d.room_no','left')
+                ->join('booked_info c','d.booking_number=c.booking_number','left')
                 ->join('customerinfo x','c.cutomerid=x.customerid','left')
-                ->where('floorid',$r->floorid)
-                ->group_by('a.roomno')
+                ->where('a.floorName',$r->floorid)
                 ->order_by('a.roomno','asc')
                 ->get()->result();
 
+
+
+
+
+
+
+            // echo '<pre>';print_r($room_no);exit();
             $rooms='';
 
 
 
             foreach ($room_no as $ro){
 
-                if ($ro->status == 1){
+
+
+                if (($ro->st) && $ro->st == 1){
                     $rooms .='
-                                 <div class="col-sm-4 room" data-toggle="popover-hover"   title="'.$ro->firstname.' '.$ro->lastname.'"  data-phone="'.$ro->cust_phone.'" data-email="'.$ro->email.'" >
+                                 <div class="col-sm-4 room" data-toggle="popover-hover"   title="'.$ro->firstname.' '.$ro->lastname.'"  data-phone="'.$ro->cust_phone.'" data-email="'.$ro->email.'" data-ci="'.$ro->checkindate.'" data-co="'.$ro->checkoutdate.'" >
                                      <div class="card card-stats statistic-box mb-4" style="background-color: #0073e6">
                                          <div
                                                  class="card-header card-header-danger card-header-icon text-center " style="background-color: #0d95e8">
                                              <div class="card-icon d-flex align-items-center justify-content-center">
                                                  <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">
-                                                    '.$ro->roomno.' </p>
+                                                    '.$ro->rooms.' </p>
                                              </div>
 
 
@@ -359,8 +385,6 @@ class Roomreservation_model extends CI_Model
                 'sl'=>$sl,
                 'floor_name'=>$r->floorname,
                 'room_nos'=>$rooms,
-                // 'booked_room'=>$booked_room,
-
 
             );
 
