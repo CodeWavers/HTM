@@ -36,9 +36,9 @@
                     <label for="select_room_no" class="col-sm-4 col-form-label"><?php echo display('select_room_no') ?> <span class="text-danger">*</span></label>
                     <div class="col-sm-8">
                         <input name="room_no" autocomplete="off" class="form-control" type="text"  readonly="readonly" placeholder="<?php echo display('select_room_no') ?>" value="<?php echo html_escape((!empty($intinfo->room_no)?$intinfo->room_no:null)) ?>" id="select_room_no" >
-                        <input name="total_price"  autocomplete="off" class="form-control total_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:null)) ?>" id="total_price" >
-                        <input name="grand_total"  autocomplete="off" class="form-control grand_total" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:null)) ?>" id="grand_total" >
-                        <input name="s_price"  autocomplete="off" class="form-control s_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->service_total)?$intinfo->service_total:null)) ?>" id="s_price" >
+                        <input name="total_price"  autocomplete="off" class="form-control total_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:0)) ?>" id="total_price" >
+                        <input name="grand_total"  autocomplete="off" class="form-control grand_total" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:0)) ?>" id="grand_total" >
+                        <input name="s_price"  autocomplete="off" class="form-control s_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->service_total)?$intinfo->service_total:0)) ?>" id="s_price" >
                         <input name="service_total"  autocomplete="off" class="form-control service_total" type="hidden"  readonly="readonly" placeholder="" value="" id="service_total" >
 
                 </div>
@@ -382,13 +382,7 @@
 
                      $('#rate_'+sl).val(obj.rate);
                     calculation()
-                    //
-                    //
-                    // if(category_id == obj.c_id ){
-                    //     $("#subCat_div").css("display", "block");
-                    // }else{
-                    //     $("#subCat_div").css("display", "none");
-                    // }
+
                 }
             })
 

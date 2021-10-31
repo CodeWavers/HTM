@@ -187,9 +187,12 @@
                 <li>
                     <strong><?php echo display('taxes_and_service_charge') ?> :</strong> <?php echo $scharge+$tax;?>
                 </li>
+
+                <?php if ($bookinfo->service_total >0){?>
                 <li>
-                   <strong>Room Service:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php  echo html_escape(number_format($bookinfo->service_total,2));?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
+                   <strong>Room Service:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo $bookinfo->service_total;?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
                 </li>
+                <?php } ?>
                 <li>
                     <strong><?php echo display('grand_total') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo number_format($scharge+$tax+$grprice,2);?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
                     <br /><strong><?php echo display('paid_amount') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php if (!empty($paymentinfo->paymentamount)){echo $paymentinfo->paid_amount;} else echo "0";?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>

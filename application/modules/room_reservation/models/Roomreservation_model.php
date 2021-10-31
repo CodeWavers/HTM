@@ -27,9 +27,30 @@ class Roomreservation_model extends CI_Model
     {
 
         $room=$this->input->post('room_no', TRUE);
+        //$service_id = $this->input->post('service', TRUE);
         $service_id = $this->input->post('service', TRUE);
         $variation_id = $this->input->post('variation_id', TRUE);
         $rate = $this->input->post('rate', TRUE);
+
+
+
+
+            foreach ($service_id as $key => $value) {
+
+
+                $data_service['service_no'] = $value;
+                $data_service['booking_number'] = $bookingnumber;
+                $data_service['variation_no'] = $variation_id[$key];
+                $data_service['rate'] = $rate[$key];
+
+               // echo '<pre>';print_r($data_service);exit();
+
+                if (!empty($value) && !empty($rate[$key]) && !empty($variation_id[$key])) {
+                    $this->db->insert('booked_services', $data_service);
+                }
+            }
+
+
 
         $room_Array = explode(',',$room);
 
@@ -45,52 +66,20 @@ class Roomreservation_model extends CI_Model
 
             );
 
-
             if($status==2){
 
                 $this->db->insert('booked_room',$booked_room);
 
-
-
-//                $this->db->where('roomno', $data4['room']);
-//                $this->db->set(array('booking_number'=>$bookingnumber,'status'=>1));
-//                $this->db->update('tbl_floorplan');
             }else if ($status==3){
                 $this->db->where('booking_number',$bookingnumber);
                 $this->db->delete('booked_room');
-//                $this->db->where('roomno', $data4['room']);
-//                $this->db->set(array('booking_number'=>'','status'=>0));
-//                $this->db->update('tbl_floorplan');
-
-            }
-            // echo '<pre>';print_r($data4);
-            // $this->ProductModel->add_products($data);
-            // if (!empty($data4)) {
-            //  $this->db->insert('booked_services', $data_service);
-            // }
-        }
-
-        //     echo '<pre>';print_r($myArray);exit();
-
-        if (!empty($service_id) && !empty($rate)) {
-
-            foreach ($service_id as $key => $value) {
 
 
-                $data_service['service_no'] = $value;
-                $data_service['booking_number'] = $bookingnumber;
-                $data_service['variation_no'] = $variation_id[$key];
-                $data_service['rate'] = $rate[$key];
-
-
-                //  echo '<pre>';print_r($data);
-                // $this->ProductModel->add_products($data);
-                if (!empty($data_service)) {
-                    $this->db->insert('booked_services', $data_service);
-                }
             }
 
         }
+
+
 
 
 
