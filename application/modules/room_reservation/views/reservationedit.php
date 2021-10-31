@@ -330,16 +330,14 @@
 
             var base_url = "<?= base_url() ?>";
             var csrf_test_name = $('[name="csrf_test_name"]').val();
-            var var_selected = ""
 
 
 
             $.ajax( {
-                url: base_url + "Room_reservation/var_by_service",
+                url: base_url + "room_reservation/var_by_service",
                 method: 'post',
                 data: {
                     service_id:service_id,
-                    var_selected: var_selected,
                     csrf_test_name:csrf_test_name
                 },
                 cache: false,
@@ -366,13 +364,14 @@
 
 
             $.ajax( {
-                url: base_url + "Room_reservation/rate_by_service",
+                url: base_url + "room_reservation/rate_by_service",
                 method: 'post',
                 data: {
                     var_id:var_id,
                     var_selected: var_selected,
                     csrf_test_name:csrf_test_name
                 },
+
                 cache: false,
                 success: function( data ) {
                     let obj = jQuery.parseJSON(data);
