@@ -65,6 +65,9 @@
                         <div class="col-sm-7">
                           <input name="amount" id="amount" autocomplete="off" class="form-control" type="number"
                           value="" placeholder="<?php echo display('amount') ?>" required>
+
+<!--                            <input name="" id="" autocomplete="off" class="form-control" value="--><?php //echo $bookinginfo->checkindate?><!--"  >-->
+<!--                            <input name="" id="" autocomplete="off" class="form-control" value="--><?php //echo $bookinginfo->checkoutdate?><!--"  >-->
                         </div>
                       </div>
                       <?php }else{ ?>

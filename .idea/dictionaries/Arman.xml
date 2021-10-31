@@ -2,6 +2,7 @@
   <dictionary name="Arman">
     <words>
       <w>datepickers</w>
+      <w>datepickerwithoutprevdates</w>
     </words>
   </dictionary>
 </component>

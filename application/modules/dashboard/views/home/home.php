@@ -69,7 +69,7 @@
              </div>
          </div>
      </div>
-     <div class="col-lg-12 col-xl-12" >
+     <div class="col-lg-4 col-md-4 col-xl-12" >
          <!--Basic Line Chart-->
 <!--         <a class="btn btn-dark-green" data-toggle="popover-hover" data-img="//placehold.it/100x50">Hover over me</a>-->
          <div class="card md-6 mb-4 height_400 " >
@@ -107,8 +107,8 @@
 
                  <?php foreach ($floor_rooms as $floor) {?>
 
-                 <div class="col-sm-6 col-md-6 col-cxl-4" >
-                     <div class="card card-stats statistic-box mb-4 height_400" style="border-color: #26c6da;">
+                 <div class="col-sm-4 col-md-4 col-cxl-4" >
+                     <div class="card card-stats statistic-box mb-4 height_400 width-300px" style="border-color: #26c6da;">
                          <div class="card-header card-header-info card-header-icon position-relative border-0 text-center px-3 py-0">
                              <div class="d-flex justify-content-between align-items-center ">
                                  <div class="card-icon d-flex align-items-center justify-content-center ">

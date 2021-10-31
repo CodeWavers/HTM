@@ -63,14 +63,14 @@ class Roomreservation_model extends CI_Model
 //                $this->db->update('tbl_floorplan');
 
             }
-             // echo '<pre>';print_r($data4);
+            // echo '<pre>';print_r($data4);
             // $this->ProductModel->add_products($data);
-           // if (!empty($data4)) {
-              //  $this->db->insert('booked_services', $data_service);
-           // }
+            // if (!empty($data4)) {
+            //  $this->db->insert('booked_services', $data_service);
+            // }
         }
 
-   //     echo '<pre>';print_r($myArray);exit();
+        //     echo '<pre>';print_r($myArray);exit();
 
         if (!empty($service_id) && !empty($rate)) {
 
@@ -277,7 +277,7 @@ class Roomreservation_model extends CI_Model
     public function floor_rooms(){
         $this->db->select('*');
         $this->db->from('tbl_floor a');
-        $this->db->where('a.status',1);
+        // $this->db->where('a.status',1);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $result= $query->result();
@@ -394,4 +394,4 @@ class Roomreservation_model extends CI_Model
         return $data;
     }
 
-    }
+}

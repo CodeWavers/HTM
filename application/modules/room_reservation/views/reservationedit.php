@@ -210,7 +210,9 @@
                     <label for="check_out" class="col-sm-4 col-form-label"><?php echo display('check_out') ?> <span class="text-danger">*</span></label>
                     <div class="col-sm-8">
 
-                        <input name="check_out" autocomplete="off" class="datepickers form-control "  type="date" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_in" >
+                        <input name="" autocomplete="off" class="datepickerwithoutprevdates form-control "  readonly type="hidden" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_out_last" >
+                        <input name="check_out" autocomplete="off" class="datepickerwithoutprevdates form-control "  type="date" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_out" >
+                        <input name="room_rate" id="" type="hidden" autocomplete="off" class="form-control" value="<?php echo $intinfo->roomrate?>"  >
                     </div>
                 </div>
                 <?php if(!empty($intinfo->bookingstatus!='1')){ ?>
@@ -239,6 +241,8 @@
 
     <script type="text/javascript">
 
+        'use strict';
+
         $(document).ready(function(){
 
             var service = $("#service_list").val();
@@ -250,10 +254,18 @@
                 allowClear: true
             })
 
+            // var date =$('#check_out').val();
+            // date.setDate(date.getDate()-1);
+            //
+            // $('#check_out').datepicker({
+            //     startDate: date
+            // });
+
+         //   var today = $('#check_out_last').val();
 
 
 
-            //  console.log(service)
+
 
             $(".add_service").click(function(){
 

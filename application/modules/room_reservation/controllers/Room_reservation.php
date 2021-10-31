@@ -211,10 +211,21 @@ class Room_reservation extends MX_Controller {
 				} 
 			 $roomnosel=rtrim($roomnosel,',');  
 		}
+		$check_in=date_create($this->input->post('check_in', TRUE));
+		$check_out=date_create($this->input->post('check_out', TRUE));
+		$room_rate=$this->input->post('room_rate', TRUE);
+
+          // $interval = $check_in->date_diff($check_out);
+           $interval=  date_diff($check_in,$check_out);
+
+           $total_room_rate=($interval->days)*$room_rate;
+
+          // echo '<pre>';print_r(($interval->days)*$room_rate);exit();
+
 		$data['room_reservation']   = (Object) $updateData = array(
 		   'room_no'              	 => $roomnosel,
 		   'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
-		   'total_price' 	         => $this->input->post('grand_total', TRUE),
+		   'total_price' 	         => $this->input->post('grand_total', TRUE)+$total_room_rate,
 		   'service_total' 	         => $this->input->post('service_total', TRUE),
 		   'checkoutdate' 	         => $this->input->post('check_out', TRUE),
 		   'bookingstatus' 	         => $this->input->post('status', TRUE)
