@@ -174,7 +174,7 @@ class Products extends MX_Controller {
 
     public function out_declare(){
 
-        $data['title'] = 'Product Out Declaration';
+        $data['title'] = 'Products Out Declaration';
         $data['module'] = "units";
         $data['page']   = "out_quantity";
       //  $this->load->view('units/unitlist', $data);

@@ -1,7 +1,7 @@
 <div class="card">
     <?php if($this->permission->method('units','create')->access()): ?>
     <div class="card-header">
-        <h4>Product Out Declaration <small class="float-right"> </small></h4>
+        <h4>Products Out Declaration <small class="float-right"> </small></h4>
     </div>
 
     <?php endif; ?>
