@@ -40,9 +40,9 @@
 
                     <tr>
                         <td><?php echo  html_escape($report->product_name); ?></td>
-                        <td><?php echo   html_escape($report->qty." ".$report->uom_short_code); ?></td>
-                        <td><?php echo   html_escape($report->out_qty." ".$report->uom_short_code); ?></td>
-                        <td><?php echo   html_escape($stock." ".$report->uom_short_code); ?></td>
+                        <td><?php echo   html_escape((!empty($report->qty)?$report->qty." ".$report->uom_short_code:0 .$report->uom_short_code)); ?></td>
+                        <td><?php echo   html_escape((!empty($report->out_qty)?$report->out_qty." ".$report->uom_short_code:0 .$report->uom_short_code)); ?></td>
+                        <td><?php echo   html_escape((!empty($stock)?$stock." ".$report->uom_short_code:0 .$report->uom_short_code)); ?></td>
                         <td> <?php echo  html_escape($report->sumprice);?> </td>
                         <td> <?php echo  html_escape($report->sumprice*$stock);?> </td>
 
