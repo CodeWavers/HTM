@@ -241,6 +241,7 @@ $route['room_setting/images-delete/(:num)'] = "room_setting/room_images/delete/$
 $route['units/unit-measurement-list'] = "units/unitmeasurement/index";
 $route['units/unit-delete/(:num)'] = "units/unitmeasurement/delete/$1";
 $route['units/product-list'] = "units/products/index";
+$route['units/out-dec'] = "units/products/out_declare";
 $route['units/product-delete/(:num)'] = "units/products/delete/$1";
 $route['units/supplier-list'] = "units/supplierlist/index";
 $route['units/supplier-delete/(:num)'] = "units/supplierlist/delete/$1";

@@ -59,5 +59,37 @@ public function count_ingredient()
         }
         return false;
 	}
+    public function product_out(){
+
+
+        $quantity            = $this->input->post('product_quantity',true);
+        $p_id             = $this->input->post('product_id',true);
+
+        $data=array();
+
+        for ($i = 0, $n   = count($p_id); $i < $n; $i++) {
+            $qty  = $quantity[$i];
+
+            $product_id   = $p_id[$i];
+
+            $data = array(
+                'product_id'=>$product_id,
+                'out_qty'=>$qty,
+                'date'=>date('Y-m-d'),
+
+
+            );
+            if (!empty($quantity)) {
+                $this->db->insert('product_out', $data);
+
+
+            }
+
+
+        }
+
+        return $data;
+    }
+
     
 }

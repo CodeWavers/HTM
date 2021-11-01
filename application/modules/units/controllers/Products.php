@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+//defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Products extends MX_Controller {
     
@@ -60,8 +60,7 @@ class Products extends MX_Controller {
         $data['page']   = "ingredientlist";   
         echo Modules::run('template/layout', $data); 
     }
-	
-	
+
     public function create($id = null)
     {
 	  $data['title'] = display('add_ingredient');
@@ -162,7 +161,7 @@ class Products extends MX_Controller {
 	   }   
  
     }
-   public function updateintfrm($id){
+    public function updateintfrm($id){
 	  
 		$this->permission->method('units','update')->redirect();
 		$data['title'] = display('update_ingredient');
@@ -172,6 +171,15 @@ class Products extends MX_Controller {
         $data['page']   = "ingredientedit";
 		$this->load->view('units/ingredientedit', $data);   
 	   }
+
+    public function out_declare(){
+
+        $data['title'] = 'Product Out Declaration';
+        $data['module'] = "units";
+        $data['page']   = "out_quantity";
+      //  $this->load->view('units/unitlist', $data);
+        echo Modules::run('template/layout', $data);
+    }
  
     public function delete($category = null)
     {
@@ -196,5 +204,25 @@ class Products extends MX_Controller {
 		}
 		redirect('units/product-list');
     }
- 
+
+
+    public function product_out(){
+
+
+
+        $result = $this->product_model->product_out();
+
+
+
+        if ($result == TRUE) {
+            $this->session->set_flashdata('message', display('save_successfully'));
+            redirect('units/out-dec');
+
+        } else {
+            $this->session->set_flashdata('exception',  display('please_try_again'));
+            redirect('units/out-dec');
+        }
+
+
+    }
 }

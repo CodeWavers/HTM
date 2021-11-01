@@ -578,7 +578,7 @@
                             "url"        => "units/product-list",
                             "permission" => "read"
                         
-                    ), 
+                    ),
                     "supplier_list" => array(
                         //menu name
                             "controller" => "supplierlist",
@@ -586,8 +586,16 @@
                             "url"        => "units/supplier-list",
                             "permission" => "read"
                         
-                    ), 
-                
+                    ),
+                    "products_out" => array(
+                        //menu name
+                        "controller" => "products",
+                        "method"     => "index",
+                        "url"        => "units/out-dec",
+                        "permission" => "read"
+
+                    ),
+
                 );   
 
                                 if(isset($HmvcMenu2) && $HmvcMenu2!=null && sizeof($HmvcMenu2) > 0)

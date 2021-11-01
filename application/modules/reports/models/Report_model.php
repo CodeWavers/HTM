@@ -24,9 +24,10 @@ class report_model extends CI_Model {
 	public function getstocklist()
 	{
 		
-		$this->db->select("products.product_name,unit_of_measurement.uom_name,unit_of_measurement.uom_short_code,purchase_details.*,SUM(purchase_details.quantity) as qty,SUM(purchase_details.price) as sumprice");
+		$this->db->select("products.product_name,unit_of_measurement.uom_name,unit_of_measurement.uom_short_code,purchase_details.*,SUM(purchase_details.quantity) as qty,SUM(product_out.out_qty) as out_qty,SUM(purchase_details.price) as sumprice");
 		$this->db->from('purchase_details');
 		$this->db->join('products','products.id = purchase_details.proid', 'left');
+		$this->db->join('product_out','product_out.product_id = purchase_details.proid', 'left');
 		$this->db->join('unit_of_measurement','unit_of_measurement.id = products.uom_id', 'Inner');
 		$this->db->group_by('purchase_details.proid');
 		$this->db->order_by('purchase_details.purchaseid','desc');
