@@ -81,6 +81,8 @@ class Floorplan extends MX_Controller {
 				   'startno'             => $startno,
 				   'roomno' 	     	 => $roomno[$i]
 				  );
+
+				// echo '<pre>';print_r($postData);exit();
 				 $this->floorplan_model->create($postData); 
 			  }
 		 $this->session->set_flashdata('message', display('update_successfully'));

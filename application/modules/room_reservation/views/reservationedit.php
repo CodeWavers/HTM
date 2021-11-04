@@ -212,6 +212,7 @@
 
                         <input name="" autocomplete="off" class="datepickerwithoutprevdates form-control "  readonly type="hidden" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_out_last" >
                         <input name="check_out" autocomplete="off" class="datepickerwithoutprevdates form-control "  type="date" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_out" >
+                        <input name="check_out_old" autocomplete="off" class="datepickerwithoutprevdates form-control "  type="hidden" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="" >
                         <input name="room_rate" id="" type="hidden" autocomplete="off" class="form-control" value="<?php echo $intinfo->roomrate?>"  >
                     </div>
                 </div>

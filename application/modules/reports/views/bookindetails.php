@@ -173,8 +173,12 @@
             <ul class="list-unstyled text-right">
                 <li>
                     <strong><?php echo display('subtotal') ?>:</strong> <?php $grprice=$bookinfo->total_room*$bookinfo->roomrate;
+
                     $grprice=($grprice*$totalnight)-$totaldiscount;
-                    echo (($grprice!=0)?$grprice:$grprice=$bookinfo->roomrate);?>
+                    echo (($grprice!=0)?$grprice:$grprice=$bookinfo->roomrate);
+
+
+                    ?>
                 </li>
                 <li>
                     <strong><?php echo display('service_charge') ?> <?php echo html_escape($storeinfo->servicecharge);?>%:</strong> <?php $scharge=0; $scharge=$storeinfo->servicecharge*$grprice/100;

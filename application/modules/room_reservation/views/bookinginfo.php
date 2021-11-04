@@ -103,7 +103,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th scope="row"><?php echo display('sub_total') ?><input name="orgdiscount" type="hidden" value="<?php echo html_escape($totalamount-$discount);?>" id="orgSubtotal" /></th>
-                                                        <td> <input name="discount" type="hidden" id="discount" value="<?php echo html_escape($totalamount-$discount);?>" /><span id="prdis"><?php echo html_escape($totalamount-$discount);?></span></td>
+                                                        <td> <input name="discount" type="hidden" id="discount" value="<?php echo html_escape($discount);?>" /><span id="prdis"><?php echo html_escape($totalamount-$discount);?></span></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row"><?php echo display('tax') ?> <input type="hidden" value="<?php echo html_escape($chargeinfo->vat);?>"id="orgtax"><?php echo html_escape($chargeinfo->vat);?>%</th>

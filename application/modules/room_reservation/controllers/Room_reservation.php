@@ -174,6 +174,7 @@ class Room_reservation extends MX_Controller {
 		   'roomrate'                => $this->input->post('roomrate',TRUE),
 		   'total_price'             => $this->input->post('gramount',TRUE),
 		   'offer_discount'          => $this->input->post('discount',TRUE),
+		  // 'offer_discount'          => '',
 		   'coments'                 => '',
 		   'checkindate'             => $this->input->post('check_in',TRUE),
 		   'checkoutdate'            => $this->input->post('check_out',TRUE),
@@ -182,14 +183,16 @@ class Room_reservation extends MX_Controller {
 		  
 		  );
 		$this->permission->method('room_reservation','create')->redirect();
+
+
 		if($this->roomreservation_model->create($postData)) { 
 		 $type = "processing";
-		 $response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
-		 $data = json_decode($response);
-		 $msg = $data->message;
+		// $response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
+		// $data = json_decode($response);
+		// $msg = $data->message;
 		 $this->session->set_flashdata('message', display('save_successfully'));
-		 if($msg)
-		 $this->session->set_userdata('msg', $msg);
+		 //if($msg)
+		// $this->session->set_userdata('msg', $msg);
 		 redirect('room_reservation/room-booking');
 		} else {
 		 $this->session->set_flashdata('exception',  display('please_try_again'));
@@ -211,42 +214,59 @@ class Room_reservation extends MX_Controller {
 				} 
 			 $roomnosel=rtrim($roomnosel,',');  
 		}
-		$check_in=date_create($this->input->post('check_in', TRUE));
-		$check_out=date_create($this->input->post('check_out', TRUE));
-		$room_rate=$this->input->post('room_rate', TRUE);
+           $service_tax=$this->db->select("*")->from('setting')->get()->result_array();
+
+	    	$check_in=date_create($this->input->post('check_out_old', TRUE));
+	    	$check_out=date_create($this->input->post('check_out', TRUE));
+	    	$check_out_new=$this->input->post('check_out', TRUE);
+	    	$check_out_old=$this->input->post('check_out_old', TRUE);
+	    	$room_rate=$this->input->post('room_rate', TRUE);
 
           // $interval = $check_in->date_diff($check_out);
            $interval=  date_diff($check_in,$check_out);
 
            $total_room_rate=($interval->days)*$room_rate;
 
-          // echo '<pre>';print_r(($interval->days)*$room_rate);exit();
+           $service_charge=$service_tax[0]['servicecharge']*($total_room_rate/100);
+           $tax=$service_tax[0]['vat']*($total_room_rate/100);
+
+           $tt=$total_room_rate+$service_charge+$tax;
+
+          // echo '<pre>';print_r($tt);exit();
+
+           if ($check_out_new != $check_out_old){
+
+               $total_price=$this->input->post('grand_total', TRUE)+$tt;
+           }else{
+
+               $total_price= $this->input->post('grand_total', TRUE);
+           }
 
 		$data['room_reservation']   = (Object) $updateData = array(
 		   'room_no'              	 => $roomnosel,
 		   'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
-		   'total_price' 	         => $this->input->post('grand_total', TRUE)+$total_room_rate,
+		   'total_price' 	         => $total_price,
 		   'service_total' 	         => $this->input->post('service_total', TRUE),
 		   'checkoutdate' 	         => $this->input->post('check_out', TRUE),
 		   'bookingstatus' 	         => $this->input->post('status', TRUE)
 		  );
 		if ($this->roomreservation_model->update($updateData,$bookingnumber,$status)) {
-		if($status==2){
-			$type = "completeorder";
-			$response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
-			$data = json_decode($response);
-			$msg = $data->message;
-
-		}
-		if($status==1){
-			$type = "cancel";
-			$response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
-			$data = json_decode($response);
-			$msg = $data->message;
-		}
+//		if($status==2){
+//			$type = "completeorder";
+//			$response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
+//			$data = json_decode($response);
+//			$msg = $data->message;
+//
+//		}
+//		if($status==1){
+//			$type = "cancel";
+//			$response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
+//			$data = json_decode($response);
+//			$msg = $data->message;
+//		}
 		 $this->session->set_flashdata('message', display('update_successfully'));
-		 if($msg)
-		 $this->session->set_userdata('msg', $msg);
+		 //if($msg)
+		 //$this->session->set_userdata('msg', $msg);
 		} else {
 		$this->session->set_flashdata('exception',  display('please_try_again'));
 		}

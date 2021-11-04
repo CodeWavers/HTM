@@ -24,7 +24,7 @@ $(document.body).on('change', '#floor_name', function(e){
 		$("#roomno" ).empty();
 		var htmlcontentmain="";
 		for(var i=floornum;i<=str50;i++){
-			 htmlcontentmain +='<div class="col-sm-4 pl-0"><input name="room_no[]" autocomplete="off" class="form-control padding_3_3_m_b_3" type="number" id="room_no" value="'+i+'"></div>';
+			 htmlcontentmain +='<div class="col-sm-4 pl-0"><input name="room_no[]" autocomplete="off" class="form-control padding_3_3_m_b_3" type="text" id="room_no" value="'+i+'"></div>';
 			}
 		$("#roomno").append(htmlcontent+htmlcontentop); 
 		$(".allrom").append(htmlcontentmain); 
@@ -55,7 +55,7 @@ $(document.body).on('change', '#floor_name', function(e){
 		$("#roomnoedit" ).empty();
 		var htmlcontentmain="";
 		for(var i=floornum;i<=str50;i++){
-			 htmlcontentmain +='<div class="col-sm-4 pl-0"><input name="room_no[]" autocomplete="off" class="form-control padding_3_3_m_b_3" type="number" id="room_no" value="'+i+'"></div>';
+			 htmlcontentmain +='<div class="col-sm-4 pl-0"><input name="room_no[]" autocomplete="off" class="form-control padding_3_3_m_b_3" type="text" id="room_no" value="'+i+'"></div>';
 			}
 		$("#roomnoedit").append(htmlcontent+htmlcontentop); 
 		$(".allrom").append(htmlcontentmain); 

@@ -446,7 +446,7 @@ class Home_model extends CI_Model {
     public function floor_rooms(){
         $this->db->select('*');
         $this->db->from('tbl_floor a');
-        $this->db->where('a.status',1);
+    //    $this->db->where('a.status',1);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $result= $query->result();
