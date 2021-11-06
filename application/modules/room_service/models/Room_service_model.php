@@ -101,36 +101,38 @@ class Room_service_model extends CI_Model {
         $data = array();
 
         $sl =1;
-                foreach ($result as $r){
+        if (!empty($result)) {
+            foreach ($result as $r) {
 
-            $var=$this->db->select('*')->from('service_variation')->where('service_id',$r->service_id)->get()->result();
-                    $html='';
-                    foreach ($var as $v){
+                $var = $this->db->select('*')->from('service_variation')->where('service_id', $r->service_id)->get()->result();
+                $html = '';
+                foreach ($var as $v) {
 
 //                        $html.='<ul class="">
 //
 //                <li>'.$v->variation_name.'=>'.$v->rate.'</li>
 //                </ul>';
 
-                        $html.='<ul class="list-group">
+                    $html .= '<ul class="list-group">
 
                 <li class="list-group-item d-flex justify-content-between align-items-center" >
-    '.$v->variation_name.'
-    <span class="badge badge-danger-soft badge-pill">৳ '.number_format($v->rate,2).'</span>
+    ' . $v->variation_name . '
+    <span class="badge badge-danger-soft badge-pill">৳ ' . number_format($v->rate, 2) . '</span>
   </li>
                 </ul>';
 
 
-                    }
-            $data[]=array(
-                'sl'=>$sl,
-                'var_list'=>$html,
-                'service_id'=>$r->service_id,
-                'service_name'=>$r->service_name,
+                }
+                $data[] = array(
+                    'sl' => $sl,
+                    'var_list' => $html,
+                    'service_id' => $r->service_id,
+                    'service_name' => $r->service_name,
 
-            );
+                );
 
-                    $sl++;
+                $sl++;
+            }
         }
 
         return $data;

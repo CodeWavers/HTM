@@ -144,10 +144,12 @@
                                     $alldays= date("Y-m-d", strtotime($firstdate . ' + ' . $i . 'day'));
                                     $x++;
                                     $getroom=$this->db->select("*")->from('tbl_room_offer')->where('roomid',$bookinfo->roomid)->where('offer_date',$alldays)->get()->row();
+                                  //  echo '<pre>';print_r($getroom);
                                     if(!empty($getroom)){
                                         $singleDiscount=$getroom->offer*$bookinfo->total_room;
                                         $totaldiscount=$totaldiscount+$singleDiscount;
-                                        $roomrate=$bookinfo->roomrate-$totaldiscount;
+                                      //  $roomrate=$bookinfo->roomrate-$totaldiscount;
+                                        $roomrate=$bookinfo->roomrate-$getroom->offer;
                                         }
                                     else{
                                         $roomrate=$bookinfo->roomrate;
