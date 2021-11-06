@@ -234,7 +234,7 @@ class Room_reservation extends MX_Controller {
 
           // echo '<pre>';print_r($tt);exit();
 
-           if ($check_out_new != $check_out_old){
+           if ($check_out_new > $check_out_old){
 
                $total_price=$this->input->post('grand_total', TRUE)+$tt;
            }else{
