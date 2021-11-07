@@ -44,12 +44,13 @@ class Accounts extends MX_Controller {
 						->get()
 						->row();
 
-					$baseurl = base_url().'/'.'accounts/accounts/insert_coa';
+					$baseurl = base_url().'accounts/accounts/insert_coa';
 
 		if ($role_reult) {
-			$html = "";
+            $html = "";
+            $html .= form_open_multipart('accounts/insert_coa','id="form"');
 			$html .= "
-        <form name=\"form\" id=\"form\" action=\"".$baseurl."\" method=\"post\" enctype=\"multipart/form-data\">
+
                 <div id=\"newData\">
    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"5\">
     
@@ -105,9 +106,11 @@ class Accounts extends MX_Controller {
                   </tr>
       
     </table>
- </form>
+
 			";
 		}
+
+		//echo '<pre>';print_r($html);exit();
 		echo json_encode($html);
 	}
 
@@ -150,15 +153,18 @@ else
 		}
 	}
 
+
   public function insert_coa(){
+
+	   // echo 'okay';exit();
 	$this->load->library(array('my_form_validation'));
 	$this->form_validation->set_rules('txtHeadCode',display('txtHeadCode'),'required|is_natural|xss_clean|trim');
 	$this->form_validation->set_rules('txtHeadName',display('txtHeadName'),'required|xss_clean|trim');
 	$this->form_validation->set_rules('txtPHead',display('txtPHead'),'required|xss_clean|trim');
 	$this->form_validation->set_rules('txtHeadLevel',display('txtHeadLevel'),'required|is_natural|xss_clean|trim');
 	$this->form_validation->set_rules('txtHeadType',display('txtHeadType'),'required|alpha|xss_clean|trim');
-	
-	if ($this->form_validation->run($this)) { 
+
+	if ($this->form_validation->run($this)) {
     $headcode =$this->input->post('txtHeadCode',TRUE);
     $HeadName =$this->input->post('txtHeadName',TRUE);
     $PHeadName =$this->input->post('txtPHead',TRUE);
@@ -184,7 +190,9 @@ else
 		  'IsBudget'       => 0,
 		  'CreateBy'       => $createby,
 		  'CreateDate'     => $createdate,
-		); 
+		);
+
+       //echo '<pre>';print_r($postData);exit();
  $upinfo = $this->db->select('*')
             ->from('acc_coa')
             ->where('HeadCode',$headcode)
@@ -199,7 +207,7 @@ $updata = array(
 'PHeadName'      =>  $HeadName,
 );
 
-            
+
   $this->db->where('HeadCode',$headcode)
       ->update('acc_coa',$postData);
   $this->db->where('PHeadName',$hname)
@@ -207,6 +215,7 @@ $updata = array(
 }
 $this->session->set_flashdata('message', display('save_successfully'));
  redirect($_SERVER['HTTP_REFERER']);
+ //redirect('accounts/chart-of-account');
 	}
 	else{
     $data['title'] = display('accounts_form');
@@ -215,12 +224,12 @@ $this->session->set_flashdata('message', display('save_successfully'));
             'userID' => set_value('userID'),
         );
 		$data['module'] = "accounts";
-		$data['page']   = "treeview";   
-		echo Modules::run('template/layout', $data); 
+		$data['page']   = "treeview";
+		echo Modules::run('template/layout', $data);
 	}
   }
 
-  // Debit voucher Create 
+  // Debit voucher Create
   public function debit_voucher(){
     $this->permission->method('accounts','create')->redirect();
     $data['title'] = display('debit_voucher');
@@ -228,8 +237,8 @@ $this->session->set_flashdata('message', display('save_successfully'));
     $data['voucher_no'] = $this->accounts_model->voNO();
     $data['crcc'] = $this->accounts_model->Cracc();
     $data['module'] = "accounts";
-    $data['page']   = "debit_voucher";   
-    echo Modules::run('template/layout', $data); 
+    $data['page']   = "debit_voucher";
+    echo Modules::run('template/layout', $data);
   }
 
   // Debit voucher code select onchange
@@ -239,7 +248,7 @@ $this->session->set_flashdata('message', display('save_successfully'));
             ->where('HeadCode',$id)
             ->get()
             ->row();
-      $code = $debitvcode->HeadCode;   
+      $code = $debitvcode->HeadCode;
 echo json_encode($code);
 
   }
@@ -252,8 +261,8 @@ echo json_encode($code);
 	$this->form_validation->set_rules('dtpDate',display('dtpDate'),'xss_clean|trim');
 	$this->form_validation->set_rules('txtAmount[]',display('txtAmount'),'xss_clean|trim|numeric');
 	$this->form_validation->set_rules('txtCode[]',display('txtCode'),'xss_clean|trim|is_natural');
-         if ($this->form_validation->run($this)) { 
-        if ($this->accounts_model->insert_debitvoucher()) { 
+         if ($this->form_validation->run($this)) {
+        if ($this->accounts_model->insert_debitvoucher()) {
           $this->session->set_flashdata('message', display('save_successfully'));
           redirect('accounts/debit-voucher');
         }else{
@@ -267,14 +276,14 @@ echo json_encode($code);
     $data['voucher_no'] = $this->accounts_model->voNO();
     $data['crcc'] = $this->accounts_model->Cracc();
     $data['module'] = "accounts";
-    $data['page']   = "debit_voucher";   
-    echo Modules::run('template/layout', $data); 
+    $data['page']   = "debit_voucher";
+    echo Modules::run('template/layout', $data);
       redirect("accounts/debit-voucher");
      }
 
 }
 
-// Update Debit voucher 
+// Update Debit voucher
 public function update_debit_voucher(){
 	 $this->load->library(array('my_form_validation'));
    $this->permission->method('accounts','create')->redirect();
@@ -283,8 +292,8 @@ public function update_debit_voucher(){
 	$this->form_validation->set_rules('dtpDate',display('dtpDate'),'xss_clean|trim');
 	$this->form_validation->set_rules('txtAmount[]',display('txtAmount'),'xss_clean|trim|numeric');
 	$this->form_validation->set_rules('txtCode[]',display('txtCode'),'xss_clean|trim|is_natural');
-         if ($this->form_validation->run($this)) { 
-        if ($this->accounts_model->update_debitvoucher()) { 
+         if ($this->form_validation->run($this)) {
+        if ($this->accounts_model->update_debitvoucher()) {
           $this->session->set_flashdata('message', display('update_successfully'));
           redirect('accounts/voucher-approval/');
         }else{
@@ -298,7 +307,7 @@ public function update_debit_voucher(){
 
 }
 
-//Credit voucher 
+//Credit voucher
  public function credit_voucher(){
     $this->permission->method('accounts','create')->redirect();
     $data['title'] = display('credit_voucher');
@@ -306,8 +315,8 @@ public function update_debit_voucher(){
     $data['voucher_no'] = $this->accounts_model->crVno();
     $data['crcc'] = $this->accounts_model->Cracc();
     $data['module'] = "accounts";
-    $data['page']   = "credit_voucher";   
-    echo Modules::run('template/layout', $data); 
+    $data['page']   = "credit_voucher";
+    echo Modules::run('template/layout', $data);
   }
 
   //Create Credit Voucher
@@ -319,8 +328,8 @@ public function update_debit_voucher(){
 	$this->form_validation->set_rules('dtpDate',display('dtpDate'),'xss_clean|trim');
 	$this->form_validation->set_rules('txtAmount[]',display('txtAmount'),'xss_clean|trim|numeric');
 	$this->form_validation->set_rules('txtCode[]',display('txtCode'),'xss_clean|trim|is_natural');
-         if ($this->form_validation->run($this)) { 
-        if ($this->accounts_model->insert_creditvoucher()) { 
+         if ($this->form_validation->run($this)) {
+        if ($this->accounts_model->insert_creditvoucher()) {
           $this->session->set_flashdata('message', display('save_successfully'));
           redirect('accounts/credit-voucher');
         }else{
@@ -334,8 +343,8 @@ public function update_debit_voucher(){
     $data['voucher_no'] = $this->accounts_model->crVno();
     $data['crcc'] = $this->accounts_model->Cracc();
     $data['module'] = "accounts";
-    $data['page']   = "credit_voucher";   
-    echo Modules::run('template/layout', $data); 
+    $data['page']   = "credit_voucher";
+    echo Modules::run('template/layout', $data);
       redirect("accounts/credit-voucher");
      }
 
@@ -347,8 +356,8 @@ public function update_debit_voucher(){
     $data['acc'] = $this->accounts_model->Transacc();
     $data['voucher_no'] = $this->accounts_model->contra();
     $data['module'] = "accounts";
-    $data['page']   = "contra_voucher";   
-    echo Modules::run('template/layout', $data); 
+    $data['page']   = "contra_voucher";
+    echo Modules::run('template/layout', $data);
   }
 
   //Create Contra Voucher
@@ -360,8 +369,8 @@ public function update_debit_voucher(){
 	$this->form_validation->set_rules('dtpDate',display('dtpDate'),'xss_clean|trim');
 	$this->form_validation->set_rules('txtAmount[]',display('txtAmount'),'xss_clean|trim|numeric');
 	$this->form_validation->set_rules('txtCode[]',display('txtCode'),'xss_clean|trim|is_natural');
-         if ($this->form_validation->run($this)) { 
-        if ($this->accounts_model->insert_contravoucher()) { 
+         if ($this->form_validation->run($this)) {
+        if ($this->accounts_model->insert_contravoucher()) {
           $this->session->set_flashdata('message', display('save_successfully'));
           redirect('accounts/contra-voucher');
         }else{
@@ -374,8 +383,8 @@ public function update_debit_voucher(){
     $data['acc'] = $this->accounts_model->Transacc();
     $data['voucher_no'] = $this->accounts_model->contra();
     $data['module'] = "accounts";
-    $data['page']   = "contra_voucher";   
-    echo Modules::run('template/layout', $data); 
+    $data['page']   = "contra_voucher";
+    echo Modules::run('template/layout', $data);
       redirect("accounts/contra-voucher");
      }
 
@@ -387,8 +396,8 @@ public function update_debit_voucher(){
     $data['acc'] = $this->accounts_model->Transacc();
     $data['voucher_no'] = $this->accounts_model->journal();
     $data['module'] = "accounts";
-    $data['page']   = "journal_voucher";   
-    echo Modules::run('template/layout', $data); 
+    $data['page']   = "journal_voucher";
+    echo Modules::run('template/layout', $data);
   }
 
    //Create Journal Voucher
@@ -400,8 +409,8 @@ public function update_debit_voucher(){
 	$this->form_validation->set_rules('dtpDate',display('dtpDate'),'xss_clean|trim');
 	$this->form_validation->set_rules('txtAmount[]',display('txtAmount'),'xss_clean|trim|numeric');
 	$this->form_validation->set_rules('txtCode[]',display('txtCode'),'xss_clean|trim|is_natural');
-         if ($this->form_validation->run($this)) { 
-        if ($this->accounts_model->insert_journalvoucher()) { 
+         if ($this->form_validation->run($this)) {
+        if ($this->accounts_model->insert_journalvoucher()) {
           $this->session->set_flashdata('message', display('save_successfully'));
           redirect('accounts/journal-voucher/');
         }else{
@@ -414,7 +423,7 @@ public function update_debit_voucher(){
     $data['acc'] = $this->accounts_model->Transacc();
     $data['voucher_no'] = $this->accounts_model->journal();
     $data['module'] = "accounts";
-    $data['page']   = "journal_voucher";   
+    $data['page']   = "journal_voucher";
     echo Modules::run('template/layout', $data);
       redirect("accounts/journal-voucher");
      }
@@ -426,8 +435,8 @@ public function update_debit_voucher(){
     $data['title'] = display('voucher_approve');
     $data['aprrove'] = $this->accounts_model->approve_voucher();
     $data['module'] = "accounts";
-    $data['page']   = "voucher_approve";   
-    echo Modules::run('template/layout', $data); 
+    $data['page']   = "voucher_approve";
+    echo Modules::run('template/layout', $data);
 }
 // isApprove
  public function isactive($id = null, $action = null)
@@ -458,7 +467,7 @@ public function update_debit_voucher(){
     redirect($_SERVER['HTTP_REFERER']);
   }
 
-  //Update voucher 
+  //Update voucher
   public function voucher_update($id= null){
     $this->permission->method('accounts','Update')->redirect();
     $vtype =$this->db->select('*')
@@ -466,38 +475,38 @@ public function update_debit_voucher(){
                     ->where('VNo',$id)
                     ->get()
                     ->row();
-					
+
     $data['crcc'] = $this->accounts_model->Cracc();
     $data['acc'] = $this->accounts_model->Transacc();
-	
+
                     if($vtype->Vtype =="DV"){
     $data['title'] = display('update_debit_voucher');
     $data['dbvoucher_info'] = $this->accounts_model->dbvoucher_updata($id);
     $data['credit_info'] = $this->accounts_model->crvoucher_updata($id);
-    $data['page']   = "update_dbt_crtvoucher";   
-    } 
+    $data['page']   = "update_dbt_crtvoucher";
+    }
     if($vtype->Vtype =="CV"){
     $data['title'] = display('update_credit_voucher');
     $data['crvoucher_info'] = $this->accounts_model->crdtvoucher_updata($id);
     $data['debit_info'] = $this->accounts_model->debitvoucher_updata($id);
-    $data['page']   = "update_credit_bdtvoucher";   
+    $data['page']   = "update_credit_bdtvoucher";
     }
 	if($vtype->Vtype =="Contra"){
     $data['title'] = display('update_contra_voucher');
     $data['crvoucher_info'] = $this->accounts_model->contravoucher_updata($id);
-    $data['page']   = "update_contra_voucher";   
+    $data['page']   = "update_contra_voucher";
     }
 	if($vtype->Vtype =="JV"){
     $data['title'] = display('update_contra_voucher');
     $data['journal_info'] = $this->accounts_model->journalCrebitVoucher_edit($id);
-    $data['page']   = "update_journal_voucher";   
+    $data['page']   = "update_journal_voucher";
     }
-   
+
     $data['module'] = "accounts";
-   
-    echo Modules::run('template/layout', $data); 
+
+    echo Modules::run('template/layout', $data);
   }
-  // update credit voucher 
+  // update credit voucher
   public function update_credit_voucher(){
 	  $this->load->library(array('my_form_validation'));
    $this->permission->method('accounts','create')->redirect();
@@ -506,8 +515,8 @@ public function update_debit_voucher(){
 	$this->form_validation->set_rules('dtpDate',display('dtpDate'),'xss_clean|trim');
 	$this->form_validation->set_rules('txtAmount[]',display('txtAmount'),'xss_clean|trim|numeric');
 	$this->form_validation->set_rules('txtCode[]',display('txtCode'),'xss_clean|trim|is_natural');
-         if ($this->form_validation->run($this)) { 
-        if ($this->accounts_model->update_creditvoucher()) { 
+         if ($this->form_validation->run($this)) {
+        if ($this->accounts_model->update_creditvoucher()) {
           $this->session->set_flashdata('message', display('save_successfully'));
           redirect('accounts/voucher-approval/');
         }else{
@@ -537,7 +546,7 @@ public function update_debit_voucher(){
 			$this->form_validation->set_rules('dtpDate',display('dtpDate'),'xss_clean|trim');
 			$this->form_validation->set_rules('txtAmount[]',display('txtAmount'),'xss_clean|trim|numeric');
 			$this->form_validation->set_rules('txtCode[]',display('txtCode'),'xss_clean|trim|is_natural');
-			if ($this->form_validation->run($this)) { 
+			if ($this->form_validation->run($this)) {
         $voucher_no = addslashes(trim($this->input->post('txtVNo',TRUE)));
         $Vtype = "Contra";
         $dAID = $this->input->post('cmbDebit',TRUE);
@@ -583,7 +592,7 @@ public function update_debit_voucher(){
 			$this->form_validation->set_rules('dtpDate',display('dtpDate'),'xss_clean|trim');
 			$this->form_validation->set_rules('txtAmount[]',display('txtAmount'),'xss_clean|trim|numeric');
 			$this->form_validation->set_rules('txtCode[]',display('txtCode'),'xss_clean|trim|is_natural');
-			if ($this->form_validation->run($this)) { 
+			if ($this->form_validation->run($this)) {
         $voucher_no = addslashes(trim($this->input->post('txtVNo',TRUE)));
         $Vtype = "JV";
         $dAID = $this->input->post('cmbDebit',TRUE);
@@ -694,7 +703,7 @@ public function update_debit_voucher(){
         $html = "";
         foreach($HeadName as $data){
             $html .="<option value='$data->HeadCode'>$data->HeadName</option>";
-            
+
         }
         echo html_escape($html);
     }
@@ -728,7 +737,7 @@ public function update_debit_voucher(){
         $dtpFromDate = $this->input->post('dtpFromDate',TRUE);
         $dtpToDate = $this->input->post('dtpToDate',TRUE);
         $chkIsTransction = $this->input->post('chkIsTransction',TRUE);
-      
+
         $HeadName = $this->accounts_model->general_led_report_headname($cmbGLCode);
         $HeadName2 = $this->accounts_model->general_led_report_headname2($cmbGLCode,$cmbCode,$dtpFromDate,$dtpToDate,$chkIsTransction);
         $pre_balance = $this->accounts_model->general_led_report_prebalance($cmbCode,$dtpFromDate);
@@ -788,8 +797,8 @@ public function update_debit_voucher(){
         );
         $data['title']  = display('accounts_form');
         $data['module'] = "accounts";
-        $data['page']   = "coa";   
-    echo Modules::run('template/layout', $data); 
+        $data['page']   = "coa";
+    echo Modules::run('template/layout', $data);
   }
    public function coa_print(){
         $data['title'] = display('coa_print');
