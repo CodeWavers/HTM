@@ -26,15 +26,15 @@ if(isset($_POST['btnSave']))
 
 
     $sql="SELECT SUM(Debit) Debit, SUM(Credit) Credit, IsAppove, COAID FROM acc_transaction
-              WHERE VDate < '$FromDate' AND COAID LIKE '$HeadCode%' AND IsAppove =1 ";
+              WHERE VDate < '$FromDate' AND COAID LIKE '$HeadCode%' AND IsAppove =1 GROUP BY IsAppove, COAID";
     $sql.="GROUP BY IsAppove, COAID";
     $oResult=$oAccount->SqlQuery($sql);
     $PreBalance=0;
 
     if($oResult->num_rows>0)
     {
-        $PreBalance=$oResult->row['Debit'];
-        $PreBalance=$PreBalance- $oResult->row['Credit'];
+        $PreBalance=$oResult->row['Credit'];
+        $PreBalance=$PreBalance- $oResult->row['Debit'];
     }
 
     $sql="SELECT acc_transaction.VNo, acc_transaction.Vtype, acc_transaction.VDate, acc_transaction.Debit, acc_transaction.Credit, acc_transaction.IsAppove, acc_transaction.COAID, acc_coa.HeadName, acc_coa.PHeadName, acc_coa.HeadType, acc_transaction.Narration 
@@ -184,13 +184,14 @@ if(isset($_POST['btnSave']))
                                     <td align="justify" bgcolor="<?php echo $bg; ?>">
                                         <?php echo html_escape($oResult->rows[$i]['HeadName']);?></td>
                                     <td align="right" bgcolor="<?php echo $bg; ?>"><?php
-                                    $TotalDebit += $oResult->rows[$i]['Credit'];
+                                        $TotalDebit += $oResult->rows[$i]['Debit'];
+                                        $PreBalance -= $oResult->rows[$i]['Debit'];
+                                        echo number_format($oResult->rows[$i]['Debit'],2,'.',',');?></td>
+                                    <td align="right" bgcolor="<?php echo $bg; ?>"><?php
+                                        $TotalCredit += $oResult->rows[$i]['Credit'];
                                     $PreBalance += $oResult->rows[$i]['Credit'];
                                     echo number_format($oResult->rows[$i]['Credit'],2,'.',',');?></td>
-                                    <td align="right" bgcolor="<?php echo $bg; ?>"><?php
-                                    $TotalCredit += $oResult->rows[$i]['Debit'];
-                                    $PreBalance -= $oResult->rows[$i]['Debit'];
-                                    echo number_format($oResult->rows[$i]['Debit'],2,'.',',');?></td>
+
                                     <td align="right" bgcolor="<?php echo $bg; ?>">
                                         <?php echo number_format($PreBalance,2,'.',','); ?></td>
                                 </tr>
