@@ -69,7 +69,7 @@ class Room_reservation extends MX_Controller {
 		endif;
 		if($this->permission->method('room_reservation','read')->access()):
 		$view='<a href="'.base_url().'room_reservation/booking-information/'.$value->bookedid.'" class="btn btn-primary btn-sm margin_right_5px" data-toggle="tooltip" data-placement="top" data-original-title="View" title="View"><i class="ti-eye"></i></a>';
-		$invoice='<a href="'.base_url().'reports/booking-details/'.$value->bookedid.'" class="btn btn-warning btn-sm margin_right_5px" data-toggle="tooltip" data-placement="top" data-original-title="View" title="View"><i class="ti-receipt"></i></a>';
+		$invoice='<a href="'.base_url().'reports/booking-details/'.$value->bookedid.'" class="btn btn-warning btn-sm margin_right_5px" data-toggle="tooltip" data-placement="top" data-original-title="Invoice" title="Invoice"><i class="ti-receipt"></i></a>';
 		endif;
 		 if($this->permission->method('room_reservation','create')->access()):
 		 $Payment='<a href="'.base_url().'room_reservation/payment-information/'.$value->bookedid.'" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" data-original-title="Payment" title="Payment"><i class="ti-wallet"></i></a>';
