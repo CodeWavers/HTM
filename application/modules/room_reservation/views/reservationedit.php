@@ -224,7 +224,8 @@
                             <option value=""><?php echo display('select') ?> <?php echo display('status') ?></option>
                             <option value="0" <?php if($intinfo->bookingstatus=='0'){ echo "selected";}?>><?php echo display('pending') ?></option>
                             <option value="1" <?php if($intinfo->bookingstatus=='1'){ echo "selected";}?>><?php echo display('cancel') ?></option>
-                            <option value="2" <?php if($intinfo->bookingstatus=='2'){ echo "selected";}?>>Confirmed</option>
+                            <option value="2" <?php if($intinfo->bookingstatus=='2'){ echo "selected";}?>>Checked In</option>
+                            <option value="4" <?php if($intinfo->bookingstatus=='4'){ echo "selected";}?>>Confirmed</option>
                             <option value="3" <?php if($intinfo->bookingstatus=='3'){ echo "selected";}?>><?php echo 'Checkout' ?></option>
                         </select>
                     </div>
