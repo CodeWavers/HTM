@@ -69,7 +69,8 @@
                             </div>
 
                             <!--                         --><?php //echo $floor['room_nos']?>
-                            <div class="card-body p-2 col-sm-12" id="abc" style="max-height:481px; overflow-y: auto; overflow-x: hidden">
+<!--                            <div class="card-body p-2 col-sm-12" id="abc" style="max-height:481px; overflow-y: auto; overflow-x: hidden">-->
+                            <div class="card-body p-2 col-sm-12" id="abc" style="">
 
 
                                 <div class="row">

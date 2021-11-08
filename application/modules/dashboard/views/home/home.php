@@ -83,27 +83,27 @@
 
              <div class="row">
 
-                 <style type="text/css" scoped>
-                     div{
-                         /*border: 1px solid black;*/
-                         /*scrollbar*/
-                     }
-
-                     div::-webkit-scrollbar {
-                         width: 12px;               /* width of the entire scrollbar */
-                     }
-
-                     div::-webkit-scrollbar-track {
-                         background: #ffffff30;        /* color of the tracking area */
-                     }
-
-                     div::-webkit-scrollbar-thumb {
-                         background-color: #ffffff30;    /* color of the scroll thumb */
-                         border-radius: 20px;       /* roundness of the scroll thumb */
-                         border: 3px solid #4ea752;  /* creates padding around scroll thumb */
-                     }
-
-                 </style>
+<!--                 <style type="text/css" scoped>-->
+<!--                     div{-->
+<!--                         /*border: 1px solid black;*/-->
+<!--                         /*scrollbar*/-->
+<!--                     }-->
+<!---->
+<!--                     div::-webkit-scrollbar {-->
+<!--                         width: 12px;               /* width of the entire scrollbar */-->
+<!--                     }-->
+<!---->
+<!--                     div::-webkit-scrollbar-track {-->
+<!--                         background: #ffffff30;        /* color of the tracking area */-->
+<!--                     }-->
+<!---->
+<!--                     div::-webkit-scrollbar-thumb {-->
+<!--                         background-color: #ffffff30;    /* color of the scroll thumb */-->
+<!--                         border-radius: 20px;       /* roundness of the scroll thumb */-->
+<!--                         border: 3px solid #4ea752;  /* creates padding around scroll thumb */-->
+<!--                     }-->
+<!---->
+<!--                 </style>-->
 
                  <?php foreach ($floor_rooms as $floor) {?>
 
@@ -122,7 +122,8 @@
                          </div>
 
 <!--                         --><?php //echo $floor['room_nos']?>
-                         <div class="card-body p-2 col-sm-12" id="abc" style="max-height:481px; overflow-y: auto; overflow-x: hidden">
+<!--                         <div class="card-body p-2 col-sm-12" id="abc" style="max-height:481px; overflow-y: auto; overflow-x: hidden">-->
+                         <div class="card-body p-2 col-sm-12" id="abc" style="">
 
 
                              <div class="row">
