@@ -44,19 +44,19 @@
                 alt=""></a>
         <div class="d-flex order-lg-last">
             <ul class="navbar-right d-flex align-items-center list-unstyled mb-0">
-                <li class="nav-item login">
-                    <?php if($this->session->userdata('UserID')== FALSE){?>
-                    <a class="nav-link" href="<?php echo base_url();?>user/login"><i
-                            class="far fa-user-circle d-lg-none"></i><span
-                            class="d-none d-lg-block"><?php echo display('login') ?></span></a>
-                    <?php }
-						else{
-						 ?>
-                    <a class="nav-link" href="<?php echo base_url();?>user/logout"><i
-                            class="far fa-user-circle d-lg-none"></i><span
-                            class="d-none d-lg-block"><?php echo display('logout') ?></span></a>
-                    <?php } ?>
-                </li>
+<!--                <li class="nav-item login">-->
+<!--                    --><?php //if($this->session->userdata('UserID')== FALSE){?>
+<!--                    <a class="nav-link" href="--><?php //echo base_url();?><!--user/login"><i-->
+<!--                            class="far fa-user-circle d-lg-none"></i><span-->
+<!--                            class="d-none d-lg-block">--><?php //echo display('login') ?><!--</span></a>-->
+<!--                    --><?php //}
+//						else{
+//						 ?>
+<!--                    <a class="nav-link" href="--><?php //echo base_url();?><!--user/logout"><i-->
+<!--                            class="far fa-user-circle d-lg-none"></i><span-->
+<!--                            class="d-none d-lg-block">--><?php //echo display('logout') ?><!--</span></a>-->
+<!--                    --><?php //} ?>
+<!--                </li>-->
                 <li class="nav-item dropdown search-icon">
                     <div class="dropdown-menu search-dropdown dropdown-menu-right animate slideIn"
                         aria-labelledby="navbarDropdown1">
@@ -95,11 +95,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <button type="submit" class="border-0 d-none d-lg-inline-block nav-link">
-                                <i class="far fa-calendar-alt mr-2"></i><span><?php echo display('book_now')?></span>
-                            </button>
-                        </div>
+<!--                        <div>-->
+<!--                            <button type="submit" class="border-0 d-none d-lg-inline-block nav-link">-->
+<!--                                <i class="far fa-calendar-alt mr-2"></i><span>--><?php //echo display('book_now')?><!--</span>-->
+<!--                            </button>-->
+<!--                        </div>-->
                     </div>
                     <?php echo form_close() ?>
                 </li>

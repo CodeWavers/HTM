@@ -91,48 +91,48 @@
 </div>
 <!-- /.End of hero header -->
 <div class="container">
-    <div class="search-area">
-        <?php echo form_open('user/roomlist');?>
-        <div class="row no-gutters custom-search-input-2 search-form-content">
-            <div class="search-option col-12 col-sm-6 col-lg-3">
-                <label><?php echo display('check_in')?> <i class="ti-calendar"></i></label>
-                <input id="daterangepicker" class="form-control" type="text" name="checkin"
-                    value="<?php date('Y-m-d');?>">
-            </div>
-            <div class="search-option col-12 col-sm-6 col-lg-3">
-                <label><?php echo display('check_out')?> <i class="ti-calendar"></i></label>
-                <input id="daterangepicker2" class="form-control" type="text" name="checkout"
-                    value="<?php date('Y-m-d');?>">
-            </div>
-            <div class="search-option col-12 col-sm-6 col-lg-3">
-                <div class="d-flex align-items-center justify-content-between h-50 border-bottom w-100 px-lg-3 px-xl-4">
-                    <div class="search-title fs-13 text-uppercase"><?php echo display('adults')?></div>
-                    <div class="d-flex justify-content-center align-items-center number-spinner">
-                        <a class=" btn-pm" data-dir="dwn"><span class="ti-minus"></span></a>
-                        <input type="text" class="spinner" name="adults" value="2">
-                        <a class=" btn-pm" data-dir="up"><span class="ti-plus"></span></a>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center justify-content-between h-50 w-100 px-lg-3 px-xl-4">
-                    <div class="search-title fs-13 text-uppercase"><?php echo display('children')?></div>
-                    <div class="d-flex justify-content-center align-items-center number-spinner">
-                        <a class=" btn-pm" data-dir="dwn"><span class="ti-minus"></span></a>
-                        <input type="text" class="spinner" name="children" value="0">
-                        <a class=" btn-pm" data-dir="up"><span class="ti-plus"></span></a>
-                    </div>
-                </div>
-            </div>
-            <?php $hotline=$this->db->select('*')->from('tbl_slider')->where('slid',75)->get()->row();?>
-            <div class="col-lg-3">
-                <button type="submit" class="btn">
-                    <span><?php echo display('need_help')?>
-                        <p><?php echo html_escape($hotline->subtitle);?></p></span>
-                    <?php echo display('check_availability')?>
-                </button>
-            </div>
-        </div>
-        <?php echo form_close() ?>
-    </div>
+<!--    <div class="search-area">-->
+<!--        --><?php //echo form_open('user/roomlist');?>
+<!--        <div class="row no-gutters custom-search-input-2 search-form-content">-->
+<!--            <div class="search-option col-12 col-sm-6 col-lg-3">-->
+<!--                <label>--><?php //echo display('check_in')?><!-- <i class="ti-calendar"></i></label>-->
+<!--                <input id="daterangepicker" class="form-control" type="text" name="checkin"-->
+<!--                    value="--><?php //date('Y-m-d');?><!--">-->
+<!--            </div>-->
+<!--            <div class="search-option col-12 col-sm-6 col-lg-3">-->
+<!--                <label>--><?php //echo display('check_out')?><!-- <i class="ti-calendar"></i></label>-->
+<!--                <input id="daterangepicker2" class="form-control" type="text" name="checkout"-->
+<!--                    value="--><?php //date('Y-m-d');?><!--">-->
+<!--            </div>-->
+<!--            <div class="search-option col-12 col-sm-6 col-lg-3">-->
+<!--                <div class="d-flex align-items-center justify-content-between h-50 border-bottom w-100 px-lg-3 px-xl-4">-->
+<!--                    <div class="search-title fs-13 text-uppercase">--><?php //echo display('adults')?><!--</div>-->
+<!--                    <div class="d-flex justify-content-center align-items-center number-spinner">-->
+<!--                        <a class=" btn-pm" data-dir="dwn"><span class="ti-minus"></span></a>-->
+<!--                        <input type="text" class="spinner" name="adults" value="2">-->
+<!--                        <a class=" btn-pm" data-dir="up"><span class="ti-plus"></span></a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="d-flex align-items-center justify-content-between h-50 w-100 px-lg-3 px-xl-4">-->
+<!--                    <div class="search-title fs-13 text-uppercase">--><?php //echo display('children')?><!--</div>-->
+<!--                    <div class="d-flex justify-content-center align-items-center number-spinner">-->
+<!--                        <a class=" btn-pm" data-dir="dwn"><span class="ti-minus"></span></a>-->
+<!--                        <input type="text" class="spinner" name="children" value="0">-->
+<!--                        <a class=" btn-pm" data-dir="up"><span class="ti-plus"></span></a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            --><?php //$hotline=$this->db->select('*')->from('tbl_slider')->where('slid',75)->get()->row();?>
+<!--            <div class="col-lg-3">-->
+<!--                <button type="submit" class="btn">-->
+<!--                    <span>--><?php //echo display('need_help')?>
+<!--                        <p>--><?php //echo html_escape($hotline->subtitle);?><!--</p></span>-->
+<!--                    --><?php //echo display('check_availability')?>
+<!--                </button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        --><?php //echo form_close() ?>
+<!--    </div>-->
 </div>
 <!-- /.End of search area -->
 <div class="section section-feature bg-gray position-relative">
@@ -239,15 +239,15 @@
 
 
 
-<div class="section container rounded join-content box-shadow mb-5 shadow">
-    <div class="text-center col-middle">
-        <?php $joinus=$this->db->select('*')->from('tbl_widget')->where('widgetid',6)->get()->row();?>
-        <h2 class="fs-32 text-white mb-4 "><?php echo html_escape($joinus->widget_desc);?></h2>
-        <a href="<?php echo base_url();?>user/login"
-            class="btn btn-outline-white mr-3"><?php echo display('sign_in')?></a>
-        <a href="<?php echo base_url();?>register" class="btn btn-white"><?php echo display('join_us')?></a>
-    </div>
-</div>
+<!--<div class="section container rounded join-content box-shadow mb-5 shadow">-->
+<!--    <div class="text-center col-middle">-->
+<!--        --><?php //$joinus=$this->db->select('*')->from('tbl_widget')->where('widgetid',6)->get()->row();?>
+<!--        <h2 class="fs-32 text-white mb-4 ">--><?php //echo html_escape($joinus->widget_desc);?><!--</h2>-->
+<!--        <a href="--><?php //echo base_url();?><!--user/login"-->
+<!--            class="btn btn-outline-white mr-3">--><?php //echo display('sign_in')?><!--</a>-->
+<!--        <a href="--><?php //echo base_url();?><!--register" class="btn btn-white">--><?php //echo display('join_us')?><!--</a>-->
+<!--    </div>-->
+<!--</div>-->
 <!-- /.End of join box -->
 <div class="section bg-gray">
     <div class="container">
