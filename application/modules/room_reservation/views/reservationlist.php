@@ -125,7 +125,10 @@
                                             <tr>
                                                 <th><?php echo display('sl_no') ?></th>
                                                 <th><?php echo display('booking_number') ?></th>
+                                                <th><?php echo 'Customer Name' ?></th>
+                                                <th><?php echo 'Phone' ?></th>
                                                 <th><?php echo display('room_name') ?></th>
+                                                <th><?php echo 'Room No' ?></th>
                                                 <th><?php echo display('check_in') ?></th>
                                                 <th><?php echo display('check_out') ?></th>
                                                 <th><?php echo display('booking_date') ?></th>

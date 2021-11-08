@@ -19,12 +19,15 @@ class Room_reservation extends MX_Controller {
 	    $columns = array( 
 		0 => 'booked_info.bookedid', 
 		1 => 'booking_number', 
-		2 => 'roomtype',
-		3 => 'checkindate',
-		4 => 'checkoutdate',
-		5 => 'date_time',
-		6 => 'bookingstatus',
-		7 => 'paid_amount',
+		2 => 'cutomerid',
+		3 => 'cust_phone',
+		4 => 'roomtype',
+		5 => 'room_no',
+		6 => 'checkindate',
+		7 => 'checkoutdate',
+		8 => 'date_time',
+		9 => 'bookingstatus',
+		10 => 'paid_amount',
 	);
 
 	$where = $sqlTot = $sqlRec = "";
@@ -39,7 +42,7 @@ class Room_reservation extends MX_Controller {
 		$where .=" OR booked_info.bookingstatus LIKE '".$params['search']['value']."%' )";
 	}
 	// getting total number records without any search
-	$sql = "SELECT booked_info.*,roomdetails.roomtype FROM booked_info Left Join roomdetails ON roomdetails.roomid=booked_info.roomid";
+	$sql = "SELECT booked_info.*,customerinfo.*,roomdetails.roomtype FROM booked_info Left Join roomdetails ON roomdetails.roomid=booked_info.roomid Left Join customerinfo ON customerinfo.customerid=booked_info.cutomerid";
 	
 	
 	$sqlTot .= $sql;
@@ -66,6 +69,7 @@ class Room_reservation extends MX_Controller {
 		endif;
 		if($this->permission->method('room_reservation','read')->access()):
 		$view='<a href="'.base_url().'room_reservation/booking-information/'.$value->bookedid.'" class="btn btn-primary btn-sm margin_right_5px" data-toggle="tooltip" data-placement="top" data-original-title="View" title="View"><i class="ti-eye"></i></a>';
+		$invoice='<a href="'.base_url().'reports/booking-details/'.$value->bookedid.'" class="btn btn-warning btn-sm margin_right_5px" data-toggle="tooltip" data-placement="top" data-original-title="View" title="View"><i class="ti-receipt"></i></a>';
 		endif;
 		 if($this->permission->method('room_reservation','create')->access()):
 		 $Payment='<a href="'.base_url().'room_reservation/payment-information/'.$value->bookedid.'" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" data-original-title="Payment" title="Payment"><i class="ti-wallet"></i></a>';
@@ -90,13 +94,16 @@ class Room_reservation extends MX_Controller {
 		}
 		$row[] =$i;
 		$row[] =$value->booking_number;
+		$row[] =$value->firstname.' '.$value->lastname;
+		$row[] =$value->cust_phone;
 		$row[] =$value->roomtype;
+        $row[] =$value->room_no;
 		$row[] =$value->checkindate;
 		$row[] =$value->checkoutdate;
 		$row[] =$value->date_time;
 		$row[] =$status;
 		$row[] =$paymentStatus;
-		$row[] =$update.$view.$Payment;
+		$row[] =$update.$invoice.$view.$Payment;
         $data[] = $row;
 		
 		}

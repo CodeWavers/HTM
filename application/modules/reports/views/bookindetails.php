@@ -91,7 +91,10 @@
         $lastdate = $bookinfo->checkoutdate;
         $datediff = strtotime($lastdate) - strtotime($firstdate);
         $datediff = floor($datediff/(60*60*24));
+        $service_total=0
         ?>
+    <?php if ($booking_service) {?>
+
         <table class="table table-bordered table-striped table-hover table-nowrap">
             <thead>
                 <tr>
@@ -103,8 +106,9 @@
             </thead>
             <tbody>
 
-            <?php $x=0 ?>
-            <?php if ($booking_service) {?>
+            <?php $x=0 ;
+           ?>
+
             <?php foreach ($booking_service as $s)
             {?>
                 <?php $x++?>
@@ -122,10 +126,12 @@
                 </tr>
 
             <?php } ?>
-            <?php } ?>
+
 
             </tbody>
         </table>
+    <?php } ?>
+
         <table class="table table-striped table-nowrap">
             <thead>
                 <tr>
@@ -196,11 +202,11 @@
 
                 <?php if ($bookinfo->service_total >0){?>
                 <li>
-                   <strong>Room Service:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo $bookinfo->service_total;?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
+                   <strong>Room Service:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo $service_total=$bookinfo->service_total;?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
                 </li>
                 <?php } ?>
                 <li>
-                    <strong><?php echo display('grand_total') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo number_format($scharge+$tax+$grprice+$bookinfo->service_total,2);?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
+                    <strong><?php echo display('grand_total') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo number_format($service_total+$scharge+$tax+$grprice,2);?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
                     <br /><strong><?php echo display('paid_amount') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php if (!empty($paymentinfo->paymentamount)){echo $paymentinfo->paid_amount;} else echo "0";?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
                     <br /><strong><?php echo display('due_amount') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php if (!empty($paymentinfo->paymentamount)){echo $bookinfo->total_price-$paymentinfo->paid_amount;} else echo html_escape($bookinfo->total_price);?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
                 </li>
