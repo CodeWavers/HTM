@@ -26,7 +26,7 @@
             <td><?php echo html_escape($book->checkindate);?></td>
             <td><?php echo html_escape($book->checkoutdate);?></td>
             <td><?php echo html_escape($book->date_time);?></td>
-            <td><?php if($book->bookingstatus==0){echo display('pending');}if($book->bookingstatus==1){echo "Cancel";}if($book->bookingstatus==2){echo "Confirmed";}if($book->bookingstatus==3){echo "Checked Out";}?>
+            <td><?php if($book->bookingstatus==0){echo display('pending');}if($book->bookingstatus==1){echo "Cancel";}if($book->bookingstatus==2){echo "Checked In";}if($book->bookingstatus==4){echo "Confirmed";}?>
             </td>
             <td><?php if($book->total_price>$book->paid_amount){echo display('pending');}else{echo display('complete');}?>
             </td>

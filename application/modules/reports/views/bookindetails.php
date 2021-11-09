@@ -58,7 +58,7 @@
                     <td>
                         <div><strong><?php echo display('booking_status') ?></strong></div>
                     </td>
-                    <td><?php if($bookinfo->bookingstatus==0){ echo display('pending');}if($bookinfo->bookingstatus==2){ echo display('complete');}if($bookinfo->bookingstatus==1){ echo "Cancel";}?></td>
+                    <td><?php if($bookinfo->bookingstatus==0){ echo display('pending');}if($bookinfo->bookingstatus==2){ echo 'Checked In';}if($bookinfo->bookingstatus==4){ echo 'Confirmed';}if($bookinfo->bookingstatus==1){ echo "Cancel";}?></td>
                 </tr>
                 <tr>
                     <td>
