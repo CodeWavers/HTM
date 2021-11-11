@@ -117,7 +117,7 @@ class Roomreservation_model extends CI_Model
 
 
 
-           if ($status==3){
+           if ($status==3 || $status==1){
                 $this->db->where('booking_number',$bookingnumber);
                 $this->db->delete('booked_room');
 
