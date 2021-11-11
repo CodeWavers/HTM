@@ -470,6 +470,7 @@ class Home_model extends CI_Model {
                     ->join('customerinfo x', 'c.cutomerid=x.customerid', 'left')
                     ->where('a.floorName', $r->floorid)
                     ->order_by('a.roomno', 'asc')
+                    ->group_by('a.roomno')
                     ->get()->result();
 
 
@@ -480,50 +481,84 @@ class Home_model extends CI_Model {
                 foreach ($room_no as $ro) {
 
 
-                    if (($ro->st) && $ro->st == 1) {
-                        $rooms .= '
-                                 <div class="col-sm-4 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
-                                     <div class="card card-stats statistic-box mb-4" style="background-color: #0073e6">
+
+                    if (($ro->st) && $ro->st == 4) {
+                       // $rooms .=$title;
+                        $rooms .='
+                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid.'"> <div class="card mb-2" style="background-color: #0073e6">
                                          <div
                                                  class="card-header card-header-danger card-header-icon text-center " style="background-color: #0d95e8">
                                              <div class="card-icon d-flex align-items-center justify-content-center">
-                                                 <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
                                                     ' . $ro->rooms . ' </p>
                                              </div>
 
 
                                          </div>
-                                         <div class="card-footer p-3 " style="padding:auto;max-height: 84.24px">
+                                         <div class="card-footer p-3 " style="padding:auto;max-height: 80px">
                                              <div class="" >
-                                                 <p class="card-category text-uppercase fs-12 font-weight-bold text-center" style="color: whitesmoke">
+                                                 <p class="card-category fs-10 font-weight-bold text-center" style="color: whitesmoke">
                                                     ' . $ro->roomtype . '</p>
                                              </div>
                                          </div>
-                                     </div>
-                                 </div>
+                                     </div></a>
+                                 </div> 
 
 
 
 
                         ';
 
-                    } else {
+                    }
+
+                    elseif (($ro->st) && $ro->st == 2) {
+                        // $rooms .=$title;
+                        $rooms .='
+                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '"> <div class="card mb-2" style="background-color: #123d1f">
+                                         <div
+                                                 class="card-header card-header-info card-header-icon text-center " style="background-color: #05847e">
+                                             <div class="card-icon d-flex align-items-center justify-content-center">
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
+                                                    ' . $ro->rooms . ' </p>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="card-footer p-3 " style="padding:auto;max-height: 80px">
+                                             <div class="" >
+                                                 <p class="card-category fs-10 font-weight-bold text-center" style="color: whitesmoke">
+                                                    ' . $ro->roomtype . '</p>
+                                             </div>
+                                         </div>
+                                     </div></a>
+                                 </div> 
+
+
+
+
+                        ';
+
+                    }
+
+                     else {
 
                         $rooms .= '
-                                 <div class="col-sm-4 room" >
-                                     <div class="card card-stats statistic-box mb-4" style="background-color: #ffffff">
+                                 <div class="col-sm-6 room" >
+                                     <div class="card mb-2" style="background-color: #ffffff">
                                          <div
                                                  class="card-header card-header-success card-header-icon text-center " style="background-color: #d0dce3">
                                              <div class="card-icon d-flex align-items-center justify-content-center">
-                                                 <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
                                                     ' . $ro->roomno . ' </p>
                                              </div>
 
 
                                          </div>
-                                         <div class="card-footer p-3 " style="padding:auto;max-height: 84.24px">
+                                         <div class="card-footer p-3 " style="padding:auto;max-height: 80px">
                                              <div class="" >
-                                                 <p class="card-category text-uppercase fs-12 font-weight-bold text-center" style="color: black">
+                                                 <p class="card-category  fs-10 font-weight-bold text-center" style="color: black">
                                                     ' . $ro->roomtype . '</p>
                                              </div>
                                          </div>

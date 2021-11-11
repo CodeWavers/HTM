@@ -641,10 +641,10 @@ class Room_reservation extends MX_Controller {
                         'Debit'          =>  $this->input->post('amount',TRUE),
                         'Credit'         =>  0,
                         'StoreID'        =>  0,
-                        'IsPosted'       => 1,
-                        'CreateBy'       => $saveid,
-                        'CreateDate'     => $newdate,
-                        'IsAppove'       => 1
+                        'IsPosted'       =>  1,
+                        'CreateBy'       =>  $saveid,
+                        'CreateDate'     =>  $newdate,
+                        'IsAppove'       =>  1
                     );
                     $this->db->insert('acc_transaction',$cosdr);
                     //Hotel Owner credit for Rent Value

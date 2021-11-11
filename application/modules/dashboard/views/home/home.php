@@ -69,19 +69,20 @@
              </div>
          </div>
      </div>
-     <div class="col-lg-4 col-md-4 col-xl-12" >
+     <div class="col-lg-3 col-md-3 col-xl-12" >
          <!--Basic Line Chart-->
 <!--         <a class="btn btn-dark-green" data-toggle="popover-hover" data-img="//placehold.it/100x50">Hover over me</a>-->
-         <div class="card md-6 mb-4 height_400 " >
-<!--             <div class="card-header">-->
-<!--                 <div class="d-flex justify-content-between align-items-center">-->
-<!--                     <div>-->
-<!--                         <h6 class="fs-17 font-weight-600 mb-0">Room</h6>-->
-<!--                     </div>-->
-<!--                 </div>-->
-<!--             </div>-->
-
+         <div class="card md-3 mb-4 height_400 " >
+             <?php if($this->permission->method('room_reservation','create')->access()): ?>
+                 <div class="card-header">
+                   <small class="float-right"><a
+                                     href="<?php echo base_url("room_reservation/room-booking") ?>"
+                                     class="btn btn-primary btn-md"><i class="ti-plus" aria-hidden="true"></i>
+                                 <?php echo display('room_booking')?></a></small>
+                 </div>
+             <?php endif; ?>
              <div class="row">
+
 
 <!--                 <style type="text/css" scoped>-->
 <!--                     div{-->
@@ -107,12 +108,12 @@
 
                  <?php foreach ($floor_rooms as $floor) {?>
 
-                 <div class="col-sm-4 col-md-4 col-cxl-4" >
+                 <div class="col-sm-3 col-md-3 col-cxl-3" >
                      <div class="card card-stats statistic-box mb-4 height_400 width-300px" style="border-color: #26c6da;">
                          <div class="card-header card-header-info card-header-icon position-relative border-0 text-center px-3 py-0">
                              <div class="d-flex justify-content-between align-items-center ">
                                  <div class="card-icon d-flex align-items-center justify-content-center ">
-                                     <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">
+                                     <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
                                          <?php echo $floor['floor_name']?></p>
                                  </div>
 <!--                                 <div>-->

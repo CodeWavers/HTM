@@ -18,6 +18,7 @@
                              }else{
                                echo $voucher_n = 'CV-1';
                              } ?>" class="form-control" readonly>
+
                         </div>
                     </div> 
                      <div class="form-group row">
