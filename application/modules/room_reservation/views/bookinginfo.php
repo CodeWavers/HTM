@@ -117,6 +117,18 @@
                                                         <th scope="row"><?php echo display('grand_total') ?></th><input type="hidden" value="<?php echo html_escape($totalamount-$discount);?>" id="orgTotal" /></th>
                                                         <td><input name="gramount" type="hidden" id="gramount" value="<?php echo html_escape(($totalamount-$discount)+$scharge+$tax);?>" /><span id="total"><?php echo html_escape(($totalamount-$discount)+$scharge+$tax);?></span></td>
                                                     </tr>
+
+                                                             <tr>
+                                                            <th scope="row">Booking Status</th>
+                                                            <td><select name="booking_status"  class="selectpicker form-control" data-live-search="true" size="2" id="booking_status" required>
+
+                                                                <option value="0" ><?php echo display('pending') ?></option>
+                                                                     <option value="2">Checked In</option>
+                                                                <option value="4" >Confirmed</option>
+
+                                                            </select>
+                                                        </td>
+                                                    </tr>
                                                     
                                                 </tbody>
                                             </table>

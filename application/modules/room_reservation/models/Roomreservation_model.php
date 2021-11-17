@@ -6,8 +6,78 @@ class Roomreservation_model extends CI_Model
 
     private $table = 'booked_info';
 
-    public function create($data = array())
+    public function create($data = array(),$bookingnumber,$status)
     {
+
+
+        $room=$this->input->post('slroomno', TRUE);
+
+
+
+       // $room_Array = explode(',',$room);
+        //echo print_r($room_Array);exit();
+        foreach ($room as $key => $value) {
+
+
+            $data4['room'] = $value;
+
+
+
+            $pending_room=array(
+                'booking_number'=>$bookingnumber,
+                'room_no'=>$value,
+                'status'=>0,
+
+            );
+
+          //  echo '<pre>';print_r($pending_room);exit();
+
+            $confirmed_room=array(
+                'booking_number'=>$bookingnumber,
+                'room_no'=>$value,
+                'status'=>4,
+
+            );
+            $checked_room=array(
+                'booking_number'=>$bookingnumber,
+                'room_no'=>$value,
+                'status'=>2,
+
+            );
+
+
+            $exists=$this->db->select('*')->from('booked_room')->where(array('booking_number'=>$bookingnumber,'room_no'=>$value))->get()->num_rows();
+           // $rooms=$this->db->select('*')->from('booked_room')->where(array('booking_number'=>$bookingnumber,'room_no'=>$value))->get()->num_rows();
+
+            // echo '<pre>';print_r($exists);exit();
+
+            if($status==4){
+                if ($exists == 0){
+                    $this->db->insert('booked_room',$confirmed_room);
+                }
+
+            }
+
+            if($status==2){
+                if ($exists == 0){
+                    $this->db->insert('booked_room',$checked_room);
+                }
+
+            }
+
+            if($status==0){
+                if ($exists == 0){
+                    $this->db->insert('booked_room',$pending_room);
+                }
+
+            }
+
+
+
+
+
+        }
+
         return $this->db->insert($this->table, $data);
     }
 
@@ -240,7 +310,7 @@ class Roomreservation_model extends CI_Model
         }
     }
 
-    public function createpayment($data = array())
+    public function createpayment($data = array(),$status)
     {
         return $this->db->insert('tbl_guestpayments', $data);
     }

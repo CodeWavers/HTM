@@ -474,7 +474,7 @@ class Home_model extends CI_Model {
                     ->get()->result();
 
 
-                // echo '<pre>';print_r($room_no);exit();
+              //   echo '<pre>';print_r($room_no);exit();
                 $rooms = '';
 
 
@@ -482,10 +482,11 @@ class Home_model extends CI_Model {
 
 
 
-                    if (($ro->st) && $ro->st == 4) {
+                    if ( $ro->st == '4') {
                        // $rooms .=$title;
+//                        echo '<pre>';print_r($ro);exit();
                         $rooms .='
-                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '" data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
                                     <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid.'"> <div class="card mb-2" style="background-color: #0073e6">
                                          <div
                                                  class="card-header card-header-danger card-header-icon text-center " style="background-color: #0d95e8">
@@ -512,11 +513,11 @@ class Home_model extends CI_Model {
 
                     }
 
-                    elseif (($ro->st) && $ro->st == 2) {
+                   else if ($ro->st == '2') {
                         // $rooms .=$title;
                         $rooms .='
-                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
-                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '"> <div class="card mb-2" style="background-color: #123d1f">
+                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '"> <div class="card mb-2" style="background-color: #10b33f">
                                          <div
                                                  class="card-header card-header-info card-header-icon text-center " style="background-color: #05847e">
                                              <div class="card-icon d-flex align-items-center justify-content-center">
@@ -541,6 +542,37 @@ class Home_model extends CI_Model {
                         ';
 
                     }
+                   else if ($ro->st == '0') {
+                        // $rooms .=$title;
+                        $rooms .='
+                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '"> <div class="card mb-2" style="background-color: #c7222a">
+                                         <div
+                                                 class="card-header card-header-warning card-header-icon text-center " style="background-color: #690719">
+                                             <div class="card-icon d-flex align-items-center justify-content-center">
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
+                                                    ' . $ro->rooms . ' </p>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="card-footer p-3 " style="padding:auto;max-height: 80px">
+                                             <div class="" >
+                                                 <p class="card-category fs-10 font-weight-bold text-center" style="color: whitesmoke">
+                                                    ' . $ro->roomtype . '</p>
+                                             </div>
+                                         </div>
+                                     </div></a>
+                                 </div> 
+
+
+
+
+                        ';
+
+                    }
+
+
 
                      else {
 

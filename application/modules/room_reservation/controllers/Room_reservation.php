@@ -189,13 +189,17 @@ class Room_reservation extends MX_Controller {
                     'checkindate'             => $this->input->post('check_in',TRUE),
                     'checkoutdate'            => $this->input->post('check_out',TRUE),
                     'cutomerid' 	             => $this->input->post('guest', TRUE),
-                    'bookingstatus' 	         => 0
+                    'bookingstatus' 	         =>  $this->input->post('booking_status', TRUE),
 
                 );
+
+                //echo '<pre>';print_r($postData);exit();
+
+                $status=$this->input->post('booking_status', TRUE);
                 $this->permission->method('room_reservation','create')->redirect();
 
 
-                if($this->roomreservation_model->create($postData)) {
+                if($this->roomreservation_model->create($postData,$bookingnumber,$status)) {
                     $type = "processing";
                     // $response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
                     // $data = json_decode($response);

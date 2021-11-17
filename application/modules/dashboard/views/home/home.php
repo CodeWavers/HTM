@@ -70,15 +70,69 @@
          </div>
      </div>
      <div class="col-lg-3 col-md-3 col-xl-12" >
+
+         <style rel="stylesheet">
+             .pending {
+                 height: 12px;
+                 width: 25px;
+                 background-color:  #c7222a;
+                 border-radius: 10%;
+                 display: inline-block;
+                 margin-top: 2%;
+             }  .checked {
+                 height: 12px;
+                 width: 25px;
+                 background-color:  #0073e6;
+                 border-radius: 10%;
+                 display: inline-block;
+                 margin-top: 2%;
+             }  .confirmed {
+                 height: 12px;
+                 width: 25px;
+                 background-color: #10b33f;
+                 border-radius: 10%;
+                 display: inline-block;
+                 margin-top: 2%;
+             }  .non_booked {
+                 height: 12px;
+                 width: 25px;
+                 background-color: #bbb;
+                 border-radius: 10%;
+                 display: inline-block;
+                 margin-top: 2%;
+             }
+
+         </style>
          <!--Basic Line Chart-->
 <!--         <a class="btn btn-dark-green" data-toggle="popover-hover" data-img="//placehold.it/100x50">Hover over me</a>-->
          <div class="card md-3 mb-4 height_400 " >
              <?php if($this->permission->method('room_reservation','create')->access()): ?>
                  <div class="card-header">
+
+
+                         <small class="float-left m-2" ><a
+                                     class=" pending" ></a> <span class="card-category text-uppercase fs-10 font-weight-bold ">Pending</span>
+                         </small>
+
+                         <small class="float-left m-2"><a
+                                     class=" confirmed"></a>  <span class="card-category text-uppercase fs-10 font-weight-bold ">Confirmed</span>
+                         </small>
+                         <small class="float-left m-2"><a
+                                     class=" checked"></a>  <span class="card-category text-uppercase fs-10 font-weight-bold ">Checked In</span>
+                         </small>
+                        <small class="float-left m-2"><a
+                                    class=" non_booked"></a>  <span class="card-category text-uppercase fs-10 font-weight-bold ">Non-Booked</span>
+                        </small>
+
+
+
+
+
                    <small class="float-right"><a
                                      href="<?php echo base_url("room_reservation/room-booking") ?>"
                                      class="btn btn-primary btn-md"><i class="ti-plus" aria-hidden="true"></i>
-                                 <?php echo display('room_booking')?></a></small>
+                                 <?php echo display('room_booking')?></a>
+                   </small>
                  </div>
              <?php endif; ?>
              <div class="row">
@@ -346,10 +400,11 @@
                  content: function () { return '<div class="card border-secondary mb-3" style="max-width: 18rem;">\n' +
 
                      '  <div class="card-body text-secondary">\n' +
-                     '    <h5 class="card-category text-uppercase fs-14 font-weight-bold">' + $(this).data('email') + '</h5>\n' +
-                     '    <h5 class="card-category text-uppercase fs-14 font-weight-bold">' + $(this).data('phone') + '</h5>\n' +
-                     '    <h5 class="card-category text-uppercase fs-14 font-weight-bold">Check In:' + $(this).data('ci') + '</h5>\n' +
-                     '    <h5 class="card-category text-uppercase fs-14 font-weight-bold">Check Out:' + $(this).data('co') + '</h5>\n' +
+                     '    <h5 class="card-category text-uppercase fs-12 font-weight-bold">Booking Number:' + $(this).data('bn') + '</h5>\n' +
+                     '    <h5 class="card-category text-uppercase fs-12 font-weight-bold">' + $(this).data('email') + '</h5>\n' +
+                     '    <h5 class="card-category text-uppercase fs-12 font-weight-bold">' + $(this).data('phone') + '</h5>\n' +
+                     '    <h5 class="card-category text-uppercase fs-12 font-weight-bold">Check In:' + $(this).data('ci') + '</h5>\n' +
+                     '    <h5 class="card-category text-uppercase fs-12 font-weight-bold">Check Out:' + $(this).data('co') + '</h5>\n' +
                      '  </div>\n' +
                      '</div>'; }
              });
