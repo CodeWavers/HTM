@@ -487,19 +487,19 @@ class Home_model extends CI_Model {
 //                        echo '<pre>';print_r($ro);exit();
                         $rooms .='
                                 <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '" data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
-                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid.'"> <div class="card mb-2" style="background-color: #0073e6">
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid.'"> <div class="card mb-2" style="background-color: #0073e6;height: 110px">
                                          <div
-                                                 class="card-header card-header-danger card-header-icon text-center " style="background-color: #0d95e8">
+                                                 class="card-header card-header-danger card-header-icon text-center " style="background-color: #0d95e8;">
                                              <div class="card-icon d-flex align-items-center justify-content-center">
-                                                 <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold pa" style="color: whitesmoke">
                                                     ' . $ro->rooms . ' </p>
                                              </div>
 
 
                                          </div>
-                                         <div class="card-footer p-3 " style="padding:auto;max-height: 80px">
+                                         <div class="" style="padding:auto;">
                                              <div class="" >
-                                                 <p class="card-category fs-10 font-weight-bold text-center" style="color: whitesmoke">
+                                                 <p class="card-category fs-10 text-uppercase font-weight-bold text-center pt-3" style="color: whitesmoke">
                                                     ' . $ro->roomtype . '</p>
                                              </div>
                                          </div>
@@ -517,9 +517,9 @@ class Home_model extends CI_Model {
                         // $rooms .=$title;
                         $rooms .='
                                 <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
-                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '"> <div class="card mb-2" style="background-color: #10b33f">
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '"> <div class="card mb-2" style="background-color: #10b33f;height: 110px">
                                          <div
-                                                 class="card-header card-header-info card-header-icon text-center " style="background-color: #05847e">
+                                                 class="card-header card-header-info card-header-icon text-center " style="background-color: #05847e;">
                                              <div class="card-icon d-flex align-items-center justify-content-center">
                                                  <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
                                                     ' . $ro->rooms . ' </p>
@@ -527,9 +527,9 @@ class Home_model extends CI_Model {
 
 
                                          </div>
-                                         <div class="card-footer p-3 " style="padding:auto;max-height: 80px">
+                                         <div class="" style="padding:auto;">
                                              <div class="" >
-                                                 <p class="card-category fs-10 font-weight-bold text-center" style="color: whitesmoke">
+                                                 <p class="card-category fs-10 text-uppercase font-weight-bold text-center pt-3" style="color: whitesmoke">
                                                     ' . $ro->roomtype . '</p>
                                              </div>
                                          </div>
@@ -546,7 +546,8 @@ class Home_model extends CI_Model {
                         // $rooms .=$title;
                         $rooms .='
                                 <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
-                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '"> <div class="card mb-2" style="background-color: #c7222a">
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '">
+                                     <div class="card mb-2" style="background-color: #c7222a;height: 110px">
                                          <div
                                                  class="card-header card-header-warning card-header-icon text-center " style="background-color: #690719">
                                              <div class="card-icon d-flex align-items-center justify-content-center">
@@ -556,9 +557,9 @@ class Home_model extends CI_Model {
 
 
                                          </div>
-                                         <div class="card-footer p-3 " style="padding:auto;max-height: 80px">
+                                         <div class="" style="padding:auto;">
                                              <div class="" >
-                                                 <p class="card-category fs-10 font-weight-bold text-center" style="color: whitesmoke">
+                                                 <p class="card-category fs-10 text-uppercase font-weight-bold text-center pt-3" style="color: whitesmoke">
                                                     ' . $ro->roomtype . '</p>
                                              </div>
                                          </div>
@@ -578,7 +579,7 @@ class Home_model extends CI_Model {
 
                         $rooms .= '
                                  <div class="col-sm-6 room" >
-                                     <div class="card mb-2" style="background-color: #ffffff">
+                                     <div class="card mb-2" style="background-color: #ffffff;height: 110px">
                                          <div
                                                  class="card-header card-header-success card-header-icon text-center " style="background-color: #d0dce3">
                                              <div class="card-icon d-flex align-items-center justify-content-center">
@@ -588,9 +589,9 @@ class Home_model extends CI_Model {
 
 
                                          </div>
-                                         <div class="card-footer p-3 " style="padding:auto;max-height: 80px">
+                                         <div class="" style="padding:auto;">
                                              <div class="" >
-                                                 <p class="card-category  fs-10 font-weight-bold text-center" style="color: black">
+                                                 <p class="card-category text-uppercase fs-10 font-weight-bold text-center pt-3" style="color: black">
                                                     ' . $ro->roomtype . '</p>
                                              </div>
                                          </div>
