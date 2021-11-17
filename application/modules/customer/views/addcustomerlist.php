@@ -96,7 +96,7 @@
                 
                 <div class="form-group text-right">
                     <button type="reset" class="btn btn-primary w-md m-b-5"><?php echo display('reset') ?></button>
-                    <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('ad') ?></button>
+                    <input type="submit" class="btn btn-success w-md m-b-5"  name="customer" value="<?php echo display('ad') ?>">
                 </div>
                 <?php echo form_close() ?>
             </div>

@@ -155,7 +155,12 @@ class Customer_info extends MX_Controller {
 		$this->db->insert('acc_coa',$postData1);
 		
 		 $this->session->set_flashdata('message', display('save_successfully'));
-		 redirect('customer/customer-list');
+           if (isset($_POST['instant'])){
+               redirect("room_reservation/room-booking");
+
+           }elseif (isset($_POST['customer'])){
+               redirect("customer/customer-list");
+           }
 	
 	   } else {
 		$this->permission->method('customer','update')->redirect();
@@ -189,7 +194,16 @@ class Customer_info extends MX_Controller {
 		} else {
 		$this->session->set_flashdata('exception',  display('please_try_again'));
 		}
-		redirect("customer/customer-list");  
+
+
+           if (isset($_POST['instant'])){
+               redirect("room_reservation/room-booking");
+
+           }elseif (isset($_POST['customer'])){
+               redirect("customer/customer-list");
+           }
+
+
 	   }
 	  } else { 
 		    if(!empty($id)) {
