@@ -25,13 +25,15 @@
             </div>
           <label for="room_name" class="col-sm-2 col-form-label"><?php echo display('room_name') ?> <span class="text-danger">*</span></label>
           <div class="col-sm-3">
-            <?php echo form_dropdown('room_name',$roomlist,'', 'class="selectpicker form-control" data-live-search="true" id="room_name"') ?>
+            <?php echo form_dropdown('room_name',$roomlist,'', 'class="selectpicker form-control" data-live-search="true" multiple="multiple" id="room_name"' ) ?>
+              <input name="room" autocomplete="off" class="form-control" type="text" value=""  id="room"   >
           </div>
         </div>
         <div class="form-group row">
           <label for="room_name" class="col-sm-2 col-form-label" hidden><?php echo display('no_of_people') ?> <span class="text-danger">*</span></label>
           <div class="col-sm-4" hidden>
             <input name="no_of_people" autocomplete="off" class="form-control" type="text" value="1" placeholder="<?php echo display('no_of_people') ?>" id="no_of_people" >
+
           </div>
           <label for="check_in" class="col-sm-2 col-form-label"><?php echo display('check_in') ?> <span class="text-danger">*</span></label>
           <div class="col-sm-4">

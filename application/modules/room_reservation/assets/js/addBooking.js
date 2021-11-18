@@ -1,7 +1,58 @@
+// $("#room_name").change(function(){
+// 	var room_name= this.value;
+// 	let text=" ";
+// 	for (let i = 0; i < room_name.length; i++) {
+// 		text += room_name[i] + ",";
+// 	}
+//
+// 	$("#room").val(text);
+//
+// 	console.log(room_name)
+// });
+
+
+
+
+	// $(document).on('change', '#room_name', function() {
+	// 	var room_name= this.value;
+	// 	let text=" ";
+	// 	for (let i = 0; i < room_name.length; i++) {
+	// 		text += room_name[i] + ",";
+	// 	}
+	//
+	// 	$("#room").val(text);
+	//
+	// 	console.log(room_name)
+	// 			});
+// function room_id() {
+// 	var room_name= $("#room_name").val();
+// 	let text=" ";
+// 	for (let i = 0; i < room_name.length; i++) {
+// 		text += room_name[i] + ",";
+// 	}
+//
+//  $("#room").val(text);
+// }
+
 function getfreerooms(){
     'use strict';
 	var guest= $("#guest").val();
+
 	var room_name= $("#room_name").val();
+	let text=" ";
+
+	// room_name.forEach((item, index)=>{
+	// 	console.log(item)
+	// 	//var room=$("#room").val(item);
+	// 	text += item + ",";
+	// })
+
+	// for (let i = 0; i <= room_name.length; i++) {
+	// 	text += room_name[i] + ",";
+	// }
+
+
+//	console.log(text)
 	var no_of_people= $("#no_of_people");
 	var check_in= $("#check_in").val();
 	var check_out= $("#check_out").val();

@@ -394,85 +394,150 @@ class Room_reservation extends MX_Controller {
         }
         redirect('room_reservation/booking-list');
     }
-    public function checkroom(){
-        $guest =$this->input->post('guest',true);
-        $roomname=$this->input->post('room_name',true);
-        $checkin=$this->input->post('check_in',true);
-        $checkout=$this->input->post('check_out',true);
-        $status=1;
-        $exits = $this->db->select("*")->from('booked_info')->where('checkindate<=',$checkin)->where('checkoutdate>',$checkin)->where('bookingstatus!=',$status)->where('roomid',$roomname)->get()->result();
-        $exit = $this->db->select("*")->from('booked_info')->where('checkindate<',$checkout)->where('checkoutdate>=',$checkout)->where('bookingstatus!=',$status)->where('roomid',$roomname)->get()->result();
-        $check = $this->db->select("*")->from('booked_info')->where('checkindate>',$checkin)->where('checkoutdate<=',$checkout)->where('bookingstatus!=',$status)->where('roomid',$roomname)->get()->result();
-        $totalroom1 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate<=',$checkin)->where('checkoutdate>',$checkin)->where('bookingstatus!=',$status)->where('roomid',$roomname)->get()->row();
-        $totalroom2 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate<',$checkout)->where('checkoutdate>=',$checkout)->where('bookingstatus!=',$status)->where('roomid',$roomname)->get()->row();
-        $totalroom3 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate>=',$checkin)->where('checkoutdate<=',$checkout)->where('bookingstatus!=',$status)->where('roomid',$roomname)->group_by('checkindate')->get()->result();
-        $allbokedroom3 = (!empty($allbokedroom3)?max(array_column($totalroom3, 'allroom')):0);
-        $totalroomfound=$this->db->select("count(roomid) as totalroom")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->row();
-        $roomdetails=$this->db->select("*")->from('roomdetails')->where('roomid',$roomname)->get()->row();
-        $numberlist=$this->db->select("*")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->result();
+    public function checkroom()
+    {
+        $guest = $this->input->post('guest', true);
+        $roomname = $this->input->post('room_name', true);
+        $status = 1;
+        $checkin = $this->input->post('check_in', true);
+        $checkout = $this->input->post('check_out', true);
+      //  $room_Array = explode(',',$roomname);
+//      echo '<pre>';print_r($roomname[0]); exit();
 
-        $service_list=$this->db->select('*')->from('roomfacilitytype')->get()->result();
-        $roomlist='';
-        foreach($numberlist as $singleno){
-            $roomlist.=$singleno->roomno.',';
+//        for ($i = 0; $i < count($roomname); $i++) {
+//
+//            $room_id = $roomname[$i];
+//            $room[] = array(
+//                'room_id' => $room_id
+//            );
+//        }
+       // $exits =array();
+
+             $this->db->select('*');
+            $this->db->from('booked_info');
+             $this->db->where('checkindate<=',$checkin);
+             $this->db->where('checkoutdate>',$checkin);
+            $this->db->where('bookingstatus!=', $status);
+            $this->db->where('roomid',$roomname[0]);
+        foreach ($roomname as $key => $value) {
+            if($key > 0) {
+                $this->db->or_where('roomid',$value);
+}
         }
-        $gtroomno=rtrim($roomlist,',');
-        if(empty($exits)&&empty($exit)&&empty($check)){
-            $data['freeroom']=$gtroomno;
-            $data['isfound']=0;
+        $exits=$this->db->get()->result();
+
+        echo '<pre>';print_r($exits); exit();
+
+        $exit = $this->db->select('*')
+            ->from('booked_info')
+            ->where('bookingstatus!=', $status)
+            ->where('roomid',$roomname[0]);
+        foreach ($roomname as $key => $value) {
+            if($key > 0) {
+                $this->db->or_where('roomid',$value);
+}
         }
-        else{
-            $bookedroom="";
-            if(!empty($exit)){
-                foreach($exits as $booked){
-                    $bookedroom.=$booked->room_no.',';
+
+        $check = $this->db->select('*')
+            ->from('booked_info')
+            ->where('bookingstatus!=', $status)
+            ->where('roomid',$roomname[0]);
+        foreach ($roomname as $key => $value) {
+            if($key > 0) {
+                $this->db->or_where('roomid',$value);
+}
+        }
+
+
+//        echo '<pre>';print_r($sql); exit();
+
+
+        //echo '<pre>';print_r($sql->get()->result()); exit();
+
+
+//        $exit = $this->db->where('checkindate<', $checkout)->where('checkoutdate>=', $checkout);
+//       $check = $this->db->where('checkindate>', $checkin)->where('checkoutdate<=', $checkout);
+
+
+       // $exits->get()->result();
+       // $exit->get()->result();
+       // $check->get()->result();
+        echo '<pre>';print_r($exits->get()->result());
+    //   echo '<pre>';print_r($check->get()->result());
+        exit();
+
+
+        $totalroom1 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate<=', $checkin)->where('checkoutdate>', $checkin)->where('bookingstatus!=', $status)->where('roomid', $value)->get()->row();
+        $totalroom2 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate<', $checkout)->where('checkoutdate>=', $checkout)->where('bookingstatus!=', $status)->where('roomid', $value)->get()->row();
+        $totalroom3 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate>=', $checkin)->where('checkoutdate<=', $checkout)->where('bookingstatus!=', $status)->where('roomid',$value)->group_by('checkindate')->get()->result();
+        $allbokedroom3 = (!empty($allbokedroom3) ? max(array_column($totalroom3, 'allroom')) : 0);
+        $totalroomfound = $this->db->select("count(roomid) as totalroom")->from('tbl_roomnofloorassign')->where('roomid', $value)->get()->row();
+        $roomdetails = $this->db->select("*")->from('roomdetails')->where('roomid', $value)->get()->result();
+        $numberlist = $this->db->select("*")->from('tbl_roomnofloorassign')->where('roomid', $value)->get()->result();
+
+        $service_list = $this->db->select('*')->from('roomfacilitytype')->get()->result();
+        $roomlist = '';
+        foreach ($numberlist as $singleno) {
+            $roomlist .= $singleno->roomno . ',';
+        }
+        $gtroomno = rtrim($roomlist, ',');
+        if (empty($exits) && empty($exit) && empty($check)) {
+            $data['freeroom'] = $gtroomno;
+            $data['isfound'] = 0;
+        } else {
+            $bookedroom = "";
+            if (!empty($exit)) {
+                foreach ($exits as $booked) {
+                    $bookedroom .= $booked->room_no . ',';
                 }
             }
-            if(!empty($exit)){
-                foreach($exit as $ex){
-                    $bookedroom.=$ex->room_no.',';
+            if (!empty($exit)) {
+                foreach ($exit as $ex) {
+                    $bookedroom .= $ex->room_no . ',';
                 }
             }
-            if(!empty($check)){
-                foreach($check as $ch){
-                    $bookedroom.=$ch->room_no.',';
+            if (!empty($check)) {
+                foreach ($check as $ch) {
+                    $bookedroom .= $ch->room_no . ',';
                 }
             }
 
-            $getbookedall=rtrim($bookedroom,',');
-            $allbokedroom1=$totalroom1->allroom;
-            $allbokedroom2=$totalroom2->allroom;
-            $allbokedroom=max((int)$allbokedroom1,(int)$allbokedroom2,(int)$allbokedroom3);
-            $allfreeroom=$totalroomfound->totalroom;
-            if($allfreeroom>$allbokedroom){
-                $output=$this->Differences($getbookedall, $gtroomno);
-                if(!empty($output)){
-                    $data['freeroom']=$output;
-                    $data['isfound']='1';
+            $getbookedall = rtrim($bookedroom, ',');
+            $allbokedroom1 = $totalroom1->allroom;
+            $allbokedroom2 = $totalroom2->allroom;
+            $allbokedroom = max((int)$allbokedroom1, (int)$allbokedroom2, (int)$allbokedroom3);
+            $allfreeroom = $totalroomfound->totalroom;
+            if ($allfreeroom > $allbokedroom) {
+                $output = $this->Differences($getbookedall, $gtroomno);
+                if (!empty($output)) {
+                    $data['freeroom'] = $output;
+                    $data['isfound'] = '1';
+                } else {
+                    $data['freeroom'] = '';
+                    $data['isfound'] = '2';
                 }
-                else{
-                    $data['freeroom']='';
-                    $data['isfound']='2';
-                }
-            }
-            else{
-                $data['freeroom']='';
-                $data['isfound']='2';
+            } else {
+                $data['freeroom'] = '';
+                $data['isfound'] = '2';
             }
         }
-        $data['checkin']=$checkin;
-        $data['checkout']=$checkout;
-        $data['guest']=$guest;
-        $data['roomno']=$roomname;
+        $data['checkin'] = $checkin;
+        $data['checkout'] = $checkout;
+        $data['guest'] = $guest;
+        $data['roomno'] = $value;
 
-        $data['roominfo']=$roomdetails;
-        // echo '<pre>';print_r($data);exit();
-        $data['service_list']=$service_list;
-        $data['chargeinfo']=$this->roomreservation_model->chargeinfo();
+        $data['roominfo'] = $roomdetails;
+
+        $data['service_list'] = $service_list;
+        $data['chargeinfo'] = $this->roomreservation_model->chargeinfo();
         $data['module'] = "room_reservation";
-        $data['page']   = "bookinginfo";
-        // echo '<pre>';print_r()
+        $data['page'] = "bookinginfo";
+
+
+        echo '<pre>';print_r($data);exit();
         $this->load->view('room_reservation/bookinginfo', $data);
+
+
     }
 
     public function Differences ($Arg1, $Arg2){
