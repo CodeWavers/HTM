@@ -150,12 +150,12 @@ class Roomreservation_model extends CI_Model
                 'status'=>4,
 
             );
-//            $checked_room=array(
-//                'booking_number'=>$bookingnumber,
-//                'room_no'=>$value,
-//                'status'=>4,
-//
-//            );
+            $checked_room=array(
+                'booking_number'=>$bookingnumber,
+                'room_no'=>$value,
+                'status'=>2,
+
+            );
 
 //            $chck_out_room=array(
 //                'booking_number'=>$bookingnumber,
@@ -169,16 +169,15 @@ class Roomreservation_model extends CI_Model
 
            // echo '<pre>';print_r($exists);exit();
 
-            if($status==4){
-                if ($exists == 0){
-                    $this->db->insert('booked_room',$booked_room);
-                }
+            if($status==2){
+                $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                $this->db->update('booked_room',$checked_room);
+
 
             }
 
-            if ($status==2){
+            if ($status==4){
 
-                $this->db->set('status',2);
                 $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
                 $this->db->update('booked_room',$confirmed_room);
 

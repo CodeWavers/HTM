@@ -1,12 +1,22 @@
 <div class="card">
     <div class="card-body">
-        <form>
+        <?php echo form_open('room_reservation/change_booking_status');?>
+
             <div class="row mb-2">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
                         <h2 class="font-weight-600"><?php echo display('booking_information') ?></h2>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <small class="float-right"><a
+                                href="<?php echo base_url("room_reservation/room-booking") ?>"
+                                class="btn btn-primary btn-md"><i class="ti-plus" aria-hidden="true"></i>
+                            <?php echo display('room_booking')?></a>
+                    </small>
+                </div>
+
+
             </div>
             <?php $roominfo=$this->db->select("*")->from('roomdetails')->where('roomid',$bookinginfo->roomid)->get()->row(); ?>
             <div class="row">
@@ -135,6 +145,73 @@
                     </div>
                 </div>
             </div>
-        </form>
+
+            <div class="row mt-2">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <h2 class="font-weight-600">Booking Status</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <?php
+
+                            $booking_number=$bookinginfo->booking_number;
+                            $booking_status='';
+                          if($bookinginfo->bookingstatus == 0){
+
+                              $booking_status='Pending';
+                          }
+                          if($bookinginfo->bookingstatus == 1){
+
+                              $booking_status='Cancel';
+                          } if($bookinginfo->bookingstatus == 2){
+
+                              $booking_status='Checked In';
+                          }
+                          if($bookinginfo->bookingstatus == 3){
+
+                              $booking_status='Checked Out';
+                          }
+                          if($bookinginfo->bookingstatus == 4){
+
+                              $booking_status='Confirmed';
+                          }
+
+                ?>
+
+
+                <div class="col-md-3 pr-md-1">
+                    <div class="form-group">
+                        <label class="font-weight-600">Change Status</label>
+                        <select name="booking_status"  class="selectpicker form-control" data-live-search="true" size="2" id="booking_status" required>
+
+                            <option value="<?php echo $bookinginfo->bookingstatus ?>" selected><?php echo $booking_status ?></option>
+                            <option value="0" ><?php echo display('pending') ?></option>
+                            <option value="4" >Confirmed</option>
+                            <option value="2">Checked In</option>
+                            <option value="3">Checked Out</option>
+                            <option value="1">Cancel</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 pr-md-1 margin_top_10px">
+                    <div class="form-group">
+                        <label class="font-weight-600"></label>
+                        <div class="form-group text-left">
+
+                        <input type="hidden" name="booking_number" value="<?php echo $booking_number?>"/>
+                        <input type="hidden" name="room_no" value="<?php echo $bookinginfo->room_no ?>"/>
+<!--                            <a href="--><?php //echo base_url("room_reservation/change_booking_status/".$booking_number/$booking_status) ?><!--" id="" class=" btn-md btn btn-danger" >Update</a>-->
+
+                            <button type="submit" class="btn btn-success w-md m-b-5">Update</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        <?php echo form_close() ?>
     </div>
 </div>

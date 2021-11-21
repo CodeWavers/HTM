@@ -79,14 +79,14 @@
                  border-radius: 10%;
                  display: inline-block;
                  margin-top: 2%;
-             }  .checked {
+             }  .confirmed {
                  height: 12px;
                  width: 25px;
                  background-color:  #0073e6;
                  border-radius: 10%;
                  display: inline-block;
                  margin-top: 2%;
-             }  .confirmed {
+             }  .checked {
                  height: 12px;
                  width: 25px;
                  background-color: #10b33f;
