@@ -1,4 +1,17 @@
-<?php if($isfound==2){ ?>
+
+
+
+
+
+
+<?php
+
+
+foreach ($rooms as $rr){
+
+
+
+if($rr['isfound']==2){ ?>
 <div class="text-center">
     <svg class="mb-4" height="150pt" viewBox="0 0 496 496" width="150pt" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -35,9 +48,13 @@
                                             <?php }
                                             else{
                                                 $datetime1 = date_create($checkin);
+
+
                                             $datetime2 = date_create($checkout);
                                             $interval = date_diff($datetime1, $datetime2);
-                                            $totalamount=$roominfo->rate*$interval->format('%a');
+                                            $totalamount=$rr['roominfo']->rate*$interval->format('%a');
+
+
                                             $firstdate = $checkin;
                                             $lastdate = $checkout;
                                             $datediff = strtotime($lastdate) - strtotime($firstdate);
@@ -46,38 +63,53 @@
                                             $discount=0;
                                             for($i = 0; $i < $datediff; $i++){
                                             $alldays= date("Y-m-d", strtotime($firstdate . ' + ' . $i . 'day'));
-                                            $getroom=$this->db->select("*")->from('tbl_room_offer')->where('roomid',$roomno)->where('offer_date',$alldays)->get()->row();
+                                            $getroom=$this->db->select("*")->from('tbl_room_offer')->where('roomid',$rr['roomno'])->where('offer_date',$alldays)->get()->row();
+
+
                                             if(!empty($getroom)){
-                                                $singleDiscount=$roominfo->rate-$getroom->offer;
+                                                $singleDiscount=$rr['roominfo']->rate-$getroom->offer;
                                             $afterDiscount=$afterDiscount+$singleDiscount;
                                             $discount+=$getroom->offer;
+
                                                 }
+
                                             }
+
+                                                $sl=$rr['sl']
                                             ?>
-                                            <p><?php echo html_escape($roominfo->roomtype);?> <?php echo html_escape($interval->format('%a'));?> <?php echo display('nights_booking_from') ?> <?php echo $checkin;?> to <?php echo $checkout;?></p>
+                                            <p><?php echo html_escape($rr['roominfo']->roomtype);?> <?php echo html_escape($interval->format('%a'));?> <?php echo display('nights_booking_from') ?> <?php echo $checkin;?> to <?php echo $checkout;?></p>
+
+<!--                                                echo '<pre>';print_r($rr['roominfo']->rate);exit();-->
+
+<!--                                                    --><?php //exit()?>
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
                                                             <th scope="row"><?php echo display('number_of_rooms') ?></th>
-                                                            <td><input name="totalnight" type="hidden" id="totalnight" value="<?php echo html_escape($interval->format('%a'));?>" /><input name="numofroom" min="1" type="text" value="1" id="numofroom" onkeyup="getroomnumber()" /></td>
+                                                            <td><input name="totalnight" type="hidden" id="totalnight_<?php echo $sl ?>" value="<?php echo html_escape($interval->format('%a'));?>" /><input name="numofroom" min="1" type="text" value="1" id="numofroom_<?php echo $sl ?>" onkeyup="getroomnumber(<?php echo $sl ?>)" /></td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row"><?php echo display('number_of_person') ?></th>
-                                                            <td><input type="hidden" id="total_person" value="<?php echo html_escape($interval->format('%a'));?>" /><input name="no_of_people" type="text" min="1" value="1" id="numofpeople" onkeyup="getroomnumber()" /></td>
+                                                            <td><input type="hidden" id="total_person_<?php echo $sl ?>" value="<?php echo html_escape($interval->format('%a'));?>" /><input name="no_of_people" type="text" min="1" value="1" id="numofpeople_<?php echo $sl ?>" onkeyup="getroomnumber(<?php echo $sl ?>)" /></td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row"><?php echo display('select_room_no') ?></th>
-                                                            <td><select name="slroomno[]" multiple="multiple" class="selectpicker form-control" data-live-search="true" size="2" id="slroomno" required>
+                                                            <td><select name="slroomno[]" multiple="multiple" class="selectpicker form-control" data-live-search="true" size="2" id="slroomno_<?php echo $sl ?>" required>
                                                                 <option value="" disabled><?php echo display('select_room_no') ?></option>
-                                                                <?php $allroomno=explode(',',$freeroom);
+                                                                <?php $allroomno=explode(',',$rr['freeroom']);
+
+
                                                                 foreach($allroomno as $sroom){?>
                                                                 <option value="<?php echo html_escape($sroom);?>"><?php echo html_escape($sroom);?> </option>
-                                                                <?php } ?>
+
+
+                                                                <?php }  ?>
                                                             </select>
                                                         </td>
                                                     </tr>
                                                     <tr>
+
                                                         <th scope="row"><?php echo display('nights') ?></th>
                                                         <td><?php echo html_escape($interval->format('%a'));?></td>
                                                     </tr>
@@ -85,28 +117,49 @@
                                                         <th scope="row"><?php echo display('available_room') ?></th>
                                                         <td><input type="hidden" value="<?php echo html_escape(count($allroomno));?>" /><span id=""><?php echo html_escape(count($allroomno));?></span></td>
                                                     </tr>
-                                                    <tr>
-                                                        <th scope="row"><?php echo display('max_people') ?></th>
-                                                        <td><input type="hidden" id="maxpeople" value="<?php echo html_escape(count($allroomno)*$roominfo->capacity);?>" /><span id=""><?php echo html_escape(count($allroomno)*$roominfo->capacity);?></span></td>
-                                                    </tr>
+
+
+<!--                                                    <tr>-->
+<!--                                                        <th scope="row">--><?php //echo display('max_people') ?><!--</th>-->
+<!--                                                        <td><input type="hidden" id="maxpeople" value="--><?php //echo html_escape(count($allroomno)*$rr['roominfo']->capacity);?><!--" /><span id="">--><?php //echo html_escape(count($allroomno)*$rr['roominfo']->capacity);?><!--</span></td>-->
+<!--                                                    </tr>-->
                                                     <tr hidden>
-                                                        <td><input type="hidden" id="capacity" value="<?php echo html_escape($roominfo->capacity);?>" /></td>
+                                                        <td><input type="hidden" id="capacity" value="<?php echo html_escape($rr['roominfo']->capacity);?>" /></td>
                                                     </tr>
+
                                                     <tr>
                                                         <th scope="row"><?php echo display('price_per_night') ?></th>
-                                                        <td><input name="roomrate" type="hidden" id="roomrate" value="<?php echo html_escape($roominfo->rate);?>" /><span id="pernight"><?php echo html_escape($roominfo->rate);?></span></td>
+                                                        <td><input name="roomrate" type="hidden" id="roomrate_<?php echo $sl ?>" value="<?php echo html_escape($rr['roominfo']->rate);?>" /><span id="pernight_<?php echo $sl ?>"><?php echo html_escape($rr['roominfo']->rate);?></span></td>
                                                     </tr>
-                                                    
+
                                                     <tr>
                                                         <th scope="row"><?php echo display('offer_discount') ?></th>
-                                                        <td><input type="hidden" value="<?php echo html_escape($discount);?>" /><span id="offer"><?php echo html_escape($discount);?></span></td>
+                                                        <td><input type="hidden" value="<?php echo html_escape($discount);?>" /><span id="offer_<?php echo $sl ?>"><?php echo html_escape($discount);?></span></td>
                                                     </tr>
+                                                        <tr>
+                                                            <th scope="row"><?php echo display('sub_total') ?><input class="" name="orgdiscount" type="hidden" value="<?php echo html_escape($totalamount-$discount);?>" id="orgSubtotal_<?php echo $sl ?>" /></th>
+                                                            <td> <input name="discount" type="hidden" id="discount_<?php echo $sl ?>" value="<?php echo html_escape($totalamount-$discount);?>" /><input class="sub_total" name="sub_total" type="text" value="<?php echo $totalamount-$discount?>" id="sub_total_<?php echo $sl ?>" /><span id="prdis_<?php echo $sl ?>"><?php echo html_escape($totalamount-$discount);?></span></td>
+                                                        </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <?php
+                                            }
+
+                                            } ?>
+
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <tbody>
+
+
+
                                                     <tr>
-                                                        <th scope="row"><?php echo display('sub_total') ?><input name="orgdiscount" type="hidden" value="<?php echo html_escape($totalamount-$discount);?>" id="orgSubtotal" /></th>
-                                                        <td> <input name="discount" type="hidden" id="discount" value="<?php echo html_escape($discount);?>" /><span id="prdis"><?php echo html_escape($totalamount-$discount);?></span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row"><?php echo display('tax') ?> <input type="hidden" value="<?php echo html_escape($chargeinfo->vat);?>"id="orgtax"><?php echo html_escape($chargeinfo->vat);?>%</th>
+                                                        <th scope="row"><?php echo display('tax') ?> <input type="hidden" value="<?php echo html_escape($chargeinfo->vat);?>"id="orgtax"><?php echo html_escape($chargeinfo->vat);?>% </th>
                                                         <td><input type="hidden" id="" value="<?php echo html_escape($chargeinfo->vat);?>" /><span id="prtax"><?php $tax=0; $tax=($chargeinfo->vat*($totalamount-$discount))/100; echo $tax;?></span></td>
                                                     </tr>
                                                     <tr>
@@ -115,25 +168,16 @@
                                                     </tr>
                                                     <tr>
                                                         <th scope="row"><?php echo display('grand_total') ?></th><input type="hidden" value="<?php echo html_escape($totalamount-$discount);?>" id="orgTotal" /></th>
-                                                        <td><input name="gramount" type="hidden" id="gramount" value="<?php echo html_escape(($totalamount-$discount)+$scharge+$tax);?>" /><span id="total"><?php echo html_escape(($totalamount-$discount)+$scharge+$tax);?></span></td>
+                                                        <td>
+                                                            <input name="gr_tot" type="text" id="gr_tot" value="0" />
+                                                            <input name="gramount" type="hidden" id="gramount" value="<?php echo html_escape(($totalamount-$discount)+$scharge+$tax);?>" />
+
+                                                            <span id="total"><?php echo html_escape(($totalamount-$discount)+$scharge+$tax);?></span></td>
                                                     </tr>
 
-                                                             <tr>
-                                                            <th scope="row">Booking Status</th>
-                                                            <td><select name="booking_status"  class="selectpicker form-control" data-live-search="true" size="2" id="booking_status" required>
-
-                                                                <option value="0" ><?php echo display('pending') ?></option>
-                                                                     <option value="2">Checked In</option>
-                                                                <option value="4" >Confirmed</option>
-
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="form-group text-left">
-                                            <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('book_now') ?></button>
-                                        </div>
-                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="form-group text-left">
+                                                <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('book_now') ?></button>
+                                            </div>

@@ -25,8 +25,10 @@
             </div>
           <label for="room_name" class="col-sm-2 col-form-label"><?php echo display('room_name') ?> <span class="text-danger">*</span></label>
           <div class="col-sm-3">
-            <?php echo form_dropdown('room_name',$roomlist,'', 'class="selectpicker form-control" data-live-search="true" multiple="multiple" id="room_name"' ) ?>
-              <input name="room" autocomplete="off" class="form-control" type="text" value=""  id="room"   >
+
+<!--            --><?php //echo form_dropdown(array("name" => "room_name[]"),$roomlist,'', 'class="selectpicker form-control" data-live-search="true" multiple="multiple" id="room_name"' ) ?>
+            <?php echo form_dropdown("room_name",$roomlist,1, 'class="selectpicker form-control" data-live-search="true" multiple="multiple" id="room_name"'   ) ?>
+
           </div>
         </div>
         <div class="form-group row">

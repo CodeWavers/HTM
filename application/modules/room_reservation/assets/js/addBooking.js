@@ -91,45 +91,67 @@ function getfreerooms(){
 	  });
 }
 
-function getroomnumber(){
-    'use strict';
-	var totalroom=$("#numofroom").val();
-	var totalnight=$("#totalnight").val();
-	var price=$("#pernight").text();
-	var subtotal=$("#orgSubtotal").val();
+function getroomnumber(sl){
+
+		///alert(sl)
+
+	var totalroom=$("#numofroom_"+sl).val();
+
+	//console.log(totalroom)
+	var totalnight=$("#totalnight_"+sl).val();
+	var price=$("#pernight_"+sl).text();
+	var subtotal=$("#orgSubtotal_"+sl).val();
 	var charge=$("#serviceCharge").val();
 	var vat=$("#orgtax").val();
 	var total=parseInt(subtotal)*parseInt(totalroom);
+
+	//console.log(total)
 	var totalprice=parseInt(totalnight)*parseInt(price);
 	var discount=parseInt(totalprice)*parseInt(totalroom);
 	var totaldiscount=parseInt(discount)-parseInt(total);
 	var serviceCharge=parseInt(charge)*parseInt(total)/100;
 	var tax=parseInt(vat)*parseInt(total)/100;
+
+
+
+	var gr_tot=0;
+
+	$(".sub_total").each(function() {
+		isNaN(this.value) || 0 == this.value.length || (gr_tot += parseFloat(this.value))
+	});
+
+	console.log(gr_tot)
+
+
+
 	var granttotal=parseInt(total)+parseInt(serviceCharge)+parseInt(tax);
 	$("#discount").val(total);
-	$("#offer").text(totaldiscount);
-	$("#prdis").text(total);
+	$("#offer_"+sl).text(totaldiscount);
+	$("#sub_total_"+sl).val(total);
+	$("#prdis_"+sl).text(total);
 	$("#prcharge").text(serviceCharge);
 	$("#prtax").text(tax);
 	$("#total").text(granttotal);
 	$("#gramount").val(granttotal);
 
-	var noofpeople=$("#numofpeople").val();
-	var maxpeople=$("#maxpeople").val();
-	var capacity=$("#capacity").val();
-	if(parseInt(noofpeople)>parseInt(maxpeople)){
-	alert("Max number of people exceeds");
-	$("#numofpeople").val('');
-	return false;
-	}
-	if(parseInt(noofpeople)>parseInt(totalroom*capacity)){
-	alert("Number of peoples capacity exceed on room");
-	$("#numofpeople").val('');
-	return false;
-	}
-	if(parseInt(totalroom)>parseInt(maxpeople/capacity)){
-	alert("Room capacity exceed");
-	$("#numofroom").val('');
-	return false;
-	}
+	$("#gr_tot").val(gr_tot);
+
+	// var noofpeople=$("#numofpeople").val();
+	// var maxpeople=$("#maxpeople").val();
+	// var capacity=$("#capacity").val();
+	// if(parseInt(noofpeople)>parseInt(maxpeople)){
+	// alert("Max number of people exceeds");
+	// $("#numofpeople").val('');
+	// return false;
+	// }
+	// if(parseInt(noofpeople)>parseInt(totalroom*capacity)){
+	// alert("Number of peoples capacity exceed on room");
+	// $("#numofpeople").val('');
+	// return false;
+	// }
+	// if(parseInt(totalroom)>parseInt(maxpeople/capacity)){
+	// alert("Room capacity exceed");
+	// $("#numofroom").val('');
+	// return false;
+	// }
 	}
