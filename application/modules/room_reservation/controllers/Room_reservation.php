@@ -138,12 +138,186 @@ class Room_reservation extends MX_Controller {
     }
 
 
+//    public function create($id = null)
+//    {
+//        $data['title'] = display('room_reservation');
+//        $this->form_validation->set_rules('guest',display('guest'),'required|xss_clean');
+//        $this->form_validation->set_rules('room_name',display('room_name'),'required|xss_clean');
+//        $this->form_validation->set_rules('no_of_people',display('no_of_people'),'required|xss_clean');
+//        $this->form_validation->set_rules('check_in',display('check_in'),'required|xss_clean');
+//        $this->form_validation->set_rules('check_out',display('check_out'),'required|xss_clean');
+//        $saveid=$this->session->userdata('id');
+//        $this->input->post('discount',true);
+//        $data['intinfo']="";
+//        if ($this->form_validation->run()) {
+//            if(empty($this->input->post('bookedid', TRUE))) {
+//                $bookinginfo=$this->db->select("*")->from('booked_info')->order_by('bookedid','desc')->get()->row();
+//                if(!empty($bookinginfo)){
+//                    $bookno=$bookinginfo->bookedid;
+//                }
+//                else{
+//                    $bookno = "00000000";
+//                }
+//
+//                $nextno=$bookno+1;
+//                $bk_length = strlen((int)$nextno);
+//
+//                $bkstr = '00000000';
+//                $bknumber = substr($bkstr, $bk_length);
+//                $bookingnumber = $bknumber.$nextno;
+//                $length=count($this->input->post('slroomno',TRUE));
+//
+//                $room=$this->input->post('slroomno',TRUE);
+//                $roomnosel='';
+//                $custID=$this->input->post('guest', TRUE);
+//                for($i=0;$i<$length;$i++){
+//                    $roomnosel.=$room[$i].',';
+//                }
+//                $roomnosel=rtrim($roomnosel,',');
+//
+//                $room_id=$this->input->post('room_name',TRUE);
+////                $length_room=count($this->input->post('room_name',TRUE));
+////                $roomidsel='';
+////                for($i=0;$i<$length_room;$i++){
+////                    $roomidsel.=$room_id[$i].',';
+////                }
+////                $roomidsel=rtrim($roomidsel,',');
+//
+//               // echo '<pre>';print_r($roomidsel);exit();
+//
+//
+//                $postData = array(
+//                    'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
+//                    'booking_number' 	     => $bookingnumber,
+//                    'date_time' 	             => date('Y-m-d H:i:s'),
+//                    'roomid' 	             => $room_id,
+//                    'nuofpeople'              => $this->input->post('no_of_people',TRUE),
+//                    'total_room'              => $this->input->post('numofroom',TRUE),
+//                    'room_no'              	 => $roomnosel,
+//                    'roomrate'                => $this->input->post('roomrate',TRUE),
+//                    'total_price'             => $this->input->post('gramount',TRUE),
+//                    'offer_discount'          => $this->input->post('discount',TRUE),
+//                    // 'offer_discount'          => '',
+//                    'coments'                 => '',
+//                    'checkindate'             => $this->input->post('check_in',TRUE),
+//                    'checkoutdate'            => $this->input->post('check_out',TRUE),
+//                    'cutomerid' 	             => $this->input->post('guest', TRUE),
+//                    'bookingstatus' 	         =>  $this->input->post('booking_status', TRUE),
+//
+//                );
+//
+//             //   echo '<pre>';print_r($postData);exit();
+//
+//                $status=$this->input->post('booking_status', TRUE);
+//                $this->permission->method('room_reservation','create')->redirect();
+//
+//
+//                if($this->roomreservation_model->create($postData,$bookingnumber,$status)) {
+//                    $type = "processing";
+//                    // $response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
+//                    // $data = json_decode($response);
+//                    // $msg = $data->message;
+//                    $this->session->set_flashdata('message', display('save_successfully'));
+//                    //if($msg)
+//                    // $this->session->set_userdata('msg', $msg);
+//                    redirect('room_reservation/room-booking');
+//                } else {
+//                    $this->session->set_flashdata('exception',  display('please_try_again'));
+//                }
+//                redirect('room_reservation/room-booking');
+//            } else {
+//                $this->permission->method('room_reservation','update')->redirect();
+//                $roomnosel=$this->input->post('room_no', TRUE);
+//                $room_no=$this->input->post('room_no', TRUE);
+//                $status = $this->input->post('status', TRUE);
+//                $bookingnumber = $this->input->post('bookingnumber', TRUE);
+//                $custID = $this->input->post('guest', TRUE);
+//                if(empty($roomnosel)){
+//                    $length=count($this->input->post('slroomno',TRUE));
+//                    $room=$this->input->post('slroomno',TRUE);
+//                    $roomnosel='';
+//                    for($i=0;$i<$length;$i++){
+//                        $roomnosel.=$room[$i].',';
+//                    }
+//                    $roomnosel=rtrim($roomnosel,',');
+//                }
+//                $service_tax=$this->db->select("*")->from('setting')->get()->result_array();
+//
+//                $check_in=date_create($this->input->post('check_out_old', TRUE));
+//                $check_out=date_create($this->input->post('check_out', TRUE));
+//                $check_out_new=$this->input->post('check_out', TRUE);
+//                $check_out_old=$this->input->post('check_out_old', TRUE);
+//                $room_rate=$this->input->post('room_rate', TRUE);
+//
+//                // $interval = $check_in->date_diff($check_out);
+//                $interval=  date_diff($check_in,$check_out);
+//
+//                $total_room_rate=($interval->days)*$room_rate;
+//
+//                $service_charge=$service_tax[0]['servicecharge']*($total_room_rate/100);
+//                $tax=$service_tax[0]['vat']*($total_room_rate/100);
+//
+//                $tt=$total_room_rate+$service_charge+$tax;
+//
+//                // echo '<pre>';print_r($tt);exit();
+//
+//                if ($check_out_new > $check_out_old){
+//
+//                    $total_price=$this->input->post('grand_total', TRUE)+$tt;
+//                }else{
+//
+//                    $total_price= $this->input->post('grand_total', TRUE);
+//                }
+//
+//                $data['room_reservation']   = (Object) $updateData = array(
+//                    'room_no'              	 => $roomnosel,
+//                    'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
+//                    'total_price' 	         => $total_price,
+//                    'service_total' 	         => $this->input->post('service_total', TRUE),
+//                    'checkoutdate' 	         => $this->input->post('check_out', TRUE),
+//                    'bookingstatus' 	         => $this->input->post('status', TRUE)
+//                );
+//                if ($this->roomreservation_model->update($updateData,$bookingnumber,$status)) {
+////		if($status==2){
+////			$type = "completeorder";
+////			$response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
+////			$data = json_decode($response);
+////			$msg = $data->message;
+////
+////		}
+////		if($status==1){
+////			$type = "cancel";
+////			$response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
+////			$data = json_decode($response);
+////			$msg = $data->message;
+////		}
+//                    $this->session->set_flashdata('message', display('update_successfully'));
+//                    //if($msg)
+//                    //$this->session->set_userdata('msg', $msg);
+//                } else {
+//                    $this->session->set_flashdata('exception',  display('please_try_again'));
+//                }
+//                redirect("room_reservation/booking-list");
+//            }
+//        } else {
+//            if(!empty($id)) {
+//                $data['title'] = display('reservation_edit');
+//                $data['intinfo']   = $this->roomreservation_model->findById($id);
+//            }
+//            $data["roomlist"] = $this->roomreservation_model->allrooms();
+//            $data["customerlist"] = $this->roomreservation_model->customerlist();
+//            $data['module'] = "room_reservation";
+//            $data['page']   = "addbooking";
+//            echo Modules::run('template/layout', $data);
+//        }
+//
+//    }
     public function create($id = null)
     {
         $data['title'] = display('room_reservation');
         $this->form_validation->set_rules('guest',display('guest'),'required|xss_clean');
-        $this->form_validation->set_rules('room_name',display('room_name'),'required|xss_clean');
-        $this->form_validation->set_rules('no_of_people',display('no_of_people'),'required|xss_clean');
+       // $this->form_validation->set_rules('room_name',display('room_name'),'required|xss_clean');
+       // $this->form_validation->set_rules('no_of_people',display('no_of_people'),'required|xss_clean');
         $this->form_validation->set_rules('check_in',display('check_in'),'required|xss_clean');
         $this->form_validation->set_rules('check_out',display('check_out'),'required|xss_clean');
         $saveid=$this->session->userdata('id');
@@ -190,14 +364,7 @@ class Room_reservation extends MX_Controller {
                     'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
                     'booking_number' 	     => $bookingnumber,
                     'date_time' 	             => date('Y-m-d H:i:s'),
-                    'roomid' 	             => $room_id,
-                    'nuofpeople'              => $this->input->post('no_of_people',TRUE),
-                    'total_room'              => $this->input->post('numofroom',TRUE),
-                    'room_no'              	 => $roomnosel,
-                    'roomrate'                => $this->input->post('roomrate',TRUE),
                     'total_price'             => $this->input->post('gramount',TRUE),
-                    'offer_discount'          => $this->input->post('discount',TRUE),
-                    // 'offer_discount'          => '',
                     'coments'                 => '',
                     'checkindate'             => $this->input->post('check_in',TRUE),
                     'checkoutdate'            => $this->input->post('check_out',TRUE),
@@ -417,19 +584,32 @@ class Room_reservation extends MX_Controller {
 
         $sl=0;
 
-    //    echo '<pre>';print_r($roomname);exit();
+
 
         $dt=array();
 
          foreach ($roomname as $key => $value) {
-             $exits = $this->db->select("*")->from('booked_info')->where('checkindate<=',$checkin)->where('checkoutdate>',$checkin)->where('bookingstatus!=',$status)->where('roomid',$value)->get()->result();
-             $exit = $this->db->select("*")->from('booked_info')->where('checkindate<',$checkout)->where('checkoutdate>=',$checkout)->where('bookingstatus!=',$status)->where('roomid',$value)->get()->result();
-             $check = $this->db->select("*")->from('booked_info')->where('checkindate>',$checkin)->where('checkoutdate<=',$checkout)->where('bookingstatus!=',$status)->where('roomid',$value)->get()->result();
+             $exits = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+                 ->where('a.checkindate<=',$checkin)->where('a.checkoutdate>',$checkin)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->get()->result();
 
-             $totalroom1 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate<=',$checkin)->where('checkoutdate>',$checkin)->where('bookingstatus!=',$status)->where('roomid',$value)->get()->row();
-             $totalroom2 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate<',$checkout)->where('checkoutdate>=',$checkout)->where('bookingstatus!=',$status)->where('roomid',$value)->get()->row();
-             $totalroom3 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate>=',$checkin)->where('checkoutdate<=',$checkout)->where('bookingstatus!=',$status)->where('roomid',$value)->group_by('checkindate')->get()->result();
+             $exit = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+                 ->where('a.checkindate<',$checkout)->where('a.checkoutdate>=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->get()->result();
+
+             $check = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+                 ->where('a.checkindate>',$checkin)->where('a.checkoutdate<=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->get()->result();
+
+             $totalroom1 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+                 ->where('a.checkindate<=',$checkin)->where('a.checkoutdate>',$checkin)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->get()->row();
+
+
+             $totalroom2 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+                 ->where('a.checkindate<',$checkout)->where('a.checkoutdate>=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->get()->row();
+
+             $totalroom3 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+                 ->where('a.checkindate>=',$checkin)->where('a.checkoutdate<=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->group_by('a.checkindate')->get()->result();
+           //  echo '<pre>';print_r($totalroom3);exit();
              $allbokedroom3 = (!empty($allbokedroom3)?max(array_column($totalroom3, 'allroom')):0);
+
              $totalroomfound=$this->db->select("count(roomid) as totalroom")->from('tbl_roomnofloorassign')->where('roomid',$value)->get()->row();
              $roomdetails=$this->db->select("*")->from('roomdetails')->where('roomid',$value)->get()->row();
              $numberlist=$this->db->select("*")->from('tbl_roomnofloorassign')->where('roomid',$value)->get()->result();

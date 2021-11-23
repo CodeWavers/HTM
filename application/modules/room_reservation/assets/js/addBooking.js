@@ -84,9 +84,12 @@ function getfreerooms(){
 		 type: "POST",
 		 data: {csrf_test_name: csrf, guest: guest, room_name: room_name, check_in: check_in, check_out: check_out},
 		 success: function(data) {
+
+
 			 $('#bookinginfo').html(data);
 			  $('select').selectpicker();
 			 var found=$("#found").val();
+
 		 } 
 	  });
 }
@@ -109,32 +112,42 @@ function getroomnumber(sl){
 	var totalprice=parseInt(totalnight)*parseInt(price);
 	var discount=parseInt(totalprice)*parseInt(totalroom);
 	var totaldiscount=parseInt(discount)-parseInt(total);
-	var serviceCharge=parseInt(charge)*parseInt(total)/100;
-	var tax=parseInt(vat)*parseInt(total)/100;
 
+
+
+	$("#discount_"+sl).val(total);
+	$("#offer_"+sl).text(totaldiscount);
+	$("#sub_total_"+sl).val(total);
+	$("#prdis_"+sl).text(total);
 
 
 	var gr_tot=0;
 
 	$(".sub_total").each(function() {
 		isNaN(this.value) || 0 == this.value.length || (gr_tot += parseFloat(this.value))
+
+		//console.log(this.value)
 	});
 
-	console.log(gr_tot)
+	//console.log(gr_tot)
 
 
-
-	var granttotal=parseInt(total)+parseInt(serviceCharge)+parseInt(tax);
-	$("#discount").val(total);
-	$("#offer_"+sl).text(totaldiscount);
-	$("#sub_total_"+sl).val(total);
-	$("#prdis_"+sl).text(total);
-	$("#prcharge").text(serviceCharge);
-	$("#prtax").text(tax);
-	$("#total").text(granttotal);
-	$("#gramount").val(granttotal);
 
 	$("#gr_tot").val(gr_tot);
+	$("#total_pricex").text(gr_tot.toFixed(2));
+//	$("#gr_tot").val(gr_tot);
+
+	var serviceCharge=parseInt(charge)*parseInt(gr_tot)/100;
+	var tax=parseInt(vat)*parseInt(gr_tot)/100;
+
+	$("#prcharge").text(serviceCharge);
+	$("#prtax").text(tax);
+
+
+	var granttotal=parseInt(gr_tot)+parseInt(serviceCharge)+parseInt(tax);
+
+	$("#gramount").val(granttotal);
+	$("#total").text(granttotal.toFixed(2));
 
 	// var noofpeople=$("#numofpeople").val();
 	// var maxpeople=$("#maxpeople").val();

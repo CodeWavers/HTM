@@ -6,80 +6,139 @@ class Roomreservation_model extends CI_Model
 
     private $table = 'booked_info';
 
+
     public function create($data = array(),$bookingnumber,$status)
     {
 
 
-        $room=$this->input->post('slroomno', TRUE);
+                $room=$this->input->post('slroomno',true);
+                $total_room=$this->input->post('numofroom',true);
+                $rate=$this->input->post('roomrate',true);
+                $of_discount=$this->input->post('offer_discount',true);
+
+    //    echo '<pre>';print_r(count($room));exit();
 
 
+        for ($i = 0, $n = count($room); $i < $n; $i++) {
 
-       // $room_Array = explode(',',$room);
-        //echo print_r($room_Array);exit();
-        foreach ($room as $key => $value) {
+            $room_no = $room[$i];
+         //   $t_room = $total_room[$i];
+            $room_rate = $rate[$i];
+            $offer_discount = $of_discount[$i];
 
+             $room_id=$this->get_room_id_by_room_no($room_no);
 
-            $data4['room'] = $value;
-
-
-
-            $pending_room=array(
+            $data1 = array(
                 'booking_number'=>$bookingnumber,
-                'room_no'=>$value,
-                'status'=>0,
-
-            );
-
-          //  echo '<pre>';print_r($pending_room);exit();
-
-            $confirmed_room=array(
-                'booking_number'=>$bookingnumber,
-                'room_no'=>$value,
-                'status'=>4,
-
-            );
-            $checked_room=array(
-                'booking_number'=>$bookingnumber,
-                'room_no'=>$value,
-                'status'=>2,
+                'roomid'=>$room_id,
+                'room_no'=>$room_no,
+               // 'total_room'=>$t_room,
+                'offer_discount'=>$offer_discount,
+                'room_rate'=>$room_rate,
+                'status'=>$status,
 
             );
 
 
-            $exists=$this->db->select('*')->from('booked_room')->where(array('booking_number'=>$bookingnumber,'room_no'=>$value))->get()->num_rows();
-           // $rooms=$this->db->select('*')->from('booked_room')->where(array('booking_number'=>$bookingnumber,'room_no'=>$value))->get()->num_rows();
-
-            // echo '<pre>';print_r($exists);exit();
-
-            if($status==4){
-                if ($exists == 0){
-                    $this->db->insert('booked_room',$confirmed_room);
-                }
-
-            }
-
-            if($status==2){
-                if ($exists == 0){
-                    $this->db->insert('booked_room',$checked_room);
-                }
-
-            }
-
-            if($status==0){
-                if ($exists == 0){
-                    $this->db->insert('booked_room',$pending_room);
-                }
-
-            }
 
 
 
+                $this->db->insert('booked_room', $data1);
 
 
         }
+      //  echo '<pre>';print_r($data1);exit();
 
         return $this->db->insert($this->table, $data);
     }
+
+
+    public function get_room_id_by_room_no($room_no){
+
+        $room_id=$this->db->select('roomid')->from('tbl_roomnofloorassign')->where('roomno',$room_no)->get()->row()->roomid;
+
+        return $room_id;
+    }
+
+
+
+//    public function create($data = array(),$bookingnumber,$status)
+//    {
+//
+//
+//
+//
+//
+//        $room=$this->input->post('slroomno', TRUE);
+//
+//
+//
+//       // $room_Array = explode(',',$room);
+//        //echo print_r($room_Array);exit();
+//        foreach ($room as $key => $value) {
+//
+//
+//            $data4['room'] = $value;
+//
+//
+//
+//            $pending_room=array(
+//                'booking_number'=>$bookingnumber,
+//                'room_no'=>$value,
+//                'status'=>0,
+//
+//            );
+//
+//          //  echo '<pre>';print_r($pending_room);exit();
+//
+//            $confirmed_room=array(
+//                'booking_number'=>$bookingnumber,
+//                'room_no'=>$value,
+//                'status'=>4,
+//
+//            );
+//            $checked_room=array(
+//                'booking_number'=>$bookingnumber,
+//                'room_no'=>$value,
+//                'status'=>2,
+//
+//            );
+//
+//
+//            $exists=$this->db->select('*')->from('booked_room')->where(array('booking_number'=>$bookingnumber,'room_no'=>$value))->get()->num_rows();
+//           // $rooms=$this->db->select('*')->from('booked_room')->where(array('booking_number'=>$bookingnumber,'room_no'=>$value))->get()->num_rows();
+//
+//            // echo '<pre>';print_r($exists);exit();
+//
+//            if($status==4){
+//                if ($exists == 0){
+//                    $this->db->insert('booked_room',$confirmed_room);
+//                }
+//
+//            }
+//
+//            if($status==2){
+//                if ($exists == 0){
+//                    $this->db->insert('booked_room',$checked_room);
+//                }
+//
+//            }
+//
+//            if($status==0){
+//                if ($exists == 0){
+//                    $this->db->insert('booked_room',$pending_room);
+//                }
+//
+//            }
+//
+//
+//
+//
+//
+//        }
+//
+//        return $this->db->insert($this->table, $data);
+//    }
 
     public function delete($id = null)
     {
