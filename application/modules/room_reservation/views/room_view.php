@@ -28,6 +28,8 @@
             <!--                 </div>-->
             <!--             </div>-->
 
+
+
             <div class="row">
 
                 <style type="text/css" scoped>
@@ -54,12 +56,12 @@
 
                 <?php foreach ($floor_rooms as $floor) {?>
 
-                    <div class="col-sm-6 col-md-6 col-cxl-4" >
-                        <div class="card card-stats statistic-box mb-4 height_400" style="border-color: #26c6da;">
+                    <div class="col-sm-3 col-md-3 col-cxl-3" >
+                        <div class="card card-stats statistic-box mb-4 height_400 width-300px" style="border-color: #26c6da;">
                             <div class="card-header card-header-info card-header-icon position-relative border-0 text-center px-3 py-0">
                                 <div class="d-flex justify-content-between align-items-center ">
                                     <div class="card-icon d-flex align-items-center justify-content-center ">
-                                        <p class="card-category text-uppercase fs-20 font-weight-bold" style="color: whitesmoke">
+                                        <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
                                             <?php echo $floor['floor_name']?></p>
                                     </div>
                                     <!--                                 <div>-->
@@ -69,7 +71,7 @@
                             </div>
 
                             <!--                         --><?php //echo $floor['room_nos']?>
-<!--                            <div class="card-body p-2 col-sm-12" id="abc" style="max-height:481px; overflow-y: auto; overflow-x: hidden">-->
+                            <!--                         <div class="card-body p-2 col-sm-12" id="abc" style="max-height:481px; overflow-y: auto; overflow-x: hidden">-->
                             <div class="card-body p-2 col-sm-12" id="abc" style="">
 
 
