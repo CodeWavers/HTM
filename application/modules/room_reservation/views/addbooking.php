@@ -52,9 +52,11 @@
             <button type="button" class="btn btn-success w-md m-b-5" onclick="getfreerooms()"><?php echo display('search') ?></button>
           </div>
         </div>
-        <div id="bookinginfo">
+          <div id="content">
+          <div id="bookinginfo">
           
-        </div>
+          </div>
+          </div>
         <?php echo form_close() ?>
 
 

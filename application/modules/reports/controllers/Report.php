@@ -67,12 +67,34 @@ class Report extends MX_Controller {
 		}
 	public function viewdetails($id){
 		$details=$this->report_model->details($id);
+
+        $booking_details=$this->room_type_by_booking_number($details->booking_number);
+        $room_type=$this->room_type_by_booking_number($details->booking_number);
+        $room_name='';
+
+        foreach ($room_type as $rr){
+
+            $room_name .=$rr->roomtype.',';
+
+        }
+
+        $rooms=$this->room_no_by_booking_number($details->booking_number);
+
+        $room_no='';
+        foreach ($rooms as $rs){
+
+            $room_no .=$rs->room_no.',';
+
+        }
+		$data['booking_details']   = $rooms;
 		$data['bookinfo']   = $details;
+		$data['room_name']   = $room_name;
+		$data['room_no']   = $room_no;
 		$data['customerinfo']   = $this->report_model->customerinfo($details->cutomerid);
 		$data['paymentinfo']   = $this->report_model->paymentinfo($details->booking_number);
 		$data['booking_service']   = $this->report_model->booked_service($details->booking_number);
 
-		//echo '<pre>';print_r($data['booking_service']);exit();
+		//echo '<pre>';print_r($booking_details);exit();
 		$data['storeinfo']=$this->report_model->storeinfo();
 		$data['commominfo']=$this->report_model->commoninfo();
 		$data['currency']=$this->report_model->currencysetting($data['storeinfo']->currency);
@@ -139,5 +161,78 @@ class Report extends MX_Controller {
         echo Modules::run('template/layout', $data); 
  
     }
+    public function get_room_id_by_room_no($room_no){
+
+        $room_id=$this->db->select('roomid')->from('tbl_roomnofloorassign')->where('roomno',$room_no)->get()->row()->roomid;
+
+        return $room_id;
+    }
+
+    public function get_room_rate_by_room_id($room_id){
+
+        $room_rate=$this->db->select('rate')->from('roomdetails')->where('roomid',$room_id)->get()->row()->rate;
+
+        return $room_rate;
+    }
+
+    public function get_offer_rate_by_room_id($room_id,$room_rate,$checkin,$checkout){
+
+        $datetime1 = date_create($checkin);
+
+
+        $datetime2 = date_create($checkout);
+        $interval = date_diff($datetime1, $datetime2);
+        $totalamount=$room_rate*$interval->format('%a');
+
+
+        $firstdate = $checkin;
+        $lastdate = $checkout;
+        $datediff = strtotime($lastdate) - strtotime($firstdate);
+        $datediff = floor($datediff/(60*60*24));
+        $afterDiscount=0;
+        $discount=0;
+        for($i = 0; $i < $datediff; $i++){
+            $alldays= date("Y-m-d", strtotime($firstdate . ' + ' . $i . 'day'));
+            $getroom=$this->db->select("*")->from('tbl_room_offer')->where('roomid',$room_id)->where('offer_date',$alldays)->get()->row();
+
+
+            if(!empty($getroom)){
+                $singleDiscount=$room_rate-$getroom->offer;
+                $afterDiscount=$afterDiscount+$singleDiscount;
+                $discount+=$getroom->offer;
+
+            }
+
+        }
+
+        return $discount;
+    }
+
+    public function room_type_by_booking_number($booking_number){
+
+        $room_type=$this->db->select('*')
+            ->from('booked_room a')
+            ->join('roomdetails b','a.roomid=b.roomid','left')
+            ->where('a.booking_number',$booking_number)
+            ->group_by('a.roomid')
+            ->get()->result();
+
+        return $room_type;
+
+    }
+
+    public function room_no_by_booking_number($booking_number){
+
+        $rooms=$this->db->select('*')
+            ->from('booked_room a')
+            ->where('a.booking_number',$booking_number)
+            ->get()->result();
+
+        return $rooms;
+
+    }
+
+
+
  
 }

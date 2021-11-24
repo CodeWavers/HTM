@@ -85,8 +85,7 @@ function getfreerooms(){
 		 data: {csrf_test_name: csrf, guest: guest, room_name: room_name, check_in: check_in, check_out: check_out},
 		 success: function(data) {
 
-
-			 $('#bookinginfo').html(data);
+			 $('#bookinginfo').html(data).is(':visible');
 			  $('select').selectpicker();
 			 var found=$("#found").val();
 
@@ -99,8 +98,11 @@ function getroomnumber(sl){
 		///alert(sl)
 
 	var totalroom=$("#numofroom_"+sl).val();
+	var slroomno=$("#slroomno_"+sl+":selected").length;
 
-	//console.log(totalroom)
+
+	//console.log(intNumber)
+	//console.log(slroomno)
 	var totalnight=$("#totalnight_"+sl).val();
 	var price=$("#pernight_"+sl).text();
 	var subtotal=$("#orgSubtotal_"+sl).val();
@@ -113,7 +115,9 @@ function getroomnumber(sl){
 	var discount=parseInt(totalprice)*parseInt(totalroom);
 	var totaldiscount=parseInt(discount)-parseInt(total);
 
+//	var count = slroomno.length;
 
+	//console.log(slroomno)
 
 	$("#discount_"+sl).val(total);
 	$("#offer_"+sl).text(totaldiscount);

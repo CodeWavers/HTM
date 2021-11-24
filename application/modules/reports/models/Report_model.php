@@ -18,6 +18,7 @@ class report_model extends CI_Model {
         if ($query->num_rows() > 0) {
             return $query->result();    
         }
+
         return false;
 	
 	}
@@ -38,10 +39,11 @@ class report_model extends CI_Model {
 	
 	public function details($id)
 	{
-		
-		$this->db->select('booked_info.*,roomdetails.roomtype,roomdetails.rate');
+
+		$this->db->select('booked_info.*,booked_room.*,SUM(booked_room.total_room) as totalRoom,roomdetails.roomtype,roomdetails.rate');
         $this->db->from('booked_info');
-		$this->db->join('roomdetails','roomdetails.roomid=booked_info.roomid','left');
+		$this->db->join('booked_room','booked_room.booking_number=booked_info.booking_number','left');
+		$this->db->join('roomdetails','roomdetails.roomid=booked_room.roomid','left');
 		$this->db->where('booked_info.bookedid',$id);
 		$query = $this->db->get();
         if ($query->num_rows() > 0) {

@@ -21,7 +21,7 @@ class Room_reservation extends MX_Controller {
             1 => 'booking_number',
             2 => 'cutomerid',
             3 => 'cust_phone',
-            4 => 'roomtype',
+           4 => 'room_name',
             5 => 'room_no',
             6 => 'checkindate',
             7 => 'checkoutdate',
@@ -42,7 +42,7 @@ class Room_reservation extends MX_Controller {
             $where .=" OR booked_info.bookingstatus LIKE '".$params['search']['value']."%' )";
         }
         // getting total number records without any search
-        $sql = "SELECT booked_info.*,customerinfo.*,roomdetails.roomtype FROM booked_info Left Join roomdetails ON roomdetails.roomid=booked_info.roomid Left Join customerinfo ON customerinfo.customerid=booked_info.cutomerid";
+        $sql = "SELECT booked_info.*,customerinfo.* FROM booked_info Left Join customerinfo ON customerinfo.customerid=booked_info.cutomerid ";
 
 
         $sqlTot .= $sql;
@@ -95,12 +95,36 @@ class Room_reservation extends MX_Controller {
             else{
                 $paymentStatus="Success";
             }
+
+
+            $room_type=$this->room_type_by_booking_number($value->booking_number);
+            $room_name='';
+
+            foreach ($room_type as $rr){
+
+                $room_name .=$rr->roomtype.',';
+
+            }
+
+            $rooms=$this->room_no_by_booking_number($value->booking_number);
+
+            $room_no='';
+            foreach ($rooms as $rs){
+
+                $room_no .=$rs->room_no.',';
+
+            }
+
+
+
+           // echo '<pre>';print_r($room_name);exit();
+
             $row[] =$i;
             $row[] =$value->booking_number;
             $row[] =$value->firstname.' '.$value->lastname;
             $row[] =$value->cust_phone;
-            $row[] =$value->roomtype;
-            $row[] =$value->room_no;
+            $row[] =$room_name;
+            $row[] =$room_no;
             $row[] =$value->checkindate;
             $row[] =$value->checkoutdate;
             $row[] =$value->date_time;
@@ -135,6 +159,32 @@ class Room_reservation extends MX_Controller {
         $data['module'] = "room_reservation";
         $data['page']   = "reservationlist";
         echo Modules::run('template/layout', $data);
+    }
+
+
+
+    public function room_type_by_booking_number($booking_number){
+
+        $room_type=$this->db->select('*')
+            ->from('booked_room a')
+            ->join('roomdetails b','a.roomid=b.roomid','left')
+            ->where('a.booking_number',$booking_number)
+            ->group_by('a.roomid')
+            ->get()->result();
+
+        return $room_type;
+
+    }
+
+    public function room_no_by_booking_number($booking_number){
+
+        $rooms=$this->db->select('*')
+            ->from('booked_room a')
+            ->where('a.booking_number',$booking_number)
+            ->get()->result();
+
+        return $rooms;
+
     }
 
 
@@ -341,6 +391,12 @@ class Room_reservation extends MX_Controller {
                 $bookingnumber = $bknumber.$nextno;
                 $length=count($this->input->post('slroomno',TRUE));
 
+                $no_of_people=$this->input->post('no_of_people',TRUE);
+
+                $total_people=array_sum($no_of_people);
+                //echo '<pre>';print_r($total_people);exit();
+
+
                 $room=$this->input->post('slroomno',TRUE);
                 $roomnosel='';
                 $custID=$this->input->post('guest', TRUE);
@@ -364,6 +420,7 @@ class Room_reservation extends MX_Controller {
                     'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
                     'booking_number' 	     => $bookingnumber,
                     'date_time' 	             => date('Y-m-d H:i:s'),
+                    'nuofpeople'             => $total_people,
                     'total_price'             => $this->input->post('gramount',TRUE),
                     'coments'                 => '',
                     'checkindate'             => $this->input->post('check_in',TRUE),

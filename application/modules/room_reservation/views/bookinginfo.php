@@ -86,15 +86,15 @@ if($rr['isfound']==2){ ?>
                                                 <div class="col-sm-12 row" id="contents">
                                                     <div class="col-sm-12">
                                                         <div class="text-center">
-                                                            <button type="button" class="btn btn-danger text-center " style="border-radius: 20%;margin: 8px;" disabled><?php echo html_escape($rr['roominfo']->roomtype);?> <?php echo html_escape($interval->format('%a'));?> <?php echo display('nights_booking_from') ?> <?php echo $checkin;?> to <?php echo $checkout;?></button>
+                                                            <button type="button" class="btn btn-danger text-center " style="border-radius: 20px;margin: 8px;" disabled><?php echo html_escape($rr['roominfo']->roomtype);?> <?php echo html_escape($interval->format('%a'));?> <?php echo display('nights_booking_from') ?> <?php echo $checkin;?> to <?php echo $checkout;?></button>
                                                         </div>
 
-                                                        <div class="table-responsive table-striped table-bordered " style="border-radius: 6%">
+                                                        <div class="table-responsive table-striped table-bordered " style="border-radius: 20px">
                                                             <table class="table">
                                                                 <tbody>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('number_of_rooms') ?></th>
-                                                                    <td><input name="totalnight[]" type="text" id="totalnight_<?php echo $sl ?>" value="<?php echo html_escape($interval->format('%a'));?>" /><input name="numofroom[]" min="0" type="text" value="0" id="numofroom_<?php echo $sl ?>" onkeyup="getroomnumber(<?php echo $sl ?>)" /></td>
+                                                                    <td><input name="totalnight[]" type="hidden" id="totalnight_<?php echo $sl ?>" value="<?php echo html_escape($interval->format('%a'));?>" /><input name="numofroom[]" min="0" type="text" value="0" id="numofroom_<?php echo $sl ?>" onkeyup="getroomnumber(<?php echo $sl ?>)" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('number_of_person') ?></th>
@@ -102,7 +102,7 @@ if($rr['isfound']==2){ ?>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('select_room_no') ?></th>
-                                                                    <td><select name="slroomno[]" multiple="multiple" class="selectpicker form-control" data-live-search="true" size="2" id="slroomno_<?php echo $sl ?>" required>
+                                                                    <td><select name="slroomno[]" multiple="multiple" class="selectpicker form-control" data-live-search="true" size="2" id="slroomno_<?php echo $sl ?>" onchange="getroomnumber(<?php echo $sl ?>)" required>
                                                                             <option value="" disabled><?php echo display('select_room_no') ?></option>
                                                                             <?php $allroomno=explode(',',$rr['freeroom']);
 
@@ -137,12 +137,12 @@ if($rr['isfound']==2){ ?>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('price_per_night') ?></th>
                                                                     <td><input name="room_id[]" type="hidden" id="room_id_<?php echo $sl ?>" value="<?php echo html_escape($rr['roominfo']->roomid);?>" />
-                                                                        <input name="roomrate[]" type="text" id="roomrate_<?php echo $sl ?>" value="<?php echo html_escape($rr['roominfo']->rate);?>" /><span id="pernight_<?php echo $sl ?>"><?php echo html_escape($rr['roominfo']->rate);?></span></td>
+                                                                        <input name="roomrate[]" type="hidden" id="roomrate_<?php echo $sl ?>" value="<?php echo html_escape($rr['roominfo']->rate);?>" /><span id="pernight_<?php echo $sl ?>"><?php echo html_escape($rr['roominfo']->rate);?></span></td>
                                                                 </tr>
 
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('offer_discount') ?></th>
-                                                                    <td><input type="text" name="offer_discount[]" value="<?php echo html_escape($discount);?>" /><span id="offer_<?php echo $sl ?>"><?php echo html_escape($discount);?></span></td>
+                                                                    <td><input type="hidden" name="offer_discount[]" value="<?php echo html_escape($discount);?>" /><span id="offer_<?php echo $sl ?>"><?php echo html_escape($discount);?></span></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('sub_total') ?><input class="orgSubtotal" name="orgdiscount[]" type="hidden" value="<?php echo html_escape($totalamount-$discount);?>" id="orgSubtotal_<?php echo $sl ?>" /></th>
@@ -167,7 +167,7 @@ if($rr['isfound']==2){ ?>
                                             } ?>
 
                                             <div class="col-sm-12 row">
-                                                <div class="col-sm-6 table-responsive table-bordered" style="width: 40%;margin-top:10px;margin-right: 30px;border-radius: 10%;background-color:lightyellow ">
+                                                <div class="col-sm-6 table-responsive table-bordered" style="width: 40%;margin-top:10px;margin-right: 30px;border-radius: 20px;background-color:lightyellow ">
                                                     <table class="table">
                                                         <tbody>
 
@@ -215,7 +215,7 @@ if($rr['isfound']==2){ ?>
 
 
                                             <div class="form-group text-left margin_20px" >
-                                                <button type="submit" style="border-radius: 20%" class="btn btn-success w-md m-b-5"><?php echo display('book_now') ?></button>
+                                                <button type="submit" style="border-radius: 20px" class="btn btn-success w-md m-b-5"><?php echo display('book_now') ?></button>
                                             </div>
 
 

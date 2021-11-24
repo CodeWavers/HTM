@@ -34,14 +34,24 @@
         </address>
     </div>
 </div>
+<!--        --><?php //echo '<pre>';print_r($bookinfo);?>
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover">
+
+
         <tbody>
             <tr>
                 <td>
                     <div><strong><?php echo display('roomtype') ?></strong></div>
                 </td>
-                <td><?php echo html_escape(!empty($bookinfo->roomtype)?$bookinfo->roomtype:null);?></td>
+                <td><?php echo html_escape(!empty($room_name)?$room_name:null);?></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <div><strong>Room No</strong></div>
+                </td>
+                <td><?php echo html_escape(!empty($room_no)?$room_no:null);?></td>
             </tr>
             <tr>
                 <td>
@@ -62,7 +72,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <div><strong><?php echo display('adults') ?></strong></div>
+                        <div><strong>No of People</strong></div>
                     </td>
                     <td><?php echo html_escape($bookinfo->nuofpeople);?></td>
                 </tr>
@@ -70,7 +80,7 @@
                     <td>
                         <div><strong><?php echo display('number_of_rooms') ?></strong></div>
                     </td>
-                    <td><?php echo html_escape($bookinfo->total_room);?></td>
+                    <td><?php echo html_escape($bookinfo->totalRoom);?></td>
                 </tr>
                 <tr>
                     <td>
@@ -137,6 +147,7 @@
                 <tr>
                     <th>#</th>
                     <th><?php echo display('date') ?></th>
+                    <th>Room No</th>
                     <th><?php echo display('price') ?></th>
                 </tr>
             </thead>
@@ -155,22 +166,41 @@
                                         $singleDiscount=$getroom->offer*$bookinfo->total_room;
                                         $totaldiscount=$totaldiscount+$singleDiscount;
                                       //  $roomrate=$bookinfo->roomrate-$totaldiscount;
-                                        $roomrate=$bookinfo->roomrate-$getroom->offer;
+                                        $roomrate=$bookinfo->room_rate-$getroom->offer;
                                         }
                                     else{
-                                        $roomrate=$bookinfo->roomrate;
+                                        $roomrate=$bookinfo->room_rate;
                                         }
-                                    $price=$bookinfo->total_room*$bookinfo->roomrate;
+
+
+                                    $price=$bookinfo->total_room*$bookinfo->room_rate;
                                     $total=$total+$price;
                 ?>
-                <tr>
-                    <td>
-                        <div><strong><?php echo $x;?></strong></div>
-                    </td>
-                    <td><?php echo html_escape($alldays);?></td>
-                    <td><?php echo html_escape($roomrate);?></td>
-                </tr>
-                <?php } ?>
+<!--                <tr>-->
+<!--                    <td>-->
+<!--                        <div><strong>--><?php //echo $x;?><!--</strong></div>-->
+<!--                    </td>-->
+<!--                    <td>--><?php //echo html_escape($alldays);?><!--</td>-->
+<!--                    <td>--><?php //echo html_escape($roomrate);?><!--</td>-->
+<!--                </tr>-->
+
+
+            <?php
+
+           foreach ($booking_details as $bd){ ?>
+
+               <tr>
+                   <td>
+                       <div><strong><?php echo $x;?></strong></div>
+                   </td>
+                   <td><?php echo html_escape($alldays);?></td>
+                   <td><?php echo html_escape($bd->room_no);?></td>
+                   <td><?php echo html_escape($bd->room_rate);?></td>
+               </tr>
+
+        <?php   } }
+
+            ?>
             </tbody>
         </table>
     </div>
@@ -180,12 +210,10 @@
         <div class="col-sm-4">
             <ul class="list-unstyled text-right">
                 <li>
-                    <strong><?php echo display('subtotal') ?>:</strong> <?php $grprice=$bookinfo->total_room*$bookinfo->roomrate;
+                    <strong><?php echo display('subtotal') ?>:</strong> <?php $grprice=$bookinfo->totalRoom*$bookinfo->room_rate;
 
                     $grprice=($grprice*$totalnight)-$totaldiscount;
-                    echo (($grprice!=0)?$grprice:$grprice=$bookinfo->roomrate);
-
-
+                    echo (($grprice!=0)?$grprice:$grprice=$bookinfo->room_rate);
                     ?>
                 </li>
                 <li>
