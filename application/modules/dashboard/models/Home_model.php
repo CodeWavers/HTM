@@ -469,7 +469,7 @@ class Home_model extends CI_Model {
                     ->join('booked_info c', 'd.booking_number=c.booking_number', 'left')
                     ->join('customerinfo x', 'c.cutomerid=x.customerid', 'left')
                     ->where('a.floorName', $r->floorid)
-                    ->order_by('a.roomno', 'asc')
+                    ->order_by('a.floorplanid', 'asc')
                     ->group_by('a.roomno')
                     ->get()->result();
 
