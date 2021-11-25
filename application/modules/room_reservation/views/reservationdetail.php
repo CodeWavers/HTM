@@ -29,19 +29,19 @@
                 <div class="col-md-3 pr-md-1">
                     <div class="form-group">
                         <label class="font-weight-600"><?php echo display('room_name') ?></label>
-                        <div class=""><?php echo html_escape($roominfo->roomtype);?></div>
+                        <div class=""><?php echo html_escape($room_name);?></div>
                     </div>
                 </div>
                 <div class="col-md-3 pr-md-1">
                     <div class="form-group">
-                        <label class="font-weight-600"><?php echo display('adults') ?></label>
+                        <label class="font-weight-600">No of People</label>
                         <div class=""><?php echo html_escape($bookinginfo->nuofpeople);?></div>
                     </div>
                 </div>
                 <div class="col-md-3 pr-md-1">
                     <div class="form-group">
                         <label class="font-weight-600"><?php echo display('num_of_room') ?></label>
-                        <div class=""><?php echo html_escape($bookinginfo->total_room);?></div>
+                        <div class=""><?php echo html_escape($bookinginfo->totalRoom);?></div>
                     </div>
                 </div>
             </div>
@@ -58,24 +58,26 @@
                         <div class=""><?php echo html_escape($bookinginfo->checkoutdate);?></div>
                     </div>
                 </div>
-                <div class="col-md-3 pr-md-1">
-                    <div class="form-group">
-                        <label class="font-weight-600"><?php echo display('children') ?></label>
-                        <div class=""><?php echo html_escape($bookinginfo->children);?></div>
-                    </div>
-                </div>
+
                 <div class="col-md-3 pr-md-1">
                     <div class="form-group">
                         <label class="font-weight-600"><?php echo display('room_no') ?></label>
-                        <div class=""><?php echo html_escape($bookinginfo->room_no);?></div>
+                        <div class=""><?php echo html_escape($room_no);?></div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 pr-md-1">
+                    <div class="form-group">
+                        <label class="font-weight-600">Service Total</label>
+                        <div class=""><?php echo html_escape($bookinginfo->service_total);?></div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-3 pr-md-1">
                     <div class="form-group">
-                        <label class="font-weight-600"><?php echo display('room_rate') ?></label>
-                        <div class=""><?php echo html_escape($bookinginfo->roomrate);?></div>
+                        <label class="font-weight-600">Sub Total</label>
+                        <div class=""><?php echo html_escape($bookinginfo->sub_total);?></div>
                     </div>
                 </div>
                 <div class="col-md-3 pr-md-1">
@@ -87,12 +89,12 @@
                 <div class="col-md-3 pr-md-1">
                     <div class="form-group">
                         <label class="font-weight-600"><?php echo display('discount') ?></label>
-                        <div class=""><?php echo html_escape($bookinginfo->offer_discount);?></div>
+                        <div class=""><?php echo html_escape($bookinginfo->discount);?></div>
                     </div>
                 </div>
                 <div class="col-md-3 pr-md-1">
                     <div class="form-group">
-                        <label class="font-weight-600"><?php echo display('total_price') ?></label>
+                        <label class="font-weight-600"><?php echo display('total_price') ?>(with vat and service charge)</label>
                         <div class=""><?php echo html_escape($bookinginfo->total_price);?></div>
                     </div>
                 </div>
@@ -188,8 +190,8 @@
                         <select name="booking_status"  class="selectpicker form-control" data-live-search="true" size="2" id="booking_status" required>
 
                             <option value="<?php echo $bookinginfo->bookingstatus ?>" selected><?php echo $booking_status ?></option>
-                            <option value="0" ><?php echo display('pending') ?></option>
-                            <option value="4" >Confirmed</option>
+                            <option value="0"><?php echo display('pending') ?></option>
+                            <option value="4">Confirmed</option>
                             <option value="2">Checked In</option>
                             <option value="3">Checked Out</option>
                             <option value="1">Cancel</option>
@@ -203,7 +205,7 @@
                         <div class="form-group text-left">
 
                         <input type="hidden" name="booking_number" value="<?php echo $booking_number?>"/>
-                        <input type="hidden" name="room_no" value="<?php echo $bookinginfo->room_no ?>"/>
+                        <input type="hidden" name="room_no" value="<?php echo $room_no ?>"/>
 <!--                            <a href="--><?php //echo base_url("room_reservation/change_booking_status/".$booking_number/$booking_status) ?><!--" id="" class=" btn-md btn btn-danger" >Update</a>-->
 
                             <button type="submit" class="btn btn-success w-md m-b-5">Update</button>

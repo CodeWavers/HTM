@@ -225,7 +225,7 @@ class Roomreservation_model extends CI_Model
 
 
         $room_Array = explode(',',$room);
-
+       // echo '<pre>';print_r($room_Array);exit();
         foreach ($room_Array as $key => $value) {
 
 
@@ -240,12 +240,12 @@ class Roomreservation_model extends CI_Model
 
             );
 
-//            $pending_room=array(
-//                'booking_number'=>$bookingnumber,
-//                'room_no'=>$value,
-//                'status'=>2,
-//
-//            );
+            $pending_room=array(
+                'booking_number'=>$bookingnumber,
+                'room_no'=>$value,
+                'status'=>0,
+
+            );
 
             $confirmed_room=array(
                 'booking_number'=>$bookingnumber,
@@ -276,7 +276,6 @@ class Roomreservation_model extends CI_Model
                 $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
                 $this->db->update('booked_room',$checked_room);
 
-
             }
 
             if ($status==4){
@@ -287,11 +286,25 @@ class Roomreservation_model extends CI_Model
 
             }
 
+            if ($status==0){
+
+                $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                $this->db->update('booked_room',$pending_room);
+
+            }
+
+           if ( $status==1){
+               $this->db->set('status',1);
+               $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                $this->db->update('booked_room');
 
 
-           if ($status==3 || $status==1){
-                $this->db->where('booking_number',$bookingnumber);
-                $this->db->delete('booked_room');
+            }
+
+           if ($status==3 ){
+               $this->db->set('status',3);
+               $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                $this->db->update('booked_room');
 
 
             }
@@ -329,10 +342,11 @@ class Roomreservation_model extends CI_Model
 
     public function findById($id = null)
     {
-        $this->db->select('*');
-        $this->db->from($this->table);
-        $this->db->where('bookedid', $id);
-        $this->db->order_by('bookedid', 'desc');
+        $this->db->select('*,sum(b.total_room) as totalRoom');
+        $this->db->from('booked_info a');
+        $this->db->join('booked_room b','a.booking_number=b.booking_number');
+        $this->db->where('a.bookedid', $id);
+        $this->db->order_by('a.bookedid', 'desc');
         $query = $this->db->get();
         return $query->row();
     }
@@ -481,6 +495,31 @@ class Roomreservation_model extends CI_Model
         }
         return false;
     }
+
+    public function room_type_by_booking_number($booking_number){
+
+        $room_type=$this->db->select('*')
+            ->from('booked_room a')
+            ->join('roomdetails b','a.roomid=b.roomid','left')
+            ->where('a.booking_number',$booking_number)
+            ->group_by('a.roomid')
+            ->get()->result();
+
+        return $room_type;
+
+    }
+
+    public function room_no_by_booking_number($booking_number){
+
+        $rooms=$this->db->select('*')
+            ->from('booked_room a')
+            ->where('a.booking_number',$booking_number)
+            ->get()->result();
+
+        return $rooms;
+
+    }
+
 
     public function floor_rooms(){
         $this->db->select('*');

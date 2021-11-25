@@ -152,55 +152,59 @@
                 </tr>
             </thead>
             <tbody>
-                <?php
+                <?php    $x=0;
+                foreach ($booking_details as $bd){
+
+
+
                                     $totaldiscount=0;
                                     $roomrate=0;
-                                    $x=0;
+
                                     $total=0;
                                     for($i = 0; $i < $datediff; $i++){
                                     $alldays= date("Y-m-d", strtotime($firstdate . ' + ' . $i . 'day'));
                                     $x++;
-                                    $getroom=$this->db->select("*")->from('tbl_room_offer')->where('roomid',$bookinfo->roomid)->where('offer_date',$alldays)->get()->row();
+                                    $getroom=$this->db->select("*")->from('tbl_room_offer')->where('roomid',$bd->roomid)->where('offer_date',$alldays)->get()->row();
                                   //  echo '<pre>';print_r($getroom);
                                     if(!empty($getroom)){
-                                        $singleDiscount=$getroom->offer*$bookinfo->total_room;
+                                        $singleDiscount=$getroom->offer*$bd->total_room;
                                         $totaldiscount=$totaldiscount+$singleDiscount;
                                       //  $roomrate=$bookinfo->roomrate-$totaldiscount;
-                                        $roomrate=$bookinfo->room_rate-$getroom->offer;
+                                        $roomrate=$bd->room_rate-$getroom->offer;
                                         }
                                     else{
-                                        $roomrate=$bookinfo->room_rate;
+                                        $roomrate=$bd->room_rate;
                                         }
 
 
-                                    $price=$bookinfo->total_room*$bookinfo->room_rate;
+                                    $price=$bd->total_room*$bd->room_rate;
                                     $total=$total+$price;
                 ?>
-<!--                <tr>-->
-<!--                    <td>-->
-<!--                        <div><strong>--><?php //echo $x;?><!--</strong></div>-->
-<!--                    </td>-->
-<!--                    <td>--><?php //echo html_escape($alldays);?><!--</td>-->
-<!--                    <td>--><?php //echo html_escape($roomrate);?><!--</td>-->
-<!--                </tr>-->
+                <tr>
+                    <td>
+                        <div><strong><?php echo $x;?></strong></div>
+                    </td>
+                    <td><?php echo html_escape($alldays);?></td>
+                    <td><?php echo html_escape($bd->room_no);?></td>
+                    <td><?php echo html_escape($roomrate);?></td>
+                </tr>
 
 
             <?php
+                                    }
 
-           foreach ($booking_details as $bd){ ?>
+                }
 
-               <tr>
-                   <td>
-                       <div><strong><?php echo $x;?></strong></div>
-                   </td>
-                   <td><?php echo html_escape($alldays);?></td>
-                   <td><?php echo html_escape($bd->room_no);?></td>
-                   <td><?php echo html_escape($bd->room_rate);?></td>
-               </tr>
 
-        <?php   } }
+
+
+
 
             ?>
+
+
+
+
             </tbody>
         </table>
     </div>
@@ -210,18 +214,16 @@
         <div class="col-sm-4">
             <ul class="list-unstyled text-right">
                 <li>
-                    <strong><?php echo display('subtotal') ?>:</strong> <?php $grprice=$bookinfo->totalRoom*$bookinfo->room_rate;
+                    <strong><?php echo display('subtotal') ?>:</strong> <?php echo $sub_total=$bookinfo->sub_total;
 
-                    $grprice=($grprice*$totalnight)-$totaldiscount;
-                    echo (($grprice!=0)?$grprice:$grprice=$bookinfo->room_rate);
                     ?>
                 </li>
                 <li>
-                    <strong><?php echo display('service_charge') ?> <?php echo html_escape($storeinfo->servicecharge);?>%:</strong> <?php $scharge=0; $scharge=$storeinfo->servicecharge*$grprice/100;
+                    <strong><?php echo display('service_charge') ?> <?php echo html_escape($storeinfo->servicecharge);?>%:</strong> <?php $scharge=0; $scharge=$storeinfo->servicecharge*$sub_total/100;
                     echo $scharge; ?>
                 </li>
                 <li>
-                    <strong><?php echo display('tax') ?> <?php echo html_escape($storeinfo->vat);?>%:</strong> <?php $tax=0; $tax=$storeinfo->vat*$grprice/100;
+                    <strong><?php echo display('tax') ?> <?php echo html_escape($storeinfo->vat);?>%:</strong> <?php $tax=0; $tax=$storeinfo->vat*$sub_total/100;
                     echo $tax;?>
                 </li>
                 <li>
@@ -234,7 +236,7 @@
                 </li>
                 <?php } ?>
                 <li>
-                    <strong><?php echo display('grand_total') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo number_format($service_total+$scharge+$tax+$grprice,2);?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
+                    <strong><?php echo display('grand_total') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo number_format($service_total+$scharge+$tax+$sub_total,2);?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
                     <br /><strong><?php echo display('paid_amount') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php if (!empty($paymentinfo->paymentamount)){echo $paymentinfo->paid_amount;} else echo "0";?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
                     <br /><strong><?php echo display('due_amount') ?>:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php if (!empty($paymentinfo->paymentamount)){echo $bookinfo->total_price-$paymentinfo->paid_amount;} else echo html_escape($bookinfo->total_price);?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
                 </li>

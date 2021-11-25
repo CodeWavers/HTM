@@ -97,12 +97,18 @@ function getroomnumber(sl){
 
 		///alert(sl)
 
-	var totalroom=$("#numofroom_"+sl).val();
-	var slroomno=$("#slroomno_"+sl+":selected").length;
+
+	//var slroomno=$('#slroomno_'+sl+':selected').length;
+
+	var sel=$('#slroomno_'+sl).val();
+	//var slroomno=$(".select_room:selected").length;
 
 
-	//console.log(intNumber)
-	//console.log(slroomno)
+	//alert(sel)
+	//console.log(sel.length)
+	$("#numofroom_"+sl).val(sel.length);
+
+	var totalroom=parseFloat($("#numofroom_"+sl).val());
 	var totalnight=$("#totalnight_"+sl).val();
 	var price=$("#pernight_"+sl).text();
 	var subtotal=$("#orgSubtotal_"+sl).val();

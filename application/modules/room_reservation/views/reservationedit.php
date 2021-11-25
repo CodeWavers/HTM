@@ -20,11 +20,16 @@
                 </div>
                 <div class="form-group row">
                     <label for="room_name" class="col-sm-4 col-form-label"><?php echo display('room_name') ?> <span class="text-danger">*</span></label>
+<!--                    <div class="col-sm-8">-->
+<!--                        --><?php //echo form_dropdown('room_name2',$roomlist,$roomlist=$intinfo->roomid, 'class=" form-control" data-live-search="true" id="room_name2"disabled="disabled"') ?>
+<!--                        <input name="room_name" type="hidden"  value="--><?php //echo html_escape($intinfo->roomid) ?><!--" id="room_name" >-->
+<!--                    </div>-->
+
                     <div class="col-sm-8">
-                        <?php echo form_dropdown('room_name2',$roomlist,$roomlist=$intinfo->roomid, 'class=" form-control" data-live-search="true" id="room_name2"disabled="disabled"') ?>
-                        <input name="room_name" type="hidden"  value="<?php echo html_escape($intinfo->roomid) ?>" id="room_name" >
+                        <input name="room_type" class="form-control" type="text"  readonly="readonly"  value="<?php echo html_escape($room_name) ?>" >
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <label for="no_of_people" class="col-sm-4 col-form-label"><?php echo display('no_of_people') ?> <span class="text-danger">*</span></label>
                     <div class="col-sm-8">
@@ -35,7 +40,7 @@
                 <div class="form-group row">
                     <label for="select_room_no" class="col-sm-4 col-form-label"><?php echo display('select_room_no') ?> <span class="text-danger">*</span></label>
                     <div class="col-sm-8">
-                        <input name="room_no" autocomplete="off" class="form-control" type="text"  readonly="readonly" placeholder="<?php echo display('select_room_no') ?>" value="<?php echo html_escape((!empty($intinfo->room_no)?$intinfo->room_no:null)) ?>" id="select_room_no" >
+                        <input name="room_no" autocomplete="off" class="form-control" type="text"  readonly="readonly" placeholder="<?php echo display('select_room_no') ?>" value="<?php echo html_escape((!empty($room_no)?$room_no:null)) ?>" id="select_room_no" >
                         <input name="total_price"  autocomplete="off" class="form-control total_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:0)) ?>" id="total_price" >
                         <input name="grand_total"  autocomplete="off" class="form-control grand_total" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:0)) ?>" id="grand_total" >
                         <input name="s_price"  autocomplete="off" class="form-control s_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->service_total)?$intinfo->service_total:0)) ?>" id="s_price" >
@@ -213,7 +218,7 @@
                         <input name="" autocomplete="off" class="datepickerwithoutprevdates form-control "  readonly type="hidden" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_out_last" >
                         <input name="check_out" autocomplete="off" class="datepickerwithoutprevdates form-control "  type="date" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_out" >
                         <input name="check_out_old" autocomplete="off" class="datepickerwithoutprevdates form-control "  type="hidden" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="" >
-                        <input name="room_rate" id="" type="hidden" autocomplete="off" class="form-control" value="<?php echo $intinfo->roomrate?>"  >
+                        <input name="room_rate" id="" type="hidden" autocomplete="off" class="form-control" value="<?php echo $intinfo->room_rate?>"  >
                     </div>
                 </div>
                 <?php if(!empty($intinfo->bookingstatus!='1')){ ?>

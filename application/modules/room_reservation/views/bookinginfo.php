@@ -86,7 +86,7 @@ if($rr['isfound']==2){ ?>
                                                 <div class="col-sm-12 row" id="contents">
                                                     <div class="col-sm-12">
                                                         <div class="text-center">
-                                                            <button type="button" class="btn btn-danger text-center " style="border-radius: 20px;margin: 8px;" disabled><?php echo html_escape($rr['roominfo']->roomtype);?> <?php echo html_escape($interval->format('%a'));?> <?php echo display('nights_booking_from') ?> <?php echo $checkin;?> to <?php echo $checkout;?></button>
+                                                            <button type="button" class="btn btn-danger text-center text-uppercase  " style="border-radius: 20px;margin: 8px;" disabled><?php echo html_escape($rr['roominfo']->roomtype);?> <?php echo html_escape($interval->format('%a'));?> <?php echo display('nights_booking_from') ?> <?php echo $checkin;?> to <?php echo $checkout;?></button>
                                                         </div>
 
                                                         <div class="table-responsive table-striped table-bordered " style="border-radius: 20px">
@@ -94,7 +94,7 @@ if($rr['isfound']==2){ ?>
                                                                 <tbody>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('number_of_rooms') ?></th>
-                                                                    <td><input name="totalnight[]" type="hidden" id="totalnight_<?php echo $sl ?>" value="<?php echo html_escape($interval->format('%a'));?>" /><input name="numofroom[]" min="0" type="text" value="0" id="numofroom_<?php echo $sl ?>" onkeyup="getroomnumber(<?php echo $sl ?>)" /></td>
+                                                                    <td><input name="totalnight[]" type="hidden" id="totalnight_<?php echo $sl ?>" value="<?php echo html_escape($interval->format('%a'));?>" /><input name="numofroom[]" min="0" type="text" value="0" id="numofroom_<?php echo $sl ?>" onkeyup="getroomnumber(<?php echo $sl ?>)" onchange="getroomnumber(<?php echo $sl?>)"  readonly/></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('number_of_person') ?></th>
@@ -102,7 +102,7 @@ if($rr['isfound']==2){ ?>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('select_room_no') ?></th>
-                                                                    <td><select name="slroomno[]" multiple="multiple" class="selectpicker form-control" data-live-search="true" size="2" id="slroomno_<?php echo $sl ?>" onchange="getroomnumber(<?php echo $sl ?>)" required>
+                                                                    <td><select name="slroomno[]" multiple="multiple" data-attr="dropdown" class="selectpicker form-control select_room" data-live-search="true" size="2" id="slroomno_<?php echo $sl ?>" onchange="getroomnumber(<?php echo $sl?>)" required>
                                                                             <option value="" disabled><?php echo display('select_room_no') ?></option>
                                                                             <?php $allroomno=explode(',',$rr['freeroom']);
 
@@ -162,9 +162,9 @@ if($rr['isfound']==2){ ?>
 
 
                                         <?php
-                                            }
+                                            }?>
 
-                                            } ?>
+                                          <?php  } ?>
 
                                             <div class="col-sm-12 row">
                                                 <div class="col-sm-6 table-responsive table-bordered" style="width: 40%;margin-top:10px;margin-right: 30px;border-radius: 20px;background-color:lightyellow ">
@@ -172,17 +172,17 @@ if($rr['isfound']==2){ ?>
                                                         <tbody>
 
                                                         <tr>
-                                                            <th scope="row">Total Price <input type="hidden" value="0" id="gr_tot"> </th>
+                                                            <th scope="row">Total Price <input type="hidden" name="sub_total" value="0" id="gr_tot"> </th>
                                                             <td><input type="hidden" id="" value="0" /><span id="total_pricex"></span></td>
                                                         </tr>
 
                                                         <tr>
                                                             <th scope="row"><?php echo display('tax') ?> <input type="hidden" value="<?php echo html_escape($chargeinfo->vat);?>"id="orgtax"><?php echo html_escape($chargeinfo->vat);?>% </th>
-                                                            <td><input type="hidden" id="" value="<?php echo html_escape($chargeinfo->vat);?>" /><span id="prtax"></span></td>
+                                                            <td><input type="hidden" id="" name="" value="<?php echo html_escape($chargeinfo->vat);?>" /><span id="prtax"></span></td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row"><?php echo display('service_charge') ?> <input type="hidden" value="<?php echo html_escape($chargeinfo->servicecharge);?>"id="serviceCharge"><?php echo html_escape($chargeinfo->servicecharge);?>%</th>
-                                                            <td><input type="hidden" id="" value="<?php echo html_escape($chargeinfo->servicecharge);?>" /><span id="prcharge"></span></td>
+                                                            <td><input type="hidden" id="" name="" value="<?php echo html_escape($chargeinfo->servicecharge);?>" /><span id="prcharge"></span></td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row"><?php echo display('grand_total') ?></th><input type="hidden" value="0" id="orgTotal" /></th>

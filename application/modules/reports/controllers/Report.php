@@ -107,6 +107,7 @@ class Report extends MX_Controller {
 		$data['bookinfo']   = $details;
 		$data['customerinfo']   = $this->report_model->customerinfo($details->cutomerid);
 		$data['paymentinfo']   = $this->report_model->paymentinfo($details->booking_number);
+		$data['bookingDetails']   = $this->room_no_by_booking_number($details->booking_number);
 		$data['commoninfo']=$this->report_model->commoninfo();
 		$data['storeinfo']=$this->report_model->storeinfo();
 		$data['module'] = "reports";

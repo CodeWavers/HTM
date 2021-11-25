@@ -135,10 +135,12 @@ class report_model extends CI_Model {
 	
 	public function read($limit = null, $start = null)
 	{
-	    $this->db->select('booked_info.*,roomdetails.roomtype');
+	    $this->db->select('booked_info.*,booked_room.*,roomdetails.roomtype');
         $this->db->from('booked_info');
-		$this->db->join('roomdetails','roomdetails.roomid=booked_info.roomid','left');
+		$this->db->join('booked_room','booked_room.booking_number=booked_info.booking_number','left');
+		$this->db->join('roomdetails','roomdetails.roomid=booked_room.roomid','left');
         $this->db->order_by('booked_info.bookedid', 'desc');
+        $this->db->group_by('bookedid');
         $this->db->limit($limit, $start);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {

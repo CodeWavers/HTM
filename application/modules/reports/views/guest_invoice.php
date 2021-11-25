@@ -88,14 +88,15 @@
                           <div class="col-sm-4 pl-0 pt-4"><table width="100%" border="1">
   <tr>
     <td class="text-center"><?php echo display('room') ?></td>
-    <td class="text-center"><?php echo display('person') ?></td>
     <td class="text-center"><?php echo display('defaultrate') ?></td>
   </tr>
+     <?php foreach ($bookingDetails as $bd) {?>
   <tr>
-    <td class="text-center"><?php echo html_escape($bookinfo->room_no);?></td>
-    <td class="text-center"><?php echo html_escape($bookinfo->nuofpeople);?></td>
-    <td class="text-center"><?php echo html_escape($bookinfo->roomrate);?></td>
+    <td class="text-center"><?php echo html_escape($bd->room_no);?></td>
+    <td class="text-center"><?php echo html_escape($bd->room_rate-$bd->offer_discount);?></td>
   </tr>
+
+                                  <?php } ?>
   
 </table>
 </div>

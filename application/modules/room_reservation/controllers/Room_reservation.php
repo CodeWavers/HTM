@@ -421,6 +421,8 @@ class Room_reservation extends MX_Controller {
                     'booking_number' 	     => $bookingnumber,
                     'date_time' 	             => date('Y-m-d H:i:s'),
                     'nuofpeople'             => $total_people,
+
+                    'sub_total'             => $this->input->post('sub_total',TRUE),
                     'total_price'             => $this->input->post('gramount',TRUE),
                     'coments'                 => '',
                     'checkindate'             => $this->input->post('check_in',TRUE),
@@ -494,7 +496,7 @@ class Room_reservation extends MX_Controller {
                 }
 
                 $data['room_reservation']   = (Object) $updateData = array(
-                    'room_no'              	 => $roomnosel,
+                  //  'room_no'              	 => $roomnosel,
                     'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
                     'total_price' 	         => $total_price,
                     'service_total' 	         => $this->input->post('service_total', TRUE),
@@ -551,13 +553,48 @@ class Room_reservation extends MX_Controller {
         $checkout=$data['intinfo']->checkoutdate;
         $status=1;
         $data['v_list']   = $this->roomreservation_model->booked_service($booking_number);
-        $exits = $this->db->select("*")->from('booked_info')->where('checkindate<=',$checkin)->where('checkoutdate>',$checkin)->where('bookingstatus!=',$status)->where('roomid',$roomname)->get()->result();
-        $exit = $this->db->select("*")->from('booked_info')->where('checkindate<',$checkout)->where('checkoutdate>=',$checkout)->where('bookingstatus!=',$status)->get()->result();
-        $check = $this->db->select("*")->from('booked_info')->where('checkindate>',$checkin)->where('checkoutdate<=',$checkout)->where('bookingstatus!=',$status)->get()->result();
-        $totalroom1 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate<=',$checkin)->where('checkoutdate>',$checkin)->where('bookingstatus!=',$status)->where('roomid',$roomname)->get()->row();
-        $totalroom2 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate<',$checkout)->where('checkoutdate>=',$checkout)->where('bookingstatus!=',$status)->where('roomid',$roomname)->get()->row();
-        $totalroom3 = $this->db->select("SUM(total_room) as allroom")->from('booked_info')->where('checkindate>=',$checkin)->where('checkoutdate<=',$checkout)->where('bookingstatus!=',$status)->where('roomid',$roomname)->group_by('checkindate')->get()->result();
+
+
+        $room_type=$this->roomreservation_model->room_type_by_booking_number($booking_number);
+        $room_name='';
+
+        foreach ($room_type as $rr){
+
+            $room_name .=$rr->roomtype.',';
+
+        }
+
+        $rooms=$this->roomreservation_model->room_no_by_booking_number($booking_number);
+
+        $room_no='';
+        foreach ($rooms as $rs){
+
+            $room_no .=$rs->room_no.',';
+
+        }
+
+
+        $exits = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate<=',$checkin)->where('a.checkoutdate>',$checkin)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->get()->result();
+
+        $exit = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate<',$checkout)->where('a.checkoutdate>=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->get()->result();
+
+        $check = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate>',$checkin)->where('a.checkoutdate<=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->get()->result();
+
+        $totalroom1 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate<=',$checkin)->where('a.checkoutdate>',$checkin)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->get()->row();
+
+
+        $totalroom2 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate<',$checkout)->where('a.checkoutdate>=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->get()->row();
+
+        $totalroom3 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate>=',$checkin)->where('a.checkoutdate<=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->group_by('a.checkindate')->get()->result();
+        //  echo '<pre>';print_r($totalroom3);exit();
         $allbokedroom3 = (!empty($allbokedroom3)?max(array_column($totalroom3, 'allroom')):0);
+
         $totalroomfound=$this->db->select("count(roomid) as totalroom")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->row();
         $roomdetails=$this->db->select("*")->from('roomdetails')->where('roomid',$roomname)->get()->row();
         $numberlist=$this->db->select("*")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->result();
@@ -611,8 +648,14 @@ class Room_reservation extends MX_Controller {
             }
         }
 
+
+
+
+
         $data['module'] = "room_reservation";
         $data['page']   = "reservationedit";
+        $data['room_name']   = $room_name;
+        $data['room_no']   = $room_no;
         $data['service_list']   = $service_list;
         $data['service']   = $service_list;
         $this->load->view('room_reservation/reservationedit', $data);
@@ -647,23 +690,23 @@ class Room_reservation extends MX_Controller {
 
          foreach ($roomname as $key => $value) {
              $exits = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
-                 ->where('a.checkindate<=',$checkin)->where('a.checkoutdate>',$checkin)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->get()->result();
+                 ->where('a.checkindate<=',$checkin)->where('a.checkoutdate>',$checkin)->where('a.bookingstatus!=',$status)->or_where('a.bookingstatus!=',3)->where('b.roomid',$value)->get()->result();
 
              $exit = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
-                 ->where('a.checkindate<',$checkout)->where('a.checkoutdate>=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->get()->result();
+                 ->where('a.checkindate<',$checkout)->where('a.checkoutdate>=',$checkout)->where('a.bookingstatus!=',$status)->or_where('a.bookingstatus!=',3)->where('b.roomid',$value)->get()->result();
 
              $check = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
-                 ->where('a.checkindate>',$checkin)->where('a.checkoutdate<=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->get()->result();
+                 ->where('a.checkindate>',$checkin)->where('a.checkoutdate<=',$checkout)->where('a.bookingstatus!=',$status)->or_where('a.bookingstatus!=',3)->where('b.roomid',$value)->get()->result();
 
              $totalroom1 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
-                 ->where('a.checkindate<=',$checkin)->where('a.checkoutdate>',$checkin)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->get()->row();
+                 ->where('a.checkindate<=',$checkin)->where('a.checkoutdate>',$checkin)->where('a.bookingstatus!=',$status)->or_where('a.bookingstatus!=',3)->where('b.roomid',$value)->get()->row();
 
 
              $totalroom2 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
-                 ->where('a.checkindate<',$checkout)->where('a.checkoutdate>=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->get()->row();
+                 ->where('a.checkindate<',$checkout)->where('a.checkoutdate>=',$checkout)->where('a.bookingstatus!=',$status)->or_where('a.bookingstatus!=',3)->where('b.roomid',$value)->get()->row();
 
              $totalroom3 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
-                 ->where('a.checkindate>=',$checkin)->where('a.checkoutdate<=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$value)->group_by('a.checkindate')->get()->result();
+                 ->where('a.checkindate>=',$checkin)->where('a.checkoutdate<=',$checkout)->where('a.bookingstatus!=',$status)->or_where('a.bookingstatus!=',3)->where('b.roomid',$value)->group_by('a.checkindate')->get()->result();
            //  echo '<pre>';print_r($totalroom3);exit();
              $allbokedroom3 = (!empty($allbokedroom3)?max(array_column($totalroom3, 'allroom')):0);
 
@@ -973,7 +1016,30 @@ class Room_reservation extends MX_Controller {
         return $Difference;
     }
     public function detailView($id){
+
+
         $data["bookinginfo"] = $this->roomreservation_model->findById($id);
+
+        $room_type=$this->room_type_by_booking_number($data["bookinginfo"]->booking_number);
+        $room_name='';
+
+        foreach ($room_type as $rr){
+
+            $room_name .=$rr->roomtype.',';
+
+        }
+
+        $rooms=$this->room_no_by_booking_number($data["bookinginfo"]->booking_number);
+
+        $room_no='';
+        foreach ($rooms as $rs){
+
+            $room_no .=$rs->room_no.',';
+
+        }
+
+        $data["room_no"] = $room_no;
+        $data["room_name"] = $room_name;
         $data["paymentmethod"] = $this->roomreservation_model->paymentlist();
         $data["paymentlist"] = $this->roomreservation_model->findBypayId($id);
         $data['module'] = "room_reservation";
@@ -1002,19 +1068,13 @@ class Room_reservation extends MX_Controller {
 
 
 
-            $booked_room=array(
+
+            $pending_room=array(
                 'booking_number'=>$bookingnumber,
                 'room_no'=>$value,
-                'status'=>2,
+                'status'=>0,
 
             );
-
-//            $pending_room=array(
-//                'booking_number'=>$bookingnumber,
-//                'room_no'=>$value,
-//                'status'=>2,
-//
-//            );
 
             $confirmed_room=array(
                 'booking_number'=>$bookingnumber,
@@ -1041,25 +1101,33 @@ class Room_reservation extends MX_Controller {
                     $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
                     $this->db->update('booked_room',$confirmed_room);
 
-
             }
 
             if ($status==2){
 
-
                 $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
                 $this->db->update('booked_room',$checked_room);
+
+            }
+            if($status==0){
+
+                $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                $this->db->update('booked_room',$pending_room);
+
+            }
+
+            if($status==1){
+                $this->db->set('status',1);
+                $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                $this->db->update('booked_room');
 
 
             }
 
-
-
-
-
-            if ($status==3 || $status==1){
-                $this->db->where('booking_number',$bookingnumber);
-                $this->db->delete('booked_room');
+            if ($status==3 ){
+                $this->db->set('status',3);
+                $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                $this->db->update('booked_room');
 
 
             }
