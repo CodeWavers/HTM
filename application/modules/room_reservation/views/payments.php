@@ -54,11 +54,21 @@
                       class="text-danger">*</span></label>
                       <div class="col-sm-7">
                         <input name="total_amount" autocomplete="off" class="form-control" id="total_amount" type="number"
+                        value="<?php echo html_escape($bookinginfo->total_price ); ?>"
+                        readonly>
+
+                      </div>
+                    </div>
+
+                <div class="form-group row">
+                    <label for="total_amount"
+                      class="col-sm-5 pr-0 col-form-label">Due Amount<span
+                      class="text-danger">*</span></label>
+                      <div class="col-sm-7">
+                        <input name="due_amount" autocomplete="off" class="form-control" id="due_amount" type="number"
                         value="<?php echo html_escape($bookinginfo->total_price - $bookinginfo->paid_amount); ?>"
                         readonly>
-                          <input name="" autocomplete="off" class="form-control" id="total" type="hidden"
-                        value="<?php echo html_escape($bookinginfo->total_price - $bookinginfo->paid_amount); ?>"
-                        readonly>
+
                       </div>
                     </div>
 
@@ -73,7 +83,7 @@
 <!--            </div>-->
                     <?php if (($bookinginfo->total_price - $bookinginfo->paid_amount)!=0){ ?>
                     <div class="form-group row">
-                      <label for="amount" class="col-sm-5 pr-0 col-form-label"><?php echo 'Amount' ?>
+                      <label for="amount" class="col-sm-5 pr-0 col-form-label"><?php echo 'Pay Amount' ?>
                         <span class="text-danger">*</span></label>
                         <div class="col-sm-7">
                           <input name="amount" id="amount" autocomplete="off" class="form-control" type="number"
@@ -85,7 +95,7 @@
                       </div>
                       <?php }else{ ?>
                       <div class="form-group row">
-                        <label for="amount" class="col-sm-5 pr-0 col-form-label"><?php echo 'Amount' ?>
+                        <label for="amount" class="col-sm-5 pr-0 col-form-label"><?php echo 'Pay Amount' ?>
                           <span class="text-danger">*</span></label>
                           <div class="col-sm-7">
                             <input name="amount" id="amount" autocomplete="off" class="form-control" type="number"

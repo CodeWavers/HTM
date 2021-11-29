@@ -41,6 +41,7 @@
                     <label for="select_room_no" class="col-sm-4 col-form-label"><?php echo display('select_room_no') ?> <span class="text-danger">*</span></label>
                     <div class="col-sm-8">
                         <input name="room_no" autocomplete="off" class="form-control" type="text"  readonly="readonly" placeholder="<?php echo display('select_room_no') ?>" value="<?php echo html_escape((!empty($room_no)?$room_no:null)) ?>" id="select_room_no" >
+                        <input name="sub_total"  autocomplete="off" class="form-control sub_total" type="text"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->sub_total)?$intinfo->sub_total:0)) ?>" id="sub_total" >
                         <input name="total_price"  autocomplete="off" class="form-control total_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:0)) ?>" id="total_price" >
                         <input name="grand_total"  autocomplete="off" class="form-control grand_total" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:0)) ?>" id="grand_total" >
                         <input name="s_price"  autocomplete="off" class="form-control s_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->service_total)?$intinfo->service_total:0)) ?>" id="s_price" >
@@ -218,7 +219,14 @@
                         <input name="" autocomplete="off" class="datepickerwithoutprevdates form-control "  readonly type="hidden" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_out_last" >
                         <input name="check_out" autocomplete="off" class="datepickerwithoutprevdates form-control "  type="date" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="check_out" >
                         <input name="check_out_old" autocomplete="off" class="datepickerwithoutprevdates form-control "  type="hidden" placeholder="<?php echo display('check_out') ?>" value="<?php echo html_escape((!empty($intinfo->checkoutdate)?$intinfo->checkoutdate:null)) ?>" id="" >
-                        <input name="room_rate" id="" type="hidden" autocomplete="off" class="form-control" value="<?php echo $intinfo->room_rate?>"  >
+
+                      <?php foreach ($room_type as $type){?>
+
+                        <input name="room_id[]" id="" type="hidden" autocomplete="off" class="form-control" value="<?php echo $type->roomid?>"  >
+                        <input name="room_rate[]" id="" type="hidden" autocomplete="off" class="form-control" value="<?php echo $type->room_rate?>"  >
+
+
+                        <?php }?>
                     </div>
                 </div>
                 <?php if(!empty($intinfo->bookingstatus!='1')){ ?>

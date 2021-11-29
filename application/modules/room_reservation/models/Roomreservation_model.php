@@ -70,6 +70,12 @@ class Roomreservation_model extends CI_Model
 
         return $room_rate;
     }
+    public function get_room_rate_by_room_id_object($room_id){
+
+        $room_rate=$this->db->select('rate')->from('roomdetails')->where('roomid',$room_id)->get()->result();
+
+        return $room_rate;
+    }
 
     public function get_offer_rate_by_room_id($room_id,$room_rate,$checkin,$checkout){
 
@@ -426,7 +432,7 @@ class Roomreservation_model extends CI_Model
         }
     }
 
-    public function createpayment($data = array(),$status)
+    public function createpayment($data = array())
     {
         return $this->db->insert('tbl_guestpayments', $data);
     }

@@ -452,34 +452,44 @@ class Room_reservation extends MX_Controller {
                 }
                 redirect('room_reservation/room-booking');
             } else {
-                $this->permission->method('room_reservation','update')->redirect();
-                $roomnosel=$this->input->post('room_no', TRUE);
-                $room_no=$this->input->post('room_no', TRUE);
+                $this->permission->method('room_reservation', 'update')->redirect();
+                $roomnosel = $this->input->post('room_no', TRUE);
+                $room_no = $this->input->post('room_no', TRUE);
                 $status = $this->input->post('status', TRUE);
                 $bookingnumber = $this->input->post('bookingnumber', TRUE);
                 $custID = $this->input->post('guest', TRUE);
-                if(empty($roomnosel)){
-                    $length=count($this->input->post('slroomno',TRUE));
-                    $room=$this->input->post('slroomno',TRUE);
-                    $roomnosel='';
-                    for($i=0;$i<$length;$i++){
-                        $roomnosel.=$room[$i].',';
+                if (empty($roomnosel)) {
+                    $length = count($this->input->post('slroomno', TRUE));
+                    $room = $this->input->post('slroomno', TRUE);
+                    $roomnosel = '';
+                    for ($i = 0; $i < $length; $i++) {
+                        $roomnosel .= $room[$i] . ',';
                     }
-                    $roomnosel=rtrim($roomnosel,',');
+                    $roomnosel = rtrim($roomnosel, ',');
                 }
-                $service_tax=$this->db->select("*")->from('setting')->get()->result_array();
+                $service_tax = $this->db->select("*")->from('setting')->get()->result_array();
 
-                $check_in=date_create($this->input->post('check_out_old', TRUE));
-                $check_out=date_create($this->input->post('check_out', TRUE));
-                $check_out_new=$this->input->post('check_out', TRUE);
-                $check_out_old=$this->input->post('check_out_old', TRUE);
-                $room_rate=$this->input->post('room_rate', TRUE);
+                $check_in = date_create($this->input->post('check_out_old', TRUE));
+                $check_out = date_create($this->input->post('check_out', TRUE));
+                $check_out_new = $this->input->post('check_out', TRUE);
+                $check_out_old = $this->input->post('check_out_old', TRUE);
+                $roomid = $this->input->post('room_id', TRUE);
+                $roomRate = $this->input->post('room_rate', TRUE);
 
-                // $interval = $check_in->date_diff($check_out);
+                $room_rate=array_sum($roomRate);
+
+//                        foreach ($roomid as $key => $value) {
+//
+//
+//                                   $data4['room_id'] = $value;
+//                                   $data4['room_rate'] = $roomRate[$key];
+//                        }
+
+              //   echo '<pre>';print_r(array_sum($roomRate));exit();
+
                 $interval=  date_diff($check_in,$check_out);
 
                 $total_room_rate=($interval->days)*$room_rate;
-
                 $service_charge=$service_tax[0]['servicecharge']*($total_room_rate/100);
                 $tax=$service_tax[0]['vat']*($total_room_rate/100);
 
@@ -490,14 +500,17 @@ class Room_reservation extends MX_Controller {
                 if ($check_out_new > $check_out_old){
 
                     $total_price=$this->input->post('grand_total', TRUE)+$tt;
+                    $sub_total=$this->input->post('sub_total', TRUE)+$total_room_rate;
                 }else{
 
                     $total_price= $this->input->post('grand_total', TRUE);
+                    $sub_total=$this->input->post('sub_total', TRUE);
                 }
 
                 $data['room_reservation']   = (Object) $updateData = array(
                   //  'room_no'              	 => $roomnosel,
                     'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
+                    'sub_total' 	         => $sub_total,
                     'total_price' 	         => $total_price,
                     'service_total' 	         => $this->input->post('service_total', TRUE),
                     'checkoutdate' 	         => $this->input->post('check_out', TRUE),
@@ -557,10 +570,12 @@ class Room_reservation extends MX_Controller {
 
         $room_type=$this->roomreservation_model->room_type_by_booking_number($booking_number);
         $room_name='';
+        $room_rate='';
 
         foreach ($room_type as $rr){
 
             $room_name .=$rr->roomtype.',';
+
 
         }
 
@@ -656,6 +671,7 @@ class Room_reservation extends MX_Controller {
         $data['page']   = "reservationedit";
         $data['room_name']   = $room_name;
         $data['room_no']   = $room_no;
+        $data['room_type']   = $room_type;
         $data['service_list']   = $service_list;
         $data['service']   = $service_list;
         $this->load->view('room_reservation/reservationedit', $data);
@@ -1266,7 +1282,7 @@ class Room_reservation extends MX_Controller {
                 if($total_amount-$paid_amount>=0){
                     $this->db->set('paid_amount', 'paid_amount+'.$paid_amount, FALSE);
                     //$this->db->set('discount', $discount);
-                    $this->db->set('total_price', $total_amount);
+                   // $this->db->set('total_price', $total_amount);
                     $this->db->where('bookedid', $bid);
                     $this->db->update('booked_info');
 
@@ -1283,6 +1299,8 @@ class Room_reservation extends MX_Controller {
                     redirect("room_reservation/payment-information/".$bid);
                 }
                 $this->permission->method('room_reservation','create')->redirect();
+
+              //  echo'<pre>';print_r($postData);exit();
                 if($this->roomreservation_model->createpayment($postData)) {
 
                     //Customer debit for Rent Value
