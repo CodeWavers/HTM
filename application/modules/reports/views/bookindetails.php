@@ -218,15 +218,15 @@
 
                     ?>
                 </li>
-                <li>
+                <li hidden>
                     <strong><?php echo display('service_charge') ?> <?php echo html_escape($storeinfo->servicecharge);?>%:</strong> <?php $scharge=0; $scharge=$storeinfo->servicecharge*$sub_total/100;
                     echo $scharge; ?>
                 </li>
-                <li>
+                <li hidden>
                     <strong><?php echo display('tax') ?> <?php echo html_escape($storeinfo->vat);?>%:</strong> <?php $tax=0; $tax=$storeinfo->vat*$sub_total/100;
                     echo $tax;?>
                 </li>
-                <li>
+                <li hidden>
                     <strong><?php echo display('taxes_and_service_charge') ?> :</strong> <?php echo $scharge+$tax;?>
                 </li>
 

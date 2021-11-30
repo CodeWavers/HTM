@@ -32,16 +32,16 @@ $this->load->model(array(
                             <label class="padding_right_5px col-form-label"
                                 for="from_date"><?php echo display('start_date') ?>
                             </label>
-                            <input type="text" name="start_date" value="<?php echo date('Y-m-d')?>"
-                                class="form-control datepickers" id="start_date"
+                            <input type="date" name="start_date" value="<?php echo date('Y-m-d')?>"
+                                class="form-control" id="start_date"
                                 placeholder="<?php echo display('start_date') ?>">
                         </div>
 
                         <div class="form-group">
                             <label class="padding_0_5px col-form-label" for="to_date"> <?php echo display('end_date') ?>
                             </label>
-                            <input type="text" name="to_date" value="<?php echo date('Y-m-d')?>"
-                                class="form-control datepickers" id="to_date" placeholder="<?php echo "To"; ?>">
+                            <input type="date" name="to_date" value="<?php echo date('Y-m-d')?>"
+                                class="form-control " id="to_date" placeholder="<?php echo "To"; ?>">
                         </div>
                         <input name="invoiceurl" type="hidden"
                             value="<?php echo base_url("reports/report/getinvoice") ?>" id="invoiceurl" />
