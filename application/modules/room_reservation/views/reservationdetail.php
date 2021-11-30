@@ -160,6 +160,7 @@
                 <?php
 
                             $booking_number=$bookinginfo->booking_number;
+                             $bookedid=$bookinginfo->bookedid;
                             $booking_status='';
                           if($bookinginfo->bookingstatus == 0){
 
@@ -209,6 +210,10 @@
 <!--                            <a href="--><?php //echo base_url("room_reservation/change_booking_status/".$booking_number/$booking_status) ?><!--" id="" class=" btn-md btn btn-danger" >Update</a>-->
 
                             <button type="submit" class="btn btn-success w-md m-b-5">Update</button>
+
+                            <a href="<?php echo base_url("room_reservation/payment-information/").$bookedid ?>" class="btn btn-info" data-toggle="tooltip" data-placement="top" data-original-title="Payment" title="Payment">Payment</a>
+
+
                         </div>
 
                     </div>

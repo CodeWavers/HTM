@@ -15,7 +15,10 @@ class Report extends MX_Controller {
     public function index(){
 		$data['title'] = display('booking_report');
 		$data['module'] = "reports";
-		$data['page']   = "report_search"; 
+		$data['page']   = "report_search";
+
+
+
 
 		$this->load->library('pagination'); 
         #
@@ -49,7 +52,10 @@ class Report extends MX_Controller {
         /* ends of bootstrap */
         $this->pagination->initialize($config);
         $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        $data["bookings"] = $this->report_model->read($config["per_page"], $page); 
+        $data["bookings"] = $this->report_model->read($config["per_page"], $page);
+
+
+
         $data["links"] = $this->pagination->create_links(); 
         #
         #pagination ends

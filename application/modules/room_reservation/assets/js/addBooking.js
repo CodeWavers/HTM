@@ -41,17 +41,6 @@ function getfreerooms(){
 	var room_name= $("#room_name").val();
 	let text=" ";
 
-	// room_name.forEach((item, index)=>{
-	// 	console.log(item)
-	// 	//var room=$("#room").val(item);
-	// 	text += item + ",";
-	// })
-
-	// for (let i = 0; i <= room_name.length; i++) {
-	// 	text += room_name[i] + ",";
-	// }
-
-
 //	console.log(text)
 	var no_of_people= $("#no_of_people");
 	var check_in= $("#check_in").val();
@@ -95,37 +84,29 @@ function getfreerooms(){
 
 function getroomnumber(sl){
 
-		///alert(sl)
-
-
-	//var slroomno=$('#slroomno_'+sl+':selected').length;
 
 	var sel=$('#slroomno_'+sl).val();
-	//var slroomno=$(".select_room:selected").length;
-
-
-	//alert(sel)
 	//console.log(sel.length)
 	$("#numofroom_"+sl).val(sel.length);
 
 	var totalroom=parseFloat($("#numofroom_"+sl).val());
 	var totalnight=$("#totalnight_"+sl).val();
-	var price=$("#pernight_"+sl).text();
-	var subtotal=$("#orgSubtotal_"+sl).val();
+	var price=parseFloat($("#roomrate_"+sl).val());
+
 	var charge=$("#serviceCharge").val();
 	var vat=$("#orgtax").val();
-	var total=parseInt(subtotal)*parseInt(totalroom);
 
-	//console.log(total)
 	var totalprice=parseInt(totalnight)*parseInt(price);
+	var total=totalprice*parseInt(totalroom);
+	//console.log(total)
 	var discount=parseInt(totalprice)*parseInt(totalroom);
-	var totaldiscount=parseInt(discount)-parseInt(total);
-
+	var totaldiscount=parseInt(total)-parseInt(discount);
+	var subtotal=$("#orgSubtotal_"+sl).val(total);
 //	var count = slroomno.length;
 
 	//console.log(slroomno)
-
 	$("#discount_"+sl).val(total);
+
 	$("#offer_"+sl).text(totaldiscount);
 	$("#sub_total_"+sl).val(total);
 	$("#prdis_"+sl).text(total);
@@ -150,31 +131,29 @@ function getroomnumber(sl){
 	var serviceCharge=parseInt(charge)*parseInt(gr_tot)/100;
 	var tax=parseInt(vat)*parseInt(gr_tot)/100;
 
-	$("#prcharge").text(serviceCharge);
-	$("#prtax").text(tax);
 
 
 	var granttotal=parseInt(gr_tot)+parseInt(serviceCharge)+parseInt(tax);
+	var main_discount=parseFloat($("#main_discount").val());
+
 
 	$("#gramount").val(granttotal);
 	$("#total").text(granttotal.toFixed(2));
+	calculation_dis()
 
-	// var noofpeople=$("#numofpeople").val();
-	// var maxpeople=$("#maxpeople").val();
-	// var capacity=$("#capacity").val();
-	// if(parseInt(noofpeople)>parseInt(maxpeople)){
-	// alert("Max number of people exceeds");
-	// $("#numofpeople").val('');
-	// return false;
-	// }
-	// if(parseInt(noofpeople)>parseInt(totalroom*capacity)){
-	// alert("Number of peoples capacity exceed on room");
-	// $("#numofpeople").val('');
-	// return false;
-	// }
-	// if(parseInt(totalroom)>parseInt(maxpeople/capacity)){
-	// alert("Room capacity exceed");
-	// $("#numofroom").val('');
-	// return false;
-	// }
+
+	}
+	
+	function calculation_dis() {
+
+	//alert('ok')
+
+		var total_rent=parseFloat($("#gr_tot").val());
+
+		var main_discount=parseFloat($("#main_discount").val());
+
+		$("#gramount").val(total_rent-main_discount);
+		$("#total").text(total_rent-main_discount.toFixed(2));
+
+
 	}

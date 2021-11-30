@@ -421,8 +421,8 @@ class Room_reservation extends MX_Controller {
                     'booking_number' 	     => $bookingnumber,
                     'date_time' 	             => date('Y-m-d H:i:s'),
                     'nuofpeople'             => $total_people,
-
                     'sub_total'             => $this->input->post('sub_total',TRUE),
+                    'discount'             => $this->input->post('main_discount',TRUE),
                     'total_price'             => $this->input->post('gramount',TRUE),
                     'coments'                 => '',
                     'checkindate'             => $this->input->post('check_in',TRUE),
@@ -1296,7 +1296,7 @@ class Room_reservation extends MX_Controller {
                     );
                 }else{
                     $this->session->set_flashdata('exception',  display('pay_exact_amount'));
-                    redirect("room_reservation/payment-information/".$bid);
+                    redirect("room_reservation/booking-information/".$bid);
                 }
                 $this->permission->method('room_reservation','create')->redirect();
 
@@ -1374,7 +1374,7 @@ class Room_reservation extends MX_Controller {
 
 
                     $this->session->set_flashdata('message', display('save_successfully'));
-                    redirect('room_reservation/payment-information/'.$bid);
+                    redirect('room_reservation/booking-information/'.$bid);
                 } else {
                     $this->session->set_flashdata('exception',  display('please_try_again'));
                 }
@@ -1437,7 +1437,7 @@ class Room_reservation extends MX_Controller {
                 } else {
                     $this->session->set_flashdata('exception',  display('please_try_again'));
                 }
-                redirect("room_reservation/payment-information/".$bid);
+                redirect("room_reservation/booking-information/".$bid);
             }
         } else {
             if(!empty($id)) {

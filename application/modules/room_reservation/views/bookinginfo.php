@@ -137,13 +137,14 @@ if($rr['isfound']==2){ ?>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('price_per_night') ?></th>
                                                                     <td><input name="room_id[]" type="hidden" id="room_id_<?php echo $sl ?>" value="<?php echo html_escape($rr['roominfo']->roomid);?>" />
-                                                                        <input name="roomrate[]" type="hidden" id="roomrate_<?php echo $sl ?>" value="<?php echo html_escape($rr['roominfo']->rate);?>" /><span id="pernight_<?php echo $sl ?>"><?php echo html_escape($rr['roominfo']->rate);?></span></td>
+                                                                        <input name="roomrate[]" type="text" id="roomrate_<?php echo $sl ?>" value="<?php echo html_escape($rr['roominfo']->rate);?>" onkeyup="getroomnumber(<?php echo $sl?>)" readonly/></td>
                                                                 </tr>
 
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('offer_discount') ?></th>
                                                                     <td><input type="hidden" name="offer_discount[]" value="<?php echo html_escape($discount);?>" /><span id="offer_<?php echo $sl ?>"><?php echo html_escape($discount);?></span></td>
                                                                 </tr>
+
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('sub_total') ?><input class="orgSubtotal" name="orgdiscount[]" type="hidden" value="<?php echo html_escape($totalamount-$discount);?>" id="orgSubtotal_<?php echo $sl ?>" /></th>
                                                                     <td> <input name="discount[]" type="hidden" id="discount_<?php echo $sl ?>" value="<?php echo html_escape($totalamount-$discount);?>" /><input class="form_control sub_total" name="sub_total" type="hidden" value="<?php echo $totalamount-$discount?>" id="sub_total_<?php echo $sl ?>" /><span id="prdis_<?php echo $sl ?>"><?php echo html_escape($totalamount-$discount);?></span></td>
@@ -177,13 +178,18 @@ if($rr['isfound']==2){ ?>
                                                         </tr>
 
                                                         <tr>
-                                                            <th scope="row"><?php echo display('tax') ?> <input type="hidden" value="<?php echo html_escape($chargeinfo->vat);?>"id="orgtax"><?php echo html_escape($chargeinfo->vat);?>% </th>
-                                                            <td><input type="hidden" id="" name="" value="<?php echo html_escape($chargeinfo->vat);?>" /><span id="prtax"></span></td>
+                                                            <th scope="row">Discount</th>
+                                                            <td><input type="text" id="main_discount" value="0" name="main_discount" placeholder="0.00" class="main_discount form-control"  onkeyup="calculation_dis()"/></td>
                                                         </tr>
-                                                        <tr>
-                                                            <th scope="row"><?php echo display('service_charge') ?> <input type="hidden" value="<?php echo html_escape($chargeinfo->servicecharge);?>"id="serviceCharge"><?php echo html_escape($chargeinfo->servicecharge);?>%</th>
-                                                            <td><input type="hidden" id="" name="" value="<?php echo html_escape($chargeinfo->servicecharge);?>" /><span id="prcharge"></span></td>
-                                                        </tr>
+
+
+                                                          <input type="hidden" value="<?php echo html_escape($chargeinfo->vat);?>" id="orgtax">
+                                                          <input type="hidden" id="" name="" value="<?php echo html_escape($chargeinfo->vat);?>" />
+
+
+                                                             <input type="hidden" value="<?php echo html_escape($chargeinfo->servicecharge);?>" id="serviceCharge">
+                                                            <input type="hidden" id="" name="" value="<?php echo html_escape($chargeinfo->servicecharge);?>" />
+
                                                         <tr>
                                                             <th scope="row"><?php echo display('grand_total') ?></th><input type="hidden" value="0" id="orgTotal" /></th>
                                                             <td>

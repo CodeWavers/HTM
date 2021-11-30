@@ -135,10 +135,11 @@ class report_model extends CI_Model {
 	
 	public function read($limit = null, $start = null)
 	{
-	    $this->db->select('booked_info.*,booked_room.*,roomdetails.roomtype');
+	    $this->db->select('booked_info.*,booked_room.*,roomdetails.roomtype,customerinfo.*');
         $this->db->from('booked_info');
 		$this->db->join('booked_room','booked_room.booking_number=booked_info.booking_number','left');
 		$this->db->join('roomdetails','roomdetails.roomid=booked_room.roomid','left');
+		$this->db->join('customerinfo','customerinfo.customerid=booked_info.cutomerid','left');
         $this->db->order_by('booked_info.bookedid', 'desc');
         $this->db->group_by('bookedid');
         $this->db->limit($limit, $start);
@@ -147,7 +148,31 @@ class report_model extends CI_Model {
             return $query->result();    
         }
         return false;
-	} 
+	}
+
+    public function room_type_by_booking_number($booking_number){
+
+        $room_type=$this->db->select('*')
+            ->from('booked_room a')
+            ->join('roomdetails b','a.roomid=b.roomid','left')
+            ->where('a.booking_number',$booking_number)
+            ->group_by('a.roomid')
+            ->get()->result();
+
+        return $room_type;
+
+    }
+
+    public function room_no_by_booking_number($booking_number){
+
+        $rooms=$this->db->select('*')
+            ->from('booked_room a')
+            ->where('a.booking_number',$booking_number)
+            ->get()->result();
+
+        return $rooms;
+
+    }
 	
 
 }

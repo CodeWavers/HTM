@@ -1,3 +1,5 @@
+
+
 <div class="card">
   <?php if($this->permission->method('room_reservation','create')->access()): ?>
   <div class="card-header">
@@ -39,15 +41,17 @@
           </div>
           <label for="check_in" class="col-sm-2 col-form-label"><?php echo display('check_in') ?> <span class="text-danger">*</span></label>
           <div class="col-sm-4">
-            <input name="check_in" autocomplete="off" class="datepickerwithoutprevdate form-control" type="text" placeholder="<?php echo display('check_in') ?>" id="check_in" onkeyup="enddate()" >
+            <input name="check_in" autocomplete="off" class=" form-control" type="date" placeholder="<?php echo display('check_in') ?>" id="check_in" onkeyup="enddate()" >
           </div>
         </div>
         
         <div class="form-group row">
           <label for="check_out" class="col-sm-2 col-form-label"><?php echo display('check_out') ?> <span class="text-danger">*</span></label>
-          <div class="col-sm-4">
-            <input name="check_out" autocomplete="off" class="datepickerwithoutprevdates form-control" type="text" placeholder="<?php echo display('check_out') ?>" id="check_out" >
-          </div>
+
+            <div class="col-sm-4">
+                <input name="check_out" autocomplete="off" class=" form-control" type="date" placeholder="<?php echo display('check_out') ?>" id="check_out" onkeyup="enddate()" >
+            </div>
+
           <div class="col-sm-4">
             <button type="button" class="btn btn-success w-md m-b-5" onclick="getfreerooms()"><?php echo display('search') ?></button>
           </div>
@@ -188,3 +192,6 @@
   </div>
 </div>
 <script src="<?php echo MOD_URL.$module;?>/assets/js/addBooking.js"></script>
+<script>
+    $('#datepickeras').datepicker();
+</script>

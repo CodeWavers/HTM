@@ -1,4 +1,8 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+$this->load->model(array(
+    'report_model'
+));
+?>
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <div class="card mb-4">
@@ -94,7 +98,10 @@
                                         <tr>
                                             <th><?php echo display('sl_no') ?></th>
                                             <th><?php echo display('booking_number') ?></th>
-                                            <th><?php echo display('room_name') ?></th>
+                                            <th>Customer Name</th>
+                                            <th>Phone NO</th>
+                                            <th>Room Type</th>
+                                            <th>Room NO</th>
                                             <th><?php echo display('check_in') ?></th>
                                             <th><?php echo display('check_out') ?></th>
                                             <th><?php echo display('booking_date') ?></th>
@@ -108,11 +115,44 @@
                                         <?php $i=0;
                         foreach($bookings as $book){
                             $i++;
+
+
+                            $room_type=$this->db->select('*')
+                                ->from('booked_room a')
+                                ->join('roomdetails b','a.roomid=b.roomid','left')
+                                ->where('a.booking_number',$book->booking_number)
+                                ->group_by('a.roomid')
+                                ->get()->result();
+
+                       //    echo '<pre>';print_r($room_type);exit();
+                            $room_name='';
+
+                            foreach ($room_type as $rr){
+
+                                $room_name .=$rr->roomtype.',';
+
+                            }
+
+                            $rooms=$this->db->select('*')
+                                ->from('booked_room a')
+                                ->where('a.booking_number',$book->booking_number)
+                                ->get()->result();
+
+
+                            $room_no='';
+                            foreach ($rooms as $rs){
+
+                                $room_no .=$rs->room_no.',';
+
+                            }
                             ?>
                                         <tr>
                                             <td><?php echo $i;?></td>
                                             <td><?php echo html_escape($book->booking_number);?></td>
-                                            <td><?php echo html_escape($book->roomtype);?></td>
+                                            <td><?php echo html_escape($book->firstname.' '.$book->lastname);?></td>
+                                            <td><?php echo html_escape($book->cust_phone);?></td>
+                                            <td><?php echo html_escape($room_name);?></td>
+                                            <td><?php echo html_escape($room_no);?></td>
                                             <td><?php echo html_escape($book->checkindate);?></td>
                                             <td><?php echo html_escape($book->checkoutdate);?></td>
                                             <td><?php echo html_escape($book->date_time);?></td>
