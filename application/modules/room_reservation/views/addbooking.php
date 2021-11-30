@@ -103,7 +103,7 @@
                                           <div class="form-group row">
                                               <label for="dob" class="col-sm-2 col-form-label"><?php echo display('dob') ?></label>
                                               <div class="col-sm-4">
-                                                  <input name="dob" autocomplete="off" class="datepickers form-control" type="text" placeholder="<?php echo display('dob') ?>" id="dob" value="">
+                                                  <input name="dob" autocomplete="off" class=" form-control" type="date" placeholder="<?php echo display('dob') ?>" id="dob" value="">
                                               </div>
                                               <label for="profession" class="col-sm-2 col-form-label"><?php echo display('profession') ?> </label>
                                               <div class="col-sm-4">
