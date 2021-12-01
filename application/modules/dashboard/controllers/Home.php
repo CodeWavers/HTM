@@ -324,7 +324,7 @@ class Home extends MX_Controller {
             $start_date=$this->input->post('start_date', TRUE);
             $to_date=$this->input->post('to_date', TRUE);
 
-            $floor_rooms=$this->home_model->floor_rooms_search($booking_status,$start_date);
+            $floor_rooms=$this->home_model->floor_rooms_search($start_date);
             $data["monthlytotalamount"] =trim($totalamount,',');
             $data["monthlytotalorder"] =trim($totalorder,',');
             $data["monthlytotalpending"] =trim($totalpending,',');

@@ -620,7 +620,7 @@ class Home_model extends CI_Model {
         return $data;
     }
 
-    public function floor_rooms_search($booking_status=null,$start_date=null){
+    public function floor_rooms_search($start_date=null){
 
 
 	   // echo $booking_status.$start_date.$to_date;exit();
@@ -649,8 +649,8 @@ class Home_model extends CI_Model {
                    $this->db->join('booked_room d', 'a.roomno=d.room_no', 'left');
                    $this->db->join('booked_info c', 'd.booking_number=c.booking_number', 'left');
                    $this->db->join('customerinfo x', 'c.cutomerid=x.customerid', 'left');
-                   $this->db->where('d.status',$booking_status);
-                   $this->db->like('c.checkindate', $start_date);
+                  // $this->db->where('d.status',$booking_status);
+
                           $this->db ->group_start()
                           ->like('c.checkindate',$start_date)
                           ->or_like('c.checkoutdate', $start_date)

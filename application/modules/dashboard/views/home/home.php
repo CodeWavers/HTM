@@ -110,46 +110,7 @@
          <div class="card md-3 mb-4 height_400 " >
              <?php if($this->permission->method('room_reservation','create')->access()): ?>
 
-                 <div class="row">
-                     <div class="col-sm-12">
-                         <div class="card-body">
-                             <?php echo form_open('dashboard/home/room_view_search',array('class' => 'form-inline'))?>
-                             <div class="form-group">
-                                 <label class="padding_right_5px col-form-label"
-                                        for="from_date"><?php echo display('booking_status') ?>
-                                 </label>
-                                 <select name="status" class="selectpicker form-control w-138 col-form-label"
-                                         data-live-search="true" id="status" required="">
-                                     <option value="" selected="selected"><?php echo display('select_staus') ?>
-                                     </option>
-                                     <option value="0"><?php echo display('pending') ?></option>
-                                     <option value="3">Checked Out</option>
-                                     <option value="2">Checked In</option>
-                                     <option value="4">Confirmed</option>
-                                     <option value="1"><?php echo display('cancel') ?></option>
-                                 </select>
-                             </div>
-                             <div class="form-group">
-                                 <label class="padding_right_5px col-form-label"
-                                        for="from_date">Date
-                                 </label>
-                                 <input type="date" name="start_date" value="<?php echo date('Y-m-d')?>"
-                                        class="form-control" id="start_date"
-                                        placeholder="Date">
-                             </div>
 
-<!--                             <div class="form-group">-->
-<!--                                 <label class="padding_0_5px col-form-label" for="to_date"> --><?php //echo display('end_date') ?>
-<!--                                 </label>-->
-<!--                                 <input type="date" name="to_date" value="--><?php //echo date('Y-m-d')?><!--"-->
-<!--                                        class="form-control " id="to_date" placeholder="--><?php //echo "To"; ?><!--">-->
-<!--                             </div>-->
-
-                             &nbsp;<button type="submit" class="btn btn-success">Search</button>
-                             <?php echo form_close()?>
-                         </div>
-                     </div>
-                 </div>
                  <div class="card-header">
 
 
@@ -176,6 +137,33 @@
                                      class="btn btn-primary btn-md"><i class="ti-plus" aria-hidden="true"></i>
                                  <?php echo display('room_booking')?></a>
                    </small>
+                 </div>
+
+                 <div class="row">
+                     <div class="col-sm-12">
+                         <div class="card-body">
+                             <?php echo form_open('dashboard/home/room_view_search',array('class' => 'form-inline'))?>
+
+                             <div class="form-group">
+                                 <label class="padding_right_5px col-form-label"
+                                        for="from_date">Date
+                                 </label>
+                                 <input type="date" name="start_date" value="<?php echo date('Y-m-d')?>"
+                                        class="form-control" id="start_date"
+                                        placeholder="Date">
+                             </div>
+
+                             <!--                             <div class="form-group">-->
+                             <!--                                 <label class="padding_0_5px col-form-label" for="to_date"> --><?php //echo display('end_date') ?>
+                             <!--                                 </label>-->
+                             <!--                                 <input type="date" name="to_date" value="--><?php //echo date('Y-m-d')?><!--"-->
+                             <!--                                        class="form-control " id="to_date" placeholder="--><?php //echo "To"; ?><!--">-->
+                             <!--                             </div>-->
+
+                             &nbsp;<button type="submit" class="btn btn-success">Search</button>
+                             <?php echo form_close()?>
+                         </div>
+                     </div>
                  </div>
              <?php endif; ?>
              <div class="row">

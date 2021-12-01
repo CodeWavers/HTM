@@ -26,11 +26,13 @@ public function index(){
         //echo '<pre>';print_r($booking_number);exit();
             $this->db->set('bookingstatus',1);
             $this->db->where('payment_deadline <=',$date_time);
+            $this->db->where('bookingstatus',0);
             $this->db->update('booked_info');
 
         foreach ($booking_number as $bn){
             $this->db->set('status',1);
             $this->db->where('booking_number',$bn->booking_number);
+            $this->db->where('status',0);
             $this->db->update('booked_room');
 
         }
