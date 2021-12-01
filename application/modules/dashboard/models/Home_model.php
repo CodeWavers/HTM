@@ -474,12 +474,10 @@ class Home_model extends CI_Model {
                     ->get()->result();
 
 
-              //   echo '<pre>';print_r($room_no);exit();
+               //  echo '<pre>';print_r($room_no);exit();
                 $rooms = '';
 
-
                 foreach ($room_no as $ro) {
-
 
 
                     if ( $ro->st == '4') {

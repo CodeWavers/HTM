@@ -41,7 +41,7 @@
                     <label for="select_room_no" class="col-sm-4 col-form-label"><?php echo display('select_room_no') ?> <span class="text-danger">*</span></label>
                     <div class="col-sm-8">
                         <input name="room_no" autocomplete="off" class="form-control" type="text"  readonly="readonly" placeholder="<?php echo display('select_room_no') ?>" value="<?php echo html_escape((!empty($room_no)?$room_no:null)) ?>" id="select_room_no" >
-                        <input name="sub_total"  autocomplete="off" class="form-control sub_total" type="text"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->sub_total)?$intinfo->sub_total:0)) ?>" id="sub_total" >
+                        <input name="sub_total"  autocomplete="off" class="form-control sub_total" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->sub_total)?$intinfo->sub_total:0)) ?>" id="sub_total" >
                         <input name="total_price"  autocomplete="off" class="form-control total_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:0)) ?>" id="total_price" >
                         <input name="grand_total"  autocomplete="off" class="form-control grand_total" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->total_price)?$intinfo->total_price:0)) ?>" id="grand_total" >
                         <input name="s_price"  autocomplete="off" class="form-control s_price" type="hidden"  readonly="readonly" placeholder="" value="<?php echo html_escape((!empty($intinfo->service_total)?$intinfo->service_total:0)) ?>" id="s_price" >
@@ -205,7 +205,18 @@
 <!---->
 <!--                    </div>-->
 
+                <?php
 
+                $payment_date = $intinfo->payment_deadline;
+
+                $newDate = date('Y-m-d\TH:i', strtotime($payment_date));?>
+
+                <div class="form-group row">
+                    <label for="no_of_people" class="col-sm-4 col-form-label">Payment Deadline</label>
+                    <div class="col-sm-8">
+                        <input name="payment_deadline" autocomplete="off" class="form-control" type="datetime-local"    value="<?php echo $newDate ?>" id="payment_deadline" >
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label for="check_in" class="col-sm-4 col-form-label"><?php echo display('check_in') ?> <span class="text-danger">*</span></label>
                     <div class="col-sm-8">

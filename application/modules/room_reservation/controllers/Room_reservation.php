@@ -420,6 +420,7 @@ class Room_reservation extends MX_Controller {
                     'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
                     'booking_number' 	     => $bookingnumber,
                     'date_time' 	             => date('Y-m-d H:i:s'),
+                    'payment_deadline' 	             => $this->input->post('payment_deadline',TRUE),
                     'nuofpeople'             => $total_people,
                     'sub_total'             => $this->input->post('sub_total',TRUE),
                     'discount'             => $this->input->post('main_discount',TRUE),
@@ -510,6 +511,7 @@ class Room_reservation extends MX_Controller {
                 $data['room_reservation']   = (Object) $updateData = array(
                   //  'room_no'              	 => $roomnosel,
                     'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
+                    'payment_deadline' 	             => $this->input->post('payment_deadline',TRUE),
                     'sub_total' 	         => $sub_total,
                     'total_price' 	         => $total_price,
                     'service_total' 	         => $this->input->post('service_total', TRUE),

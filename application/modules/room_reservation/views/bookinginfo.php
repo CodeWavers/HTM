@@ -173,7 +173,7 @@ if($rr['isfound']==2){ ?>
                                                         <tbody>
 
                                                         <tr>
-                                                            <th scope="row">Total Price <input type="hidden" name="sub_total" value="0" id="gr_tot"> </th>
+                                                            <th scope="row">Total Room Rent <input type="hidden" name="sub_total" value="0" id="gr_tot"> </th>
                                                             <td><input type="hidden" id="" value="0" /><span id="total_pricex"></span></td>
                                                         </tr>
 
@@ -210,6 +210,12 @@ if($rr['isfound']==2){ ?>
                                                                 </select>
                                                             </td>
                                                         </tr>
+                                                        <tr>
+                                                            <th scope="row">Payment Deadline</th>
+                                                            <td><input type="datetime-local" id="payment_deadline" value="0" name="payment_deadline" placeholder="0.00" class="payment_deadline form-control"/></td>
+                                                        </tr>
+
+
 
                                                         </tbody>
                                                     </table>
