@@ -256,5 +256,90 @@ class Home extends MX_Controller {
 				 echo json_encode($data);
 			 }
 		}
+
+
+
+		public function room_view_search(){
+
+
+
+            $data['title']    = "Home";
+            $ordernum= $this->home_model->countorder();
+            $orderpending= $this->home_model->countpending();
+            $ordercancel= $this->home_model->countcancel();
+            $data["totalorder"]  =$this->changeformat($ordernum);
+            $data["totalpending"]  =$this->changeformat($orderpending);
+            $data["totalcancel"]  =$this->changeformat($ordercancel);
+            $todayorder=$this->home_model->todayorder();
+            $data["todaybooking"]  = $this->changeformat($todayorder);
+            $totalamount=$this->home_model->totalamount();
+            $data["totalamount"]  = $this->changeformat($totalamount->amount);
+            $customer=$this->home_model->totalcustomer();
+            $data["totalcustomer"]  = $this->changeformat($customer);
+            $data['customerlist']=$this->home_model->customerlist();
+            $data['todayorder']=$this->home_model->todayorderlist();
+            $data['nextayorder']=$this->home_model->nextdayorderlist();
+
+            $months='';
+            $totalamount='';
+            $totalorder='';
+            $totalpending='';
+            $totalcancel='';
+            $total='';
+            $shortmonths='';
+            $year=date('Y');
+            $numbery=date('y');
+            $prevyear=$numbery-1;
+            $prevyearformat=$year-1;
+            $syear='';
+            $syearformat='';
+            for($k = 1; $k < 13; $k++){
+                $month=date('m', strtotime("+$k month"));
+                $gety= date('y', strtotime("+$k month"));
+                if($gety==$numbery){
+                    $syear= $prevyear;
+                    $syearformat= $prevyearformat;
+                }
+                else{
+                    $syear=$numbery;
+                    $syearformat= $year;
+                }
+                $monthly=$this->home_model->monthlybookingamount($syearformat,$month);
+                $odernum=$this->home_model->monthlybookingorder($syearformat,$month);
+                $oderpending=$this->home_model->monthlybookingpending($syearformat,$month);
+                $odercancel=$this->home_model->monthlybookingcancel($syearformat,$month);
+                $odertotal=$this->home_model->monthlybookingtotal($syearformat,$month);
+
+
+                $totalamount.=$monthly.', ';
+                $totalorder.=$odernum.', ';
+                $totalpending.=$oderpending.', ';
+                $total.=$odertotal.', ';
+                $months.=  ''.date('F-'.$syear, strtotime("+$k month")).', ';
+                $shortmonths.=  ''.date('M-'.$syear, strtotime("+$k month")).', ';
+            }
+
+
+            $booking_status=$this->input->post('status', TRUE);
+            $start_date=$this->input->post('start_date', TRUE);
+            $to_date=$this->input->post('to_date', TRUE);
+
+            $floor_rooms=$this->home_model->floor_rooms_search($booking_status,$start_date);
+            $data["monthlytotalamount"] =trim($totalamount,',');
+            $data["monthlytotalorder"] =trim($totalorder,',');
+            $data["monthlytotalpending"] =trim($totalpending,',');
+            $data["monthlytotalcancel"] =trim($totalcancel,',');
+            $data["monthlytotal"] =trim($total,',');
+            $data["monthname"]=trim($months,',');
+            $data["shortmonthname"]=trim($shortmonths,',');
+            #page path
+            $data['floor_rooms'] = $floor_rooms;
+
+            //	echo '<pre>';print_r($floor_rooms);exit();
+            $data['module'] = "dashboard";
+            $data['page']   = "home/home";
+            echo Modules::run('template/layout', $data);
+
+        }
 	
 }

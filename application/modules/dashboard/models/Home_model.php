@@ -620,6 +620,193 @@ class Home_model extends CI_Model {
         return $data;
     }
 
+    public function floor_rooms_search($booking_status=null,$start_date=null){
+
+
+	   // echo $booking_status.$start_date.$to_date;exit();
+
+        $this->db->select('*');
+        $this->db->from('tbl_floor a');
+    //    $this->db->where('a.status',1);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $result= $query->result();
+        }
+        $data = array();
+
+
+
+        $sl =1;
+
+        if (!empty($result)) {
+            foreach ($result as $r) {
+
+
+               $this->db->select('a.roomno,z.roomtype,d.*,c.*,x.*,d.room_no as rooms,d.status as st');
+                   $this->db->from('tbl_floorplan a');
+                   $this->db->join('tbl_roomnofloorassign b', 'a.roomno=b.roomno', 'left');
+                   $this->db->join('roomdetails z', 'z.roomid=b.roomid', 'left');
+                   $this->db->join('booked_room d', 'a.roomno=d.room_no', 'left');
+                   $this->db->join('booked_info c', 'd.booking_number=c.booking_number', 'left');
+                   $this->db->join('customerinfo x', 'c.cutomerid=x.customerid', 'left');
+                   $this->db->where('d.status',$booking_status);
+                   $this->db->like('c.checkindate', $start_date);
+                          $this->db ->group_start()
+                          ->like('c.checkindate',$start_date)
+                          ->or_like('c.checkoutdate', $start_date)
+                          ->group_end();
+                   $this->db->where('a.floorName', $r->floorid);
+                   $this->db->order_by('a.floorplanid', 'asc');
+                   $this->db->group_by('a.roomno');
+                    $room_no = $this->db->get()->result();
+
+
+               //  echo '<pre>';print_r($room_no);exit();
+                $rooms = '';
+
+                foreach ($room_no as $ro) {
+
+
+                    if ( $ro->st == '4') {
+                       // $rooms .=$title;
+//                        echo '<pre>';print_r($ro);exit();
+                        $rooms .='
+                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '" data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid.'"> <div class="card mb-2" style="background-color: #0073e6;height: 110px">
+                                         <div
+                                                 class="card-header card-header-danger card-header-icon text-center " style="background-color: #0d95e8;">
+                                             <div class="card-icon d-flex align-items-center justify-content-center">
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold pa" style="color: whitesmoke">
+                                                    ' . $ro->rooms . ' </p>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="" style="padding:auto;">
+                                             <div class="" >
+                                                 <p class="card-category fs-10 text-uppercase font-weight-bold text-center pt-3" style="color: whitesmoke">
+                                                    ' . $ro->roomtype . '</p>
+                                             </div>
+                                         </div>
+                                     </div></a>
+                                 </div> 
+
+
+
+
+                        ';
+
+                    }
+
+                   else if ($ro->st == '2') {
+                        // $rooms .=$title;
+                        $rooms .='
+                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '"> <div class="card mb-2" style="background-color: #10b33f;height: 110px">
+                                         <div
+                                                 class="card-header card-header-info card-header-icon text-center " style="background-color: #05847e;">
+                                             <div class="card-icon d-flex align-items-center justify-content-center">
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
+                                                    ' . $ro->rooms . ' </p>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="" style="padding:auto;">
+                                             <div class="" >
+                                                 <p class="card-category fs-10 text-uppercase font-weight-bold text-center pt-3" style="color: whitesmoke">
+                                                    ' . $ro->roomtype . '</p>
+                                             </div>
+                                         </div>
+                                     </div></a>
+                                 </div> 
+
+
+
+
+                        ';
+
+                    }
+                   else if ($ro->st == '0') {
+                        // $rooms .=$title;
+                        $rooms .='
+                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '">
+                                     <div class="card mb-2" style="background-color: #c7222a;height: 110px">
+                                         <div
+                                                 class="card-header card-header-warning card-header-icon text-center " style="background-color: #690719">
+                                             <div class="card-icon d-flex align-items-center justify-content-center">
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
+                                                    ' . $ro->rooms . ' </p>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="" style="padding:auto;">
+                                             <div class="" >
+                                                 <p class="card-category fs-10 text-uppercase font-weight-bold text-center pt-3" style="color: whitesmoke">
+                                                    ' . $ro->roomtype . '</p>
+                                             </div>
+                                         </div>
+                                     </div></a>
+                                 </div> 
+
+
+
+
+                        ';
+
+                    }
+
+
+
+                     else {
+
+                        $rooms .= '
+                                 <div class="col-sm-6 room" >
+                                     <div class="card mb-2" style="background-color: #ffffff;height: 110px">
+                                         <div
+                                                 class="card-header card-header-success card-header-icon text-center " style="background-color: #d0dce3">
+                                             <div class="card-icon d-flex align-items-center justify-content-center">
+                                                 <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
+                                                    ' . $ro->roomno . ' </p>
+                                             </div>
+
+
+                                         </div>
+                                         <div class="" style="padding:auto;">
+                                             <div class="" >
+                                                 <p class="card-category text-uppercase fs-10 font-weight-bold text-center pt-3" style="color: black">
+                                                    ' . $ro->roomtype . '</p>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+
+
+
+
+                        ';
+                    }
+
+
+                }
+
+                // echo '<pre>';print_r($booked_room);exit();
+                $data[] = array(
+                    'sl' => $sl,
+                    'floor_name' => $r->floorname,
+                    'room_nos' => $rooms,
+
+                );
+
+                $sl++;
+            }
+        }
+
+        return $data;
+    }
+
 
 
 }
