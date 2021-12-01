@@ -90,7 +90,7 @@
                                               </div>
                                           </div>
                                           <div class="form-group row">
-                                              <label for="email" class="col-sm-2 col-form-label"><?php echo display('email') ?><span class="text-danger">*</span></label>
+                                              <label for="email" class="col-sm-2 col-form-label"><?php echo display('email') ?></label>
                                               <div class="col-sm-4">
                                                   <input name="email" autocomplete="off" class="form-control" type="text" placeholder="<?php echo display('email') ?>" id="email" value="" required>
                                               </div>
@@ -122,9 +122,9 @@
                                                       <label class="form-check-label"  for="materialInline2"><?php echo display('foreigner') ?></label>
                                                   </div>
                                               </div>
-                                              <label for="national_id" class="col-sm-2 col-form-label"><?php echo display('national_id') ?> </label>
+                                              <label for="national_id" class="col-sm-2 col-form-label">NID/Passport</label>
                                               <div class="col-sm-4">
-                                                  <input name="national_id" autocomplete="off" class="form-control" type="number" placeholder="<?php echo display('national_id') ?>" id="national_id" value="">
+                                                  <input name="national_id" autocomplete="off" class="form-control" type="number" placeholder="NID/Passport" id="national_id" value="">
                                               </div>
                                           </div>
                                           <span id="foreignerinfo" class="d_none">

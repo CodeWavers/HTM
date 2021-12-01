@@ -99,20 +99,20 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3 pr-md-1">
-                    <div class="form-group">
-                        <label class="font-weight-600"><?php echo display('full_guest_name') ?></label>
-                        <div class=""><?php echo html_escape($bookinginfo->full_guest_name);?></div>
-                    </div>
-                </div>
-                <div class="col-md-3 pr-md-1">
-                    <div class="form-group">
-                        <label class="font-weight-600"><?php echo display('special_request') ?></label>
-                        <div class=""><?php echo html_escape($bookinginfo->special_request);?></div>
-                    </div>
-                </div>
-            </div>
+<!--            <div class="row">-->
+<!--                <div class="col-md-3 pr-md-1">-->
+<!--                    <div class="form-group">-->
+<!--                        <label class="font-weight-600">--><?php //echo display('full_guest_name') ?><!--</label>-->
+<!--                        <div class="">--><?php //echo html_escape($bookinginfo->full_guest_name);?><!--</div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-md-3 pr-md-1">-->
+<!--                    <div class="form-group">-->
+<!--                        <label class="font-weight-600">--><?php //echo display('special_request') ?><!--</label>-->
+<!--                        <div class="">--><?php //echo html_escape($bookinginfo->special_request);?><!--</div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="row mt-2">
                 <div class="col-md-12">
                     <div class="form-group">

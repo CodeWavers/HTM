@@ -35,6 +35,7 @@ class Hotel extends CI_Controller {
 		$this->storecurrency= $this->db->select('*')->from('currency')->where('currencyid',$this->settinginfo->currency)->get()->row();  
     }
 
+
 	public function index()
 	{
 	   

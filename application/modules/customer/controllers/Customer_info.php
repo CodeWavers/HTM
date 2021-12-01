@@ -77,7 +77,7 @@ class Customer_info extends MX_Controller {
 	  $this->form_validation->set_rules('firstname',display('firstname'),'required|xss_clean');
 	  $this->form_validation->set_rules('lastname',display('lastname'),'required|xss_clean');
 	  $this->form_validation->set_rules('phone',display('phone'),'required|xss_clean|is_natural');
-	  $this->form_validation->set_rules('email',display('email'),'required|xss_clean|valid_email');
+	 // $this->form_validation->set_rules('email',display('email'),'required|xss_clean|valid_email');
 	  if($this->input->post('nationaliti',TRUE)=='foreigner'){
 	  $this->form_validation->set_rules('national_id',display('national_id'),'required|xss_clean|is_natural');
 	  $this->form_validation->set_rules('nationalitycon',display('nationality'),'required|xss_clean');
