@@ -470,7 +470,7 @@ class Home_model extends CI_Model {
                     ->join('customerinfo x', 'c.cutomerid=x.customerid', 'left')
                     ->where('a.floorName', $r->floorid)
                     ->order_by('a.floorplanid', 'asc')
-                    ->group_by('a.roomno')
+                  //  ->group_by('a.roomno')
                     ->get()->result();
 
 
@@ -481,8 +481,7 @@ class Home_model extends CI_Model {
 
 
                     if ( $ro->st == '4') {
-                       // $rooms .=$title;
-//                        echo '<pre>';print_r($ro);exit();
+
                         $rooms .='
                                 <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '" data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
                                     <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid.'"> <div class="card mb-2" style="background-color: #0073e6;height: 110px">
@@ -657,7 +656,7 @@ class Home_model extends CI_Model {
                           ->group_end();
                    $this->db->where('a.floorName', $r->floorid);
                    $this->db->order_by('a.floorplanid', 'asc');
-                   $this->db->group_by('a.roomno');
+                 //  $this->db->group_by('a.roomno');
                     $room_no = $this->db->get()->result();
 
 
