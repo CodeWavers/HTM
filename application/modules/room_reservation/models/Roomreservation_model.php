@@ -32,6 +32,14 @@ class Roomreservation_model extends CI_Model
              $room_rate=$this->get_room_rate_by_room_id($room_id);
              $offer_discount=$this->get_offer_rate_by_room_id($room_id,$room_rate,$checkin,$checkout);
 
+
+             $old_room=$this->db->select('room_no')->from('booked_room')->where('room_no',$room_no)->get()->row();
+
+            $this->db->set('is_old',1);
+            $this->db->where(array('room_no'=>$old_room->room_no));
+            $this->db->update('booked_room');
+
+
             $data1 = array(
                 'booking_number'=>$bookingnumber,
                 'roomid'=>$room_id,
