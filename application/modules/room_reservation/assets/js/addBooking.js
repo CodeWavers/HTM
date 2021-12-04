@@ -148,10 +148,23 @@ function getroomnumber(sl){
 
 	//alert('ok')
 
-		var total_rent=parseFloat($("#gr_tot").val());
+
+		var total_night=parseFloat($(".total_night").val());
+		var discount_night=parseFloat($("#discount_night").val());
+
+		var per_night_discount=discount_night*total_night
+
+		//console.log(discount_night*total_night)
+		var total_room_rent=parseFloat($("#gr_tot").val());
+
+		var total_rent=total_room_rent-per_night_discount;
+
+
 
 		var main_discount=parseFloat($("#main_discount").val());
 
+		$("#gr_tot_rent").val(total_rent);
+		$("#total_pricex").text(total_rent.toFixed(2));
 		$("#gramount").val(total_rent-main_discount);
 		$("#total").text(total_rent-main_discount.toFixed(2));
 

@@ -89,7 +89,7 @@ if($rr['isfound']==2){ ?>
                                                                 <tbody>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('number_of_rooms') ?></th>
-                                                                    <td><input name="totalnight[]" type="hidden" id="totalnight_<?php echo $sl ?>" value="<?php echo html_escape($interval->format('%a'));?>" /><input name="numofroom[]" min="0" type="text" value="0" id="numofroom_<?php echo $sl ?>" onkeyup="getroomnumber(<?php echo $sl ?>)" onchange="getroomnumber(<?php echo $sl?>)"  readonly/></td>
+                                                                    <td><input class ="total_night" name="totalnight[]" type="hidden" id="totalnight_<?php echo $sl ?>" value="<?php echo html_escape($interval->format('%a'));?>" /><input name="numofroom[]" min="0" type="text" value="0" id="numofroom_<?php echo $sl ?>" onkeyup="getroomnumber(<?php echo $sl ?>)" onchange="getroomnumber(<?php echo $sl?>)"  readonly/></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row"><?php echo display('number_of_person') ?></th>
@@ -168,13 +168,20 @@ if($rr['isfound']==2){ ?>
                                                         <tbody>
 
                                                         <tr>
-                                                            <th scope="row">Total Room Rent <input type="hidden" name="sub_total" value="0" id="gr_tot"> </th>
+                                                            <th scope="row">Total Room Rent <input type="hidden" name="" value="0" id="gr_tot"> <input type="hidden" name="sub_total" value="0" id="gr_tot_rent"></th>
                                                             <td><input type="hidden" id="" value="0" /><span id="total_pricex"></span></td>
                                                         </tr>
 
                                                         <tr>
                                                             <th scope="row">Discount</th>
                                                             <td><input type="text" id="main_discount" value="0" name="main_discount" placeholder="0.00" class="main_discount form-control"  onkeyup="calculation_dis()"/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">Discount(Per Night)</th>
+                                                            <td>
+                                                                <input type="text" id="discount_night" value="0" name="discount_night" placeholder="0.00" class="discount_night form-control"  onkeyup="calculation_dis()"/>
+
+                                                            </td>
                                                         </tr>
 
 

@@ -44,14 +44,14 @@
                 <td>
                     <div><strong><?php echo display('roomtype') ?></strong></div>
                 </td>
-                <td><?php echo html_escape(!empty($room_name)?$room_name:null);?></td>
+                <td><?php echo html_escape(!empty(substr($room_name,0,-1))?substr($room_name,0,-1):null);?></td>
             </tr>
 
             <tr>
                 <td>
                     <div><strong>Room No</strong></div>
                 </td>
-                <td><?php echo html_escape(!empty($room_no)?$room_no:null);?></td>
+                <td><?php echo html_escape(!empty(substr($room_no,0,-1))?substr($room_no,0,-1):null);?></td>
             </tr>
             <tr>
                 <td>
@@ -213,11 +213,25 @@
         </div>
         <div class="col-sm-4">
             <ul class="list-unstyled text-right">
+                <?php if ($bookinfo->discount >0){?>
+                    <li>
+                        <strong>Discount:</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo $bookinfo->discount;?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
+                    </li>
+                <?php } ?>
+
+                <?php if ($bookinfo->discount_night >0){?>
+                    <li class="mb-4">
+                        <strong>Discount(Per Night):</strong> <?php if($currency->position==1){echo html_escape($currency->curr_icon);}?><?php echo $bookinfo->discount_night;?><?php if($currency->position==2){echo html_escape($currency->curr_icon);}?>
+                    </li>
+                <?php } ?>
+
                 <li>
                     <strong><?php echo display('subtotal') ?>:</strong> <?php echo $sub_total=$bookinfo->sub_total;
 
                     ?>
                 </li>
+
+
                 <li hidden>
                     <strong><?php echo display('service_charge') ?> <?php echo html_escape($storeinfo->servicecharge);?>%:</strong> <?php $scharge=0; $scharge=$storeinfo->servicecharge*$sub_total/100;
                     echo $scharge; ?>

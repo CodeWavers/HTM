@@ -424,6 +424,7 @@ class Room_reservation extends MX_Controller {
                     'nuofpeople'             => $total_people,
                     'sub_total'             => $this->input->post('sub_total',TRUE),
                     'discount'             => $this->input->post('main_discount',TRUE),
+                    'discount_night'             => $this->input->post('discount_night',TRUE),
                     'total_price'             => $this->input->post('gramount',TRUE),
                     'coments'                 => '',
                     'checkindate'             => $this->input->post('check_in',TRUE),
