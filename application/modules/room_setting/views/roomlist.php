@@ -132,13 +132,16 @@
                         <thead>
                             <tr>
                                 <th><?php echo display('sl_no') ?></th>
-                                <th><?php echo display('room_name') ?></th>
-                                <th><?php echo display('defaultrate') ?></th>
-                                <th><?php echo display('capacity') ?></th>
+                                <th>Room Category</th>
+                                <th>Room No</th>
+                                <th>Member(Per Room)</th>
                                 <th><?php echo display('child_limit') ?></th>
+                                <th>Total Room</th>
+                                <th>Total Member</th>
                                 <th><?php echo display('room_size') ?></th>
                                 <th><?php echo display('bedsno') ?></th>
                                 <th><?php echo display('bedstype') ?></th>
+                                <th><?php echo display('defaultrate') ?></th>
                                 <th><?php echo display('review') ?></th>
                                 <th><?php echo display('action') ?></th>
 
@@ -148,16 +151,46 @@
                             <?php if (!empty($rateplanlist)) {
                             ?>
                                 <?php $sl = 1; ?>
-                                <?php foreach ($rateplanlist as $rateplan) { ?>
+                                <?php foreach ($rateplanlist as $rateplan)
+
+                                {
+
+                                    $rooms=$this->db->select('*')
+                                        ->from('tbl_roomnofloorassign a')
+                                        ->where('a.roomid',$rateplan->roomid)
+                                        ->get()->result();
+
+                                    $total_room=$this->db->select('*')
+                                        ->from('tbl_roomnofloorassign a')
+                                        ->where('a.roomid',$rateplan->roomid)
+                                        ->get()->num_rows();
+
+
+
+
+                                    $room_no='';
+                                    foreach ($rooms as $rs){
+
+                                        $room_no .=$rs->roomno.',';
+
+                                    }
+                                    ?>
+
+
+
+
                                     <tr class="<?php echo ($sl & 1) ? "odd gradeX" : "even gradeC" ?>">
                                         <td><?php echo $sl; ?></td>
                                         <td><?php echo html_escape($rateplan->roomtype); ?></td>
-                                        <td><?php echo html_escape($rateplan->rate); ?></td>
+                                        <td><?php echo html_escape($room_no); ?></td>
                                         <td><?php echo html_escape($rateplan->capacity); ?></td>
                                         <td><?php echo html_escape($rateplan->child_limit); ?></td>
+                                        <td><?php echo html_escape($total_room); ?></td>
+                                        <td><?php echo html_escape($rateplan->capacity*$total_room); ?></td>
                                         <td><?php echo html_escape($rateplan->roomsize . " " . $rateplan->roommesurementitle); ?></td>
                                         <td><?php echo html_escape($rateplan->bedsno); ?></td>
                                         <td><?php echo html_escape($rateplan->bedstypetitle); ?></td>
+                                        <td><?php echo html_escape($rateplan->rate); ?></td>
                                         <td><?php for ($i = 1; $i <= $rateplan->number_of_star; $i++) {
                                                 echo "<span class='ti-star star_colour'></span>";
                                             } ?>

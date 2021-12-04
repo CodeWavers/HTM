@@ -128,7 +128,23 @@
                                 class=" non_booked"></a>  <span class="card-category text-uppercase fs-10 font-weight-bold ">Non-Booked</span>
                     </small>
 
+                    <small class="float-left">
+                        <?php echo form_open('dashboard/home/room_view_search',array('class' => 'form-inline'))?>
 
+                        <div class="form-group">
+                            <label class="padding_right_5px col-form-label"
+                                   for="from_date">Search:
+                            </label>
+                            <input type="date" name="start_date" value=""
+                                   class="form-control input-xs" id="start_date"
+                                   placeholder="Date">
+                        </div>
+
+
+                        &nbsp;<button type="submit" class="btn btn-success btn-sm"><i class="fas fa-search"></i></button>
+                        <?php echo form_close()?>
+
+                    </small>
 
 
 
@@ -137,34 +153,14 @@
                                 class="btn btn-primary btn-md"><i class="ti-plus" aria-hidden="true"></i>
                             <?php echo display('room_booking')?></a>
                     </small>
+
+
+
+
+
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card-body">
-                            <?php echo form_open('dashboard/home/room_view_search',array('class' => 'form-inline'))?>
 
-                            <div class="form-group">
-                                <label class="padding_right_5px col-form-label"
-                                       for="from_date">Date
-                                </label>
-                                <input type="date" name="start_date" value="<?php echo date('Y-m-d')?>"
-                                       class="form-control" id="start_date"
-                                       placeholder="Date">
-                            </div>
-
-                            <!--                             <div class="form-group">-->
-                            <!--                                 <label class="padding_0_5px col-form-label" for="to_date"> --><?php //echo display('end_date') ?>
-                            <!--                                 </label>-->
-                            <!--                                 <input type="date" name="to_date" value="--><?php //echo date('Y-m-d')?><!--"-->
-                            <!--                                        class="form-control " id="to_date" placeholder="--><?php //echo "To"; ?><!--">-->
-                            <!--                             </div>-->
-
-                            &nbsp;<button type="submit" class="btn btn-success">Search</button>
-                            <?php echo form_close()?>
-                        </div>
-                    </div>
-                </div>
             <?php endif; ?>
             <div class="row">
 
@@ -240,6 +236,84 @@
     <div class="col-lg-12 col-xl-12">
         <!--Basic apexMixedChart Chart-->
         <div class="card mb-4">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="fs-17 font-weight-600 mb-0 text-center">Room Tariff</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table width="100%" id="" class="datatable table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th><?php echo display('sl_no') ?></th>
+                            <th>Room Category</th>
+                            <th>Room No</th>
+                            <th>Member(Per Room)</th>
+                            <th>Total Room</th>
+                            <th>Total Member</th>
+                            <th>Room Rate(Regular Tariff)</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php if (!empty($rateplanlist)) {
+                            ?>
+                            <?php $sl = 1; ?>
+                            <?php foreach ($rateplanlist as $rateplan)
+
+                            {
+
+                                $rooms=$this->db->select('*')
+                                    ->from('tbl_roomnofloorassign a')
+                                    ->where('a.roomid',$rateplan->roomid)
+                                    ->get()->result();
+
+                                $total_room=$this->db->select('*')
+                                    ->from('tbl_roomnofloorassign a')
+                                    ->where('a.roomid',$rateplan->roomid)
+                                    ->get()->num_rows();
+
+
+
+
+                                $room_no='';
+                                foreach ($rooms as $rs){
+
+                                    $room_no .=$rs->roomno.',';
+
+                                }
+                                ?>
+
+
+
+
+                                <tr class="<?php echo ($sl & 1) ? "odd gradeX" : "even gradeC" ?>">
+                                    <td><?php echo $sl; ?></td>
+                                    <td><?php echo html_escape($rateplan->roomtype); ?></td>
+                                    <td><?php echo html_escape(substr($room_no,0,-1)); ?></td>
+                                    <td><?php echo html_escape($rateplan->capacity); ?></td>
+                                    <td><?php echo html_escape($total_room); ?></td>
+                                    <td><?php echo html_escape($rateplan->capacity*$total_room); ?></td>
+                                    <td><?php echo html_escape($rateplan->rate); ?></td>
+
+
+                                </tr>
+                                <?php $sl++; ?>
+                            <?php } ?>
+                        <?php } ?>
+                        </tbody>
+                    </table> <!-- /.table-responsive -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-xl-12">
+        <!--Basic apexMixedChart Chart-->
+        <div class="card mb-4">
             <div class="col-lg-10 col-xl-10 offset-md-1">
             </div>
             <div class="card-body">
@@ -247,6 +321,7 @@
             </div>
         </div>
     </div>
+
 </div>
 <div class="row">
     <div class="col-sm-6 col-md-6 col-cxl-4 ">

@@ -151,8 +151,8 @@ $this->load->model(array(
                                             <td><?php echo html_escape($book->booking_number);?></td>
                                             <td><?php echo html_escape($book->firstname.' '.$book->lastname);?></td>
                                             <td><?php echo html_escape($book->cust_phone);?></td>
-                                            <td><?php echo html_escape($room_name);?></td>
-                                            <td><?php echo html_escape($room_no);?></td>
+                                            <td><?php echo html_escape(substr($room_name,0,-1));?></td>
+                                            <td><?php echo html_escape(substr($room_no,0,-1));?></td>
                                             <td><?php echo html_escape($book->checkindate);?></td>
                                             <td><?php echo html_escape($book->checkoutdate);?></td>
                                             <td><?php echo html_escape($book->date_time);?></td>

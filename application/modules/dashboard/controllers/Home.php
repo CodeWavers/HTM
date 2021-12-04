@@ -8,7 +8,7 @@ class Home extends MX_Controller {
  		parent::__construct();
 
  		$this->load->model(array(
- 			'home_model' 
+ 			'home_model'
  		)); 
 
 		if (! $this->session->userdata('isLogIn'))
@@ -46,7 +46,8 @@ class Home extends MX_Controller {
 		$data['customerlist']=$this->home_model->customerlist();
 		$data['todayorder']=$this->home_model->todayorderlist();
 		$data['nextayorder']=$this->home_model->nextdayorderlist();
-		
+		$data['rateplanlist']=$this->home_model->room_data();
+
 		$months='';
 		$totalamount='';
 		$totalorder='';
@@ -279,6 +280,7 @@ class Home extends MX_Controller {
             $data['customerlist']=$this->home_model->customerlist();
             $data['todayorder']=$this->home_model->todayorderlist();
             $data['nextayorder']=$this->home_model->nextdayorderlist();
+            $data['rateplanlist']=$this->home_model->room_data();
 
             $months='';
             $totalamount='';

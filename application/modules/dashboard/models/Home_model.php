@@ -658,7 +658,7 @@ class Home_model extends CI_Model {
                     ->group_end();
                 $this->db->where('a.floorName', $r->floorid);
                 $this->db->order_by('a.floorplanid', 'desc');
-               $this->db->group_by('a.roomno');
+              // $this->db->group_by('a.roomno');
                 $room_no = $this->db->get()->result();
 
 
@@ -668,9 +668,8 @@ class Home_model extends CI_Model {
                 foreach ($room_no as $ro) {
 
 
-                    if ( $ro->st == '4') {
-                        // $rooms .=$title;
-//                        echo '<pre>';print_r($ro);exit();
+                    if ( $ro->st == '4' && $ro->is_old != '1') {
+
                         $rooms .='
                                 <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '" data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
                                     <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid.'"> <div class="card mb-2" style="background-color: #0073e6;height: 110px">
@@ -699,7 +698,7 @@ class Home_model extends CI_Model {
 
                     }
 
-                    else if ($ro->st == '2') {
+                    else if ($ro->st == '2' && $ro->is_old != '1') {
                         // $rooms .=$title;
                         $rooms .='
                                 <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
@@ -728,7 +727,7 @@ class Home_model extends CI_Model {
                         ';
 
                     }
-                    else if ($ro->st == '0') {
+                    else if ($ro->st == '0' && $ro->is_old != '1') {
                         // $rooms .=$title;
                         $rooms .='
                                 <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
@@ -761,7 +760,7 @@ class Home_model extends CI_Model {
 
 
 
-                    else {
+                    else if(($ro->st != '0' || $ro->st != '1' || $ro->st != '2' || $ro->st != '3' || $ro->st != '4' ) && $ro->is_old != '1') {
 
                         $rooms .= '
                                  <div class="col-sm-6 room" >
@@ -806,6 +805,21 @@ class Home_model extends CI_Model {
         }
 
         return $data;
+    }
+
+
+    public function room_data()
+    {
+        $this->db->select('roomdetails.*,bedstype.bedstypetitle,roomsizemesurement.roommesurementitle');
+        $this->db->from('roomdetails');
+        $this->db->join('roomsizemesurement','roomsizemesurement.mesurementid=roomdetails.roomsizemesurement','left');
+        $this->db->join('bedstype','bedstype.Bedstypeid=roomdetails.bedstype','left');
+        $this->db->order_by('roomdetails.roomid', 'desc');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+        return false;
     }
 
 
