@@ -104,6 +104,16 @@
                          margin-top: 2%;
                      }
 
+            .floor:nth-child(2) {
+                height: 300px;
+
+            }
+
+
+            /*.room:nth-child(3) {*/
+            /*    margin-top:-100px;*/
+            /*}*/
+
         </style>
         <!--Basic Line Chart-->
         <!--         <a class="btn btn-dark-green" data-toggle="popover-hover" data-img="//placehold.it/100x50">Hover over me</a>-->
@@ -132,7 +142,7 @@
                         <?php echo form_open('dashboard/home/room_view_search',array('class' => 'form-inline'))?>
 
                         <div class="form-group">
-                            <label class="padding_right_5px col-form-label"
+                            <label class="padding_right_5px col-form-label card-category text-uppercase fs-10 font-weight-bold "
                                    for="from_date">Search:
                             </label>
                             <input type="date" name="start_date" value=""
@@ -195,7 +205,20 @@
                                 <div class="d-flex justify-content-between align-items-center ">
                                     <div class="card-icon d-flex align-items-center justify-content-center ">
                                         <p class="card-category text-uppercase fs-12 font-weight-bold" style="color: whitesmoke">
-                                            <?php echo $floor['floor_name']?></p>
+
+
+                                            <?php
+
+
+
+                                                echo $floor['floor_name'];
+
+
+                                            ?>
+
+
+
+                                        </p>
                                     </div>
                                     <!--                                 <div>-->
                                     <!--                                     <h6 class="fs-17 font-weight-600 mb-0">--><?php //echo $floor['floor_name']?><!--</h6>-->
@@ -208,13 +231,8 @@
                             <div class="card-body p-2 col-sm-12" id="abc" style="">
 
 
-                                <div class="row">
+                                <div class="row parant_div">
                                     <?php echo $floor['room_nos']?>
-
-
-
-
-
 
 
                                 </div>

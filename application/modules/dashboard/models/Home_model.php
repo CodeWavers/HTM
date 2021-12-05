@@ -671,8 +671,8 @@ class Home_model extends CI_Model {
                     if ( $ro->st == '4' && $ro->is_old != '1') {
 
                         $rooms .='
-                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '" data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
-                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid.'"> <div class="card mb-2" style="background-color: #0073e6;height: 110px">
+                                <div class="  room" style="background-color: #0073e6;height: 110px" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '" data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                    <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid.'"> <div class="card mb-2 floor" style="background-color: #0073e6;height: 110px">
                                          <div
                                                  class="card-header card-header-danger card-header-icon text-center " style="background-color: #0d95e8;">
                                              <div class="card-icon d-flex align-items-center justify-content-center">
@@ -682,7 +682,7 @@ class Home_model extends CI_Model {
 
 
                                          </div>
-                                         <div class="" style="padding:auto;">
+                                         <div class="" style="padding: auto;">
                                              <div class="" >
                                                  <p class="card-category fs-10 text-uppercase font-weight-bold text-center pt-3" style="color: whitesmoke">
                                                     ' . $ro->roomtype . '</p>
@@ -701,7 +701,7 @@ class Home_model extends CI_Model {
                     else if ($ro->st == '2' && $ro->is_old != '1') {
                         // $rooms .=$title;
                         $rooms .='
-                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                <div class="col-sm-6 room" style="background-color: #10b33f;height: 110px" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
                                     <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '"> <div class="card mb-2" style="background-color: #10b33f;height: 110px">
                                          <div
                                                  class="card-header card-header-info card-header-icon text-center " style="background-color: #05847e;">
@@ -730,7 +730,7 @@ class Home_model extends CI_Model {
                     else if ($ro->st == '0' && $ro->is_old != '1') {
                         // $rooms .=$title;
                         $rooms .='
-                                <div class="col-sm-6 room" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
+                                <div class="col-sm-6 room" style="background-color: #c7222a;height: 110px" data-toggle="popover-hover"   title="' . $ro->firstname . ' ' . $ro->lastname . '"  data-bn="' . $ro->booking_number . '" data-phone="' . $ro->cust_phone . '" data-email="' . $ro->email . '" data-ci="' . $ro->checkindate . '" data-co="' . $ro->checkoutdate . '" >
                                     <a href="'.base_url().'room_reservation/booking-information/'.$ro->bookedid. '">
                                      <div class="card mb-2" style="background-color: #c7222a;height: 110px">
                                          <div
@@ -763,7 +763,7 @@ class Home_model extends CI_Model {
                     else if(($ro->st != '0' || $ro->st != '1' || $ro->st != '2' || $ro->st != '3' || $ro->st != '4' ) && $ro->is_old != '1') {
 
                         $rooms .= '
-                                 <div class="col-sm-6 room" >
+                                 <div class="col-sm-6 room" style="background-color: #ffffff;height: 110px">
                                      <div class="card mb-2" style="background-color: #ffffff;height: 110px">
                                          <div
                                                  class="card-header card-header-success card-header-icon text-center " style="background-color: #d0dce3">
