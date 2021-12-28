@@ -166,7 +166,7 @@ $this->load->model(array(
                                                     data-placement="top" data-original-title="Invoice"
                                                     title="Invoice"><i class="ti-eye"></i></a>&nbsp;<a
                                                     href="<?php echo base_url("reports/customer-reciept/".html_escape($book->bookedid)) ?>"
-                                                    class="btn btn-success btn-sm" data-toggle="tooltip"
+                                                    class="btn btn-warning btn-sm" data-toggle="tooltip"
                                                     data-placement="top" data-original-title="Details"
                                                     title="Details"><i class="ti-receipt"></i></a></td>
                                         </tr>

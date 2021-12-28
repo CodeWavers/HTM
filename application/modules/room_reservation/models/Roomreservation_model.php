@@ -218,7 +218,130 @@ class Roomreservation_model extends CI_Model
         $service_id = $this->input->post('service', TRUE);
         $variation_id = $this->input->post('variation_id', TRUE);
         $rate = $this->input->post('rate', TRUE);
+        $change_room = $this->input->post('change_room', TRUE);
+        $checkin = $this->input->post('check_in', TRUE);
+        $checkout = $this->input->post('check_out', TRUE);
+        if (!empty($change_room)){
+            $this->db->where(array('booking_number'=>$bookingnumber));
+            $this->db->delete('booked_room');
 
+            for ($i = 0, $n = count($change_room); $i < $n; $i++) {
+
+                $room_no = $change_room[$i];
+
+
+
+                $room_id=$this->get_room_id_by_room_no($room_no);
+                $room_rate=$this->get_room_rate_by_room_id($room_id);
+                $offer_discount=$this->get_offer_rate_by_room_id($room_id,$room_rate,$checkin,$checkout);
+
+
+                $old_room=$this->db->select('room_no')->from('booked_room')->where('room_no',$room_no)->get()->row();
+
+                $this->db->set('is_old',1);
+                $this->db->where(array('room_no'=>$old_room->room_no));
+                $this->db->update('booked_room');
+
+
+                $data1 = array(
+                    'booking_number'=>$bookingnumber,
+                    'roomid'=>$room_id,
+                    'room_no'=>$room_no,
+                    'total_room'=>1,
+                    'offer_discount'=>$offer_discount,
+                    'room_rate'=>$room_rate,
+                    'status'=>$status,
+
+                );
+
+
+
+
+
+                $this->db->insert('booked_room', $data1);
+
+
+            }
+        }
+        else{
+            $room_Array = explode(',',$room);
+            // echo '<pre>';print_r($room_Array);exit();
+            foreach ($room_Array as $key => $value) {
+
+
+                $data4['room'] = $value;
+
+
+
+                $booked_room=array(
+                    'booking_number'=>$bookingnumber,
+                    'room_no'=>$value,
+                    'status'=>2,
+
+                );
+
+                $pending_room=array(
+                    'booking_number'=>$bookingnumber,
+                    'room_no'=>$value,
+                    'status'=>0,
+
+                );
+
+                $confirmed_room=array(
+                    'booking_number'=>$bookingnumber,
+                    'room_no'=>$value,
+                    'status'=>4,
+
+                );
+                $checked_room=array(
+                    'booking_number'=>$bookingnumber,
+                    'room_no'=>$value,
+                    'status'=>2,
+
+                );
+
+
+                // echo '<pre>';print_r($exists);exit();
+
+                if($status==2){
+                    $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                    $this->db->update('booked_room',$checked_room);
+
+                }
+
+                if ($status==4){
+
+                    $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                    $this->db->update('booked_room',$confirmed_room);
+
+
+                }
+
+                if ($status==0){
+
+                    $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                    $this->db->update('booked_room',$pending_room);
+
+                }
+
+                if ( $status==1){
+                    $this->db->set('status',1);
+                    $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                    $this->db->update('booked_room');
+
+
+                }
+
+                if ($status==3 ){
+                    $this->db->set('status',3);
+                    $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
+                    $this->db->update('booked_room');
+
+
+                }
+
+            }
+        }
 
 
 
@@ -238,92 +361,7 @@ class Roomreservation_model extends CI_Model
 
 
 
-        $room_Array = explode(',',$room);
-       // echo '<pre>';print_r($room_Array);exit();
-        foreach ($room_Array as $key => $value) {
 
-
-            $data4['room'] = $value;
-
-
-
-            $booked_room=array(
-                'booking_number'=>$bookingnumber,
-                'room_no'=>$value,
-                'status'=>2,
-
-            );
-
-            $pending_room=array(
-                'booking_number'=>$bookingnumber,
-                'room_no'=>$value,
-                'status'=>0,
-
-            );
-
-            $confirmed_room=array(
-                'booking_number'=>$bookingnumber,
-                'room_no'=>$value,
-                'status'=>4,
-
-            );
-            $checked_room=array(
-                'booking_number'=>$bookingnumber,
-                'room_no'=>$value,
-                'status'=>2,
-
-            );
-
-//            $chck_out_room=array(
-//                'booking_number'=>$bookingnumber,
-//                'room_no'=>$value,
-//                'status'=>5,
-//
-//            );
-
-            $exists=$this->db->select('*')->from('booked_room')->where(array('booking_number'=>$bookingnumber,'room_no'=>$value))->get()->num_rows();
-            $rooms=$this->db->select('*')->from('booked_room')->where(array('booking_number'=>$bookingnumber,'room_no'=>$value))->get()->num_rows();
-
-           // echo '<pre>';print_r($exists);exit();
-
-            if($status==2){
-                $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
-                $this->db->update('booked_room',$checked_room);
-
-            }
-
-            if ($status==4){
-
-                $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
-                $this->db->update('booked_room',$confirmed_room);
-
-
-            }
-
-            if ($status==0){
-
-                $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
-                $this->db->update('booked_room',$pending_room);
-
-            }
-
-           if ( $status==1){
-               $this->db->set('status',1);
-               $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
-                $this->db->update('booked_room');
-
-
-            }
-
-           if ($status==3 ){
-               $this->db->set('status',3);
-               $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
-                $this->db->update('booked_room');
-
-
-            }
-
-        }
 
 
 

@@ -99,7 +99,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="edit" class="modal fade" role="dialog">
+                        <div id="edit" class="modal fade " role="dialog">
                             <div class="modal-dialog modal-md">
                                 <div class="modal-content">
                                     <div class="modal-header">

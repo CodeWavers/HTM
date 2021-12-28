@@ -123,8 +123,8 @@ class Room_reservation extends MX_Controller {
             $row[] =$value->booking_number;
             $row[] =$value->firstname.' '.$value->lastname;
             $row[] =$value->cust_phone;
-            $row[] =$room_name;
-            $row[] =$room_no;
+            $row[] =substr($room_name,0,-1);
+            $row[] =substr($room_no,0,-1);
             $row[] =$value->checkindate;
             $row[] =$value->checkoutdate;
             $row[] =$value->date_time;
@@ -672,8 +672,8 @@ class Room_reservation extends MX_Controller {
 
         $data['module'] = "room_reservation";
         $data['page']   = "reservationedit";
-        $data['room_name']   = $room_name;
-        $data['room_no']   = $room_no;
+        $data['room_name']   =substr($room_name,0,-1);
+        $data['room_no']   = substr($room_no,0,-1);
         $data['room_type']   = $room_type;
         $data['service_list']   = $service_list;
         $data['service']   = $service_list;

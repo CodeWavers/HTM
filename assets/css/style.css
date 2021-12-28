@@ -12,6 +12,11 @@ body {
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
 }
 
+.d-none{
+  display: none;
+
+}
+
 @font-face {
   font-family: DS-DIGI;
   src: url(../fonts/ds_digital/DS-DIGI.TTF) */
