@@ -21,7 +21,7 @@ class Room_reservation extends MX_Controller {
             1 => 'booking_number',
             2 => 'cutomerid',
             3 => 'cust_phone',
-           4 => 'room_name',
+            4 => 'room_name',
             5 => 'room_no',
             6 => 'checkindate',
             7 => 'checkoutdate',
@@ -79,6 +79,7 @@ class Room_reservation extends MX_Controller {
             }
             else if($value->bookingstatus==1){
                 $status="Cancel";
+
             }
             else if($value->bookingstatus==3){
                 $status="Checked Out";
@@ -89,11 +90,15 @@ class Room_reservation extends MX_Controller {
             else if($value->bookingstatus==4){
                 $status="Confirmed";
             }
-            if($value->paid_amount<$value->total_price){
+            if($value->paid_amount < $value->total_price ){
                 $paymentStatus="Pending";
             }
             else{
                 $paymentStatus="Success";
+            }
+
+            if ($status=='Cancel'){
+                $paymentStatus="Refund";
             }
 
 

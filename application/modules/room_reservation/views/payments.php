@@ -97,10 +97,18 @@
                       <div class="form-group row">
                         <label for="amount" class="col-sm-5 pr-0 col-form-label"><?php echo 'Pay Amount' ?>
                           <span class="text-danger">*</span></label>
+
+                          <?php if ($bookinginfo->bookingstatus == 1) { ?>
                           <div class="col-sm-7">
                             <input name="amount" id="amount" autocomplete="off" class="form-control" type="number"
-                            value="" placeholder="<?php echo display('paid') ?>" disabled>
+                            value="" placeholder="Refund" disabled>
                           </div>
+                          <?php } else { ?>
+                          <div class="col-sm-7">
+                              <input name="amount" id="amount" autocomplete="off" class="form-control" type="number"
+                                     value="" placeholder="<?php echo display('paid') ?>" disabled>
+                          </div>
+                          <?php } ?>
                         </div>
                         <?php } ?>
                         <div class="form-group text-right">

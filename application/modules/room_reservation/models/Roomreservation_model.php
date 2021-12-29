@@ -307,6 +307,11 @@ class Roomreservation_model extends CI_Model
                     $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
                     $this->db->update('booked_room',$checked_room);
 
+
+
+
+
+
                 }
 
                 if ($status==4){
@@ -328,6 +333,45 @@ class Roomreservation_model extends CI_Model
                     $this->db->set('status',1);
                     $this->db->where(array('booking_number'=>$bookingnumber,'room_no'=>$value));
                     $this->db->update('booked_room');
+
+                    //Refund
+                    $saveid=$this->session->userdata('id');
+                    $invoice_no = $this->db->select('invoice')->from('tbl_guestpayments')->where('bookingnumber',$bookingnumber)->get()->row()->invoice;
+                    $newdate= date('Y-m-d');
+
+                    //Hotel Owner Refund Debit for Rent Value
+                    $sc =array(
+                        'VNo'            =>  $invoice_no,
+                        'Vtype'          =>  'CIV',
+                        'VDate'          =>  $newdate,
+                        'COAID'          =>  10107,
+                        'Narration'      =>  'Hotel Refund Debit for Rent Invoice#'.$invoice_no,
+                        'Debit'          =>  $this->input->post('refund_amount',TRUE),
+                        'Credit'         =>  0,
+                        'StoreID'        =>  0,
+                        'IsPosted'       => 1,
+                        'CreateBy'       => $saveid,
+                        'CreateDate'     => $newdate,
+                        'IsAppove'       => 1
+                    );
+                    $this->db->insert('acc_transaction',$sc);
+
+                    //Cash In hand Credit for paid value
+                    $cdv = array(
+                        'VNo'            =>  $invoice_no,
+                        'Vtype'          =>  'CIV',
+                        'VDate'          =>  $newdate,
+                        'COAID'          =>  1020101,
+                        'Narration'      =>  'Cash in hand Refund Credit For Invoice#'.$invoice_no,
+                        'Debit'          =>  0,
+                        'Credit'         =>  $this->input->post('refund_amount',TRUE),
+                        'StoreID'        =>  0,
+                        'IsPosted'       =>  1,
+                        'CreateBy'       => $saveid,
+                        'CreateDate'     => $newdate,
+                        'IsAppove'       => 1
+                    );
+                    $this->db->insert('acc_transaction',$cdv);
 
 
                 }

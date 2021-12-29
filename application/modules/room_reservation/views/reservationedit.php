@@ -334,7 +334,7 @@
                     <div class="form-group row">
                         <label for="status" class="col-sm-4 col-form-label"><?php echo display('status') ?> </label>
                         <div class="col-sm-8">
-                            <select name="status" class="selectpicker form-control" data-live-search="true" id="status">
+                            <select name="status" class="selectpicker form-control" data-live-search="true" id="status" onchange="refund_div(this.value)">
                                 <option value=""><?php echo display('select') ?><?php echo display('status') ?></option>
                                 <option value="0" <?php if ($intinfo->bookingstatus == '0') {
                                     echo "selected";
@@ -357,6 +357,27 @@
                         </div>
                     </div>
                 <?php } ?>
+
+                <div style="display: none" id="refund_div">
+                    <div class="form-group row"  >
+                        <label for="room_name" class="col-sm-4 col-form-label">Total Amount</label>
+
+                        <div class="col-sm-8">
+                            <input name="total_amount" class="form-control" type="number"  placeholder="Total Amount"
+                                   value="<?php echo html_escape((!empty($intinfo->total_price) ? $intinfo->total_price : 0)) ?>" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row"  >
+                        <label for="room_name" class="col-sm-4 col-form-label">Refund</label>
+
+                        <div class="col-sm-8">
+                            <input name="refund_amount" class="form-control" type="number"  placeholder="Amount"
+                                   value="">
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="form-group text-right">
                     <button type="submit" class="btn btn-success w-md m-b-5"><?php echo display('update') ?></button>
                 </div>
@@ -534,4 +555,14 @@
         $("#change_room").fadeToggle(1000);
 
     });
+
+    function refund_div(value) {
+
+     if(value == 1){
+         $("#refund_div").fadeIn(1000);
+     }else{
+         $("#refund_div").fadeOut(1000);
+     }
+
+    }
 </script>

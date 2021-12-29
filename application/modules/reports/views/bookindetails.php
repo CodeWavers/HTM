@@ -18,9 +18,18 @@
             <h1 class="h3"><?php echo display('booking_number') ?> #<?php echo html_escape($bookinfo->booking_number);?></h1>
             <div><?php echo display('booking_date') ?>: <?php echo html_escape($bookinfo->date_time);?></div>
             <div class="text-danger m-b-15"><?php echo display('payment_status') ?>:
-                <?php if(isset($paymentinfo->paid_amount)){?>
-                <?php if($paymentinfo->paid_amount < $bookinfo->total_price){ echo display('pending');}else{ echo display('complete');}?>
-                <?php } else{echo display('pending');}?>
+
+                <?php if ($bookinfo->bookingstatus ==1) {
+                    echo 'Refund';
+                }else{ ?>
+                    <?php if(isset($paymentinfo->paid_amount)){?>
+                        <?php if($paymentinfo->paid_amount < $bookinfo->total_price){ echo display('pending');}else{ echo display('complete');}?>
+                    <?php } else{echo display('pending');}?>
+                <?php } ?>
+
+
+
+
             </div>
             <address>
                 <strong><?php echo display('guest_info') ?></strong><br>
