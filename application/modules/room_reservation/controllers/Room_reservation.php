@@ -495,8 +495,8 @@ class Room_reservation extends MX_Controller {
                 if(isset($_POST['update_booking'])){
                     $bk=  $this->input->post('booking_number',TRUE);
                     $st=$this->input->post('booking_status', TRUE);
-                 $this->db->where('booking_number',$bk);
-                 $this->db->delete('booked_info');
+                    $this->db->where('booking_number',$bk);
+                    $this->db->delete('booked_info');
 
                     $this->db->where('booking_number',$bk);
                     $this->db->delete('booked_room');
@@ -506,7 +506,7 @@ class Room_reservation extends MX_Controller {
 
                     $postData = array(
                         'booking_number' 	     => $bk,
-                        'date_time' 	             => date('Y-m-d H:i:s'),
+                        'date_time' 	             =>  $this->input->post('date_time',TRUE),
                         'payment_deadline' 	             => $this->input->post('payment_deadline',TRUE),
                         'nuofpeople'             => $total_people,
                         'sub_total'             => $this->input->post('sub_total',TRUE),

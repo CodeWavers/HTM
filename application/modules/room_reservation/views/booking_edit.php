@@ -238,7 +238,11 @@
                  type="hidden" readonly="readonly" placeholder="" value="<?php echo $intinfo->booking_number ?>" id="booking_number">
 
           <input name="paid_amount" autocomplete="off" class="form-control paid_amount"
-                 type="hidden" readonly="readonly" placeholder="" value="<?php echo $intinfo->paid_amount ?>" id="booking_number">
+                 type="hidden" readonly="readonly" placeholder="" value="<?php echo $intinfo->paid_amount ?>" id="paid_amount">
+
+
+          <input name="date_time" autocomplete="off" class="form-control paid_amount"
+                 type="hidden" readonly="readonly" placeholder="" value="<?php echo $intinfo->date_time ?>" id="date_time">
         <?php echo form_close() ?>
 
 
