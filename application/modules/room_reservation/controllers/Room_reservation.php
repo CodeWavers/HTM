@@ -92,7 +92,7 @@ class Room_reservation extends MX_Controller {
             else if($value->bookingstatus==4){
                 $status="Confirmed";
             }
-            if($value->paid_amount < $value->total_price ){
+            if($value->paid_amount < ($value->service_total+$value->total_price) ){
                 $paymentStatus="Pending";
             }
             else{

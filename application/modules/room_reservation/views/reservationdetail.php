@@ -95,7 +95,7 @@
                 <div class="col-md-3 pr-md-1">
                     <div class="form-group">
                         <label class="font-weight-600"><?php echo display('total_price') ?>(with vat and service charge)</label>
-                        <div class=""><?php echo html_escape($bookinginfo->total_price);?></div>
+                        <div class=""><?php echo html_escape($bookinginfo->total_price+$bookinginfo->service_total);?></div>
                     </div>
                 </div>
             </div>
