@@ -229,7 +229,7 @@ if($rr['isfound']==2){ ?>
 
 
                                             <div class="form-group text-left margin_20px" >
-                                                <button type="submit" style="border-radius: 20px" class="btn btn-success w-md m-b-5"><?php echo display('book_now') ?></button>
+                                                <button name="update_booking" type="submit" style="border-radius: 20px" class="btn btn-success w-md m-b-5"><?php echo display('book_now') ?></button>
                                             </div>
 
 

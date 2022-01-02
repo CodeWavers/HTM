@@ -25,11 +25,7 @@
                 <div class="form-group row">
                     <label for="room_name" class="col-sm-4 col-form-label"><?php echo display('room_name') ?> <span
                                 class="text-danger">*</span></label>
-                    <!--                    <div class="col-sm-8">-->
-                    <!--                        --><?php //echo form_dropdown('room_name2',$roomlist,$roomlist=$intinfo->roomid, 'class=" form-control" data-live-search="true" id="room_name2"disabled="disabled"') ?>
-                    <!--                        <input name="room_name" type="hidden"  value="-->
-                    <?php //echo html_escape($intinfo->roomid) ?><!--" id="room_name" >-->
-                    <!--                    </div>-->
+
 
                     <div class="col-sm-8">
                         <input name="room_type" class="form-control" type="text" readonly="readonly"
@@ -551,10 +547,7 @@
 
     }
 
-    $("#change_btn").click(function () {
-        $("#change_room").fadeToggle(1000);
 
-    });
 
     function refund_div(value) {
 

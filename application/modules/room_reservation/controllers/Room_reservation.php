@@ -65,7 +65,8 @@ class Room_reservation extends MX_Controller {
             $update='';
             $delete='';
             if($this->permission->method('room_reservation','update')->access()):
-                $update='<input name="url" type="hidden" id="url_'.$value->bookedid.'" value="'.base_url().'room_reservation/room_reservation/updateintfrm" /><a onclick="editinforoom('.$value->bookedid.')" class="btn btn-info btn-sm margin_right_5px" data-toggle="tooltip" data-placement="top" data-original-title="Update" title="Update"><i class="ti-pencil-alt text-white" aria-hidden="true"></i></a>';
+//                $update='<input name="url" type="hidden" id="url_'.$value->bookedid.'" value="'.base_url().'room_reservation/room_reservation/updateintfrm" /><a onclick="editinforoom('.$value->bookedid.')" class="btn btn-info btn-sm margin_right_5px" data-toggle="tooltip" data-placement="top" data-original-title="Update" title="Update"><i class="ti-pencil-alt text-white" aria-hidden="true"></i></a>';
+                $update='<a href="'.base_url().'room_reservation/booking_edit_form/'.$value->bookedid.'" class="btn btn-info btn-sm margin_right_5px" data-toggle="tooltip" data-placement="top" data-original-title="Edit" title="Edit"><i class="ti-pencil-alt text-white"></i></a>';
             endif;
             if($this->permission->method('room_reservation','read')->access()):
                 $view='<a href="'.base_url().'room_reservation/booking-information/'.$value->bookedid.'" class="btn btn-primary btn-sm margin_right_5px" data-toggle="tooltip" data-placement="top" data-original-title="View" title="View"><i class="ti-eye"></i></a>';
@@ -411,14 +412,7 @@ class Room_reservation extends MX_Controller {
                 $roomnosel=rtrim($roomnosel,',');
 
                 $room_id=$this->input->post('room_name',TRUE);
-//                $length_room=count($this->input->post('room_name',TRUE));
-//                $roomidsel='';
-//                for($i=0;$i<$length_room;$i++){
-//                    $roomidsel.=$room_id[$i].',';
-//                }
-//                $roomidsel=rtrim($roomidsel,',');
 
-               // echo '<pre>';print_r($roomidsel);exit();
 
 
                 $postData = array(
@@ -485,14 +479,7 @@ class Room_reservation extends MX_Controller {
 
                 $room_rate=array_sum($roomRate);
 
-//                        foreach ($roomid as $key => $value) {
-//
-//
-//                                   $data4['room_id'] = $value;
-//                                   $data4['room_rate'] = $roomRate[$key];
-//                        }
 
-              //   echo '<pre>';print_r(array_sum($roomRate));exit();
 
                 $interval=  date_diff($check_in,$check_out);
 
@@ -504,27 +491,65 @@ class Room_reservation extends MX_Controller {
 
                 // echo '<pre>';print_r($tt);exit();
 
-                if ($check_out_new > $check_out_old){
 
-                    $total_price=$this->input->post('grand_total', TRUE)+$tt;
-                    $sub_total=$this->input->post('sub_total', TRUE)+$total_room_rate;
+                if(isset($_POST['update_booking'])){
+                    $bk=  $this->input->post('booking_number',TRUE);
+                    $st=$this->input->post('booking_status', TRUE);
+                 $this->db->where('booking_number',$bk);
+                 $this->db->delete('booked_info');
+
+                    $this->db->where('booking_number',$bk);
+                    $this->db->delete('booked_room');
+                    $no_of_people=$this->input->post('no_of_people',TRUE);
+
+                    $total_people=array_sum($no_of_people);
+
+                    $postData = array(
+                        'booking_number' 	     => $bk,
+                        'date_time' 	             => date('Y-m-d H:i:s'),
+                        'payment_deadline' 	             => $this->input->post('payment_deadline',TRUE),
+                        'nuofpeople'             => $total_people,
+                        'sub_total'             => $this->input->post('sub_total',TRUE),
+                        'discount'             => $this->input->post('main_discount',TRUE),
+                        'discount_night'             => $this->input->post('discount_night',TRUE),
+                        'paid_amount'             => $this->input->post('paid_amount',TRUE),
+                        'total_price'             => $this->input->post('gramount',TRUE),
+                        'coments'                 => '',
+                        'checkindate'             => $this->input->post('check_in',TRUE),
+                        'checkoutdate'            => $this->input->post('check_out',TRUE),
+                        'cutomerid' 	             => $this->input->post('guest', TRUE),
+                        'bookingstatus' 	         =>  $this->input->post('booking_status', TRUE),
+
+                    );
+
+               //     echo '<pre>';print_r($postData);exit();
+
+                    $this->roomreservation_model->create($postData,$bk,$st);
+
                 }else{
+                    if ($check_out_new > $check_out_old){
 
-                    $total_price= $this->input->post('grand_total', TRUE);
-                    $sub_total=$this->input->post('sub_total', TRUE);
-                }
+                        $total_price=$this->input->post('grand_total', TRUE)+$tt;
+                        $sub_total=$this->input->post('sub_total', TRUE)+$total_room_rate;
+                    }else{
 
-                $data['room_reservation']   = (Object) $updateData = array(
-                  //  'room_no'              	 => $roomnosel,
-                    'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
-                    'payment_deadline' 	             => $this->input->post('payment_deadline',TRUE),
-                    'sub_total' 	         => $sub_total,
-                    'total_price' 	         => $total_price,
-                    'service_total' 	         => $this->input->post('service_total', TRUE),
-                    'checkoutdate' 	         => $this->input->post('check_out', TRUE),
-                    'bookingstatus' 	         => $this->input->post('status', TRUE)
-                );
-                if ($this->roomreservation_model->update($updateData,$bookingnumber,$status)) {
+                        $total_price= $this->input->post('grand_total', TRUE);
+                        $sub_total=$this->input->post('sub_total', TRUE);
+                    }
+
+                    $data['room_reservation']   = (Object) $updateData = array(
+                        //  'room_no'              	 => $roomnosel,
+                        'bookedid'     	     	 => $this->input->post('bookedid', TRUE),
+                        'payment_deadline' 	     => $this->input->post('payment_deadline',TRUE),
+                        'sub_total' 	         => $sub_total,
+                        'total_price' 	         => $total_price,
+                        //'service_total' 	         => $this->input->post('service_total', TRUE),
+                        'checkoutdate' 	         => $this->input->post('check_out', TRUE),
+                        'bookingstatus' 	         => $this->input->post('status', TRUE)
+                    );
+
+                    // echo '<pre>';print_r($data);exit();
+                    if ($this->roomreservation_model->update($updateData,$bookingnumber,$status)) {
 //		if($status==2){
 //			$type = "completeorder";
 //			$response = $this->lsoft_setting->send_sms($bookingnumber, $custID, $type);
@@ -538,12 +563,17 @@ class Room_reservation extends MX_Controller {
 //			$data = json_decode($response);
 //			$msg = $data->message;
 //		}
-                    $this->session->set_flashdata('message', display('update_successfully'));
-                    //if($msg)
-                    //$this->session->set_userdata('msg', $msg);
-                } else {
-                    $this->session->set_flashdata('exception',  display('please_try_again'));
+                        $this->session->set_flashdata('message', display('update_successfully'));
+                        //if($msg)
+                        //$this->session->set_userdata('msg', $msg);
+                    } else {
+                        $this->session->set_flashdata('exception',  display('please_try_again'));
+                    }
+
                 }
+
+
+
                 redirect("room_reservation/booking-list");
             }
         } else {
@@ -559,7 +589,9 @@ class Room_reservation extends MX_Controller {
         }
 
     }
-    public function updateintfrm($id){
+
+    public function booking_edit_form($id = null)
+    {
 
         $this->permission->method('room_reservation','update')->redirect();
         $data['title'] = display('bed_edit');
@@ -568,8 +600,9 @@ class Room_reservation extends MX_Controller {
         $data['intinfo']   = $this->roomreservation_model->findById($id);
 
 
+
         $booking_number=$data['intinfo']->booking_number;
-        $roomname=$data['intinfo']->roomid;
+        //  $roomname=$data['intinfo']->roomid;
         $checkin=$data['intinfo']->checkindate;
         $checkout=$data['intinfo']->checkoutdate;
         $status=1;
@@ -577,10 +610,12 @@ class Room_reservation extends MX_Controller {
 
 
         $room_type=$this->roomreservation_model->room_type_by_booking_number($booking_number);
+        $roomname='';
         $room_name='';
         $room_rate='';
 
         foreach ($room_type as $rr){
+
 
             $room_name .=$rr->roomtype.',';
 
@@ -593,8 +628,12 @@ class Room_reservation extends MX_Controller {
         foreach ($rooms as $rs){
 
             $room_no .=$rs->room_no.',';
+            $roomname .=$rs->roomid.',';
 
         }
+
+        //  echo '<pre>';print_r($roomname);exit();
+
 
 
         $exits = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
@@ -618,10 +657,14 @@ class Room_reservation extends MX_Controller {
         //  echo '<pre>';print_r($totalroom3);exit();
         $allbokedroom3 = (!empty($allbokedroom3)?max(array_column($totalroom3, 'allroom')):0);
 
+
         $totalroomfound=$this->db->select("count(roomid) as totalroom")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->row();
         $roomdetails=$this->db->select("*")->from('roomdetails')->where('roomid',$roomname)->get()->row();
         $numberlist=$this->db->select("*")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->result();
-        $service_list=$this->db->select('*')->from('service_table')->get()->result();
+
+
+
+
 
         $roomlist='';
         foreach($numberlist as $singleno){
@@ -673,7 +716,147 @@ class Room_reservation extends MX_Controller {
 
 
 
+        $service_list=$this->db->select('*')->from('service_table')->get()->result();
 
+        $data['module'] = "room_reservation";
+        $data['page']   = "reservationedit";
+        $data['room_name']   =substr($room_name,0,-1);
+        $data['room_no']   = substr($room_no,0,-1);
+        $data['no_of_room']   =count($rooms);
+        $data['room_type']   = $room_type;
+        $data['service_list']   = $service_list;
+        $data['service']   = $service_list;
+            $data['page']   = "booking_edit";
+            echo Modules::run('template/layout', $data);
+
+
+    }
+    public function updateintfrm($id){
+
+        $this->permission->method('room_reservation','update')->redirect();
+        $data['title'] = display('bed_edit');
+        $data["roomlist"] = $this->roomreservation_model->allrooms();
+        $data["customerlist"] = $this->roomreservation_model->customerlist();
+        $data['intinfo']   = $this->roomreservation_model->findById($id);
+
+
+
+        $booking_number=$data['intinfo']->booking_number;
+      //  $roomname=$data['intinfo']->roomid;
+        $checkin=$data['intinfo']->checkindate;
+        $checkout=$data['intinfo']->checkoutdate;
+        $status=1;
+        $data['v_list']   = $this->roomreservation_model->booked_service($booking_number);
+
+
+        $room_type=$this->roomreservation_model->room_type_by_booking_number($booking_number);
+        $roomname='';
+        $room_name='';
+        $room_rate='';
+
+        foreach ($room_type as $rr){
+
+
+            $room_name .=$rr->roomtype.',';
+
+
+        }
+
+        $rooms=$this->roomreservation_model->room_no_by_booking_number($booking_number);
+
+        $room_no='';
+        foreach ($rooms as $rs){
+
+            $room_no .=$rs->room_no.',';
+            $roomname .=$rs->roomid.',';
+
+        }
+
+      //  echo '<pre>';print_r($roomname);exit();
+
+
+
+        $exits = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate<=',$checkin)->where('a.checkoutdate>',$checkin)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->get()->result();
+
+        $exit = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate<',$checkout)->where('a.checkoutdate>=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->get()->result();
+
+        $check = $this->db->select("*")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate>',$checkin)->where('a.checkoutdate<=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->get()->result();
+
+        $totalroom1 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate<=',$checkin)->where('a.checkoutdate>',$checkin)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->get()->row();
+
+
+        $totalroom2 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate<',$checkout)->where('a.checkoutdate>=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->get()->row();
+
+        $totalroom3 = $this->db->select("SUM(b.total_room) as allroom")->from('booked_info a')->join('booked_room b','a.booking_number=b.booking_number')
+            ->where('a.checkindate>=',$checkin)->where('a.checkoutdate<=',$checkout)->where('a.bookingstatus!=',$status)->where('b.roomid',$roomname)->group_by('a.checkindate')->get()->result();
+        //  echo '<pre>';print_r($totalroom3);exit();
+        $allbokedroom3 = (!empty($allbokedroom3)?max(array_column($totalroom3, 'allroom')):0);
+
+
+        $totalroomfound=$this->db->select("count(roomid) as totalroom")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->row();
+        $roomdetails=$this->db->select("*")->from('roomdetails')->where('roomid',$roomname)->get()->row();
+        $numberlist=$this->db->select("*")->from('tbl_roomnofloorassign')->where('roomid',$roomname)->get()->result();
+
+
+
+
+
+        $roomlist='';
+        foreach($numberlist as $singleno){
+            $roomlist.=$singleno->roomno.',';
+        }
+        $gtroomno=rtrim($roomlist,',');
+        if(empty($exits)&&empty($exit) && empty($check)){
+            $data['freeroom']=$gtroomno;
+            $data['isfound']=0;
+        }
+        else{
+            $bookedroom="";
+            if(!empty($exits)){
+                foreach($exits as $booked){
+                    $bookedroom.=$booked->room_no.',';
+                }
+            }
+            if(!empty($exit)){
+                foreach($exit as $ex){
+                    $bookedroom.=$ex->room_no.',';
+                }
+            }
+            if(!empty($check)){
+                foreach($check as $ch){
+                    $bookedroom.=$ch->room_no.',';
+                }
+            }
+            $getbookedall=rtrim($bookedroom,',');
+            $allbokedroom1=$totalroom1->allroom;
+            $allbokedroom2=$totalroom2->allroom;
+            $allbokedroom=max((int)$allbokedroom1,(int)$allbokedroom2,(int)$allbokedroom3);
+            $allfreeroom=$totalroomfound->totalroom;
+            if($allfreeroom>$allbokedroom){
+                $output=$this->Differences($getbookedall, $gtroomno);
+                if(!empty($output)){
+                    $data['freeroom']=$output;
+                    $data['isfound']='1';
+                }
+                else{
+                    $data['freeroom']='';
+                    $data['isfound']='2';
+                }
+            }
+            else{
+                $data['freeroom']='';
+                $data['isfound']='2';
+            }
+        }
+
+
+
+        $service_list=$this->db->select('*')->from('service_table')->get()->result();
 
         $data['module'] = "room_reservation";
         $data['page']   = "reservationedit";

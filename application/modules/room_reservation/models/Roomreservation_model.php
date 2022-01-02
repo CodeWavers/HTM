@@ -15,7 +15,7 @@ class Roomreservation_model extends CI_Model
                 $total_room=$this->input->post('numofroom',true);
                 $rate=$this->input->post('roomrate',true);
                 $of_discount=$this->input->post('offer_discount',true);
-              $checkin=$this->input->post('check_in',true);
+                 $checkin=$this->input->post('check_in',true);
                 $checkout=$this->input->post('check_out',true);
 
     //    echo '<pre>';print_r(count($room));exit();
