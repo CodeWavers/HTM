@@ -113,6 +113,20 @@
                                 </div>
                             </div>
                         </div>
+    <div id="service" class="modal fade " role="dialog">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong>Add Service</strong>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body serviceinfo">
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
                         <?php if($this->permission->method('room_reservation','read')->access()): ?>
                         <div class="row">
                             <!--  table area -->

@@ -215,9 +215,7 @@ class Roomreservation_model extends CI_Model
 
         $room=$this->input->post('room_no', TRUE);
         //$service_id = $this->input->post('service', TRUE);
-        $service_id = $this->input->post('service', TRUE);
-        $variation_id = $this->input->post('variation_id', TRUE);
-        $rate = $this->input->post('rate', TRUE);
+
         $change_room = $this->input->post('change_room', TRUE);
         $checkin = $this->input->post('check_in', TRUE);
         $checkout = $this->input->post('check_out', TRUE);
@@ -389,19 +387,7 @@ class Roomreservation_model extends CI_Model
 
 
 
-            foreach ($service_id as $key => $value) {
 
-                $data_service['service_no'] = $value;
-                $data_service['booking_number'] = $bookingnumber;
-                $data_service['variation_no'] = $variation_id[$key];
-                $data_service['rate'] = $rate[$key];
-
-               // echo '<pre>';print_r($data_service);exit();
-
-                if (!empty($value) && !empty($rate[$key]) && !empty($variation_id[$key])) {
-                    $this->db->insert('booked_services', $data_service);
-                }
-            }
 
 
 

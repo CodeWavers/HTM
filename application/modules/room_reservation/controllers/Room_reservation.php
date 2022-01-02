@@ -74,6 +74,7 @@ class Room_reservation extends MX_Controller {
             endif;
             if($this->permission->method('room_reservation','create')->access()):
                 $Payment='<a href="'.base_url().'room_reservation/payment-information/'.$value->bookedid.'" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" data-original-title="Payment" title="Payment"><i class="ti-wallet"></i></a>';
+               $service='<input name="url" type="hidden" id="url_'.$value->bookedid.'" value="'.base_url().'room_reservation/room_reservation/service_form" /><a onclick="serviceinforoom('.$value->bookedid.')" class="btn btn-black btn-sm margin_right_5px" data-toggle="tooltip" data-placement="top" data-original-title="Add Service" title="Add Service"><i class="ti-headphone-alt text-white" aria-hidden="true"></i></a>';
             endif;
             if($value->bookingstatus==0){
                 $status="Pending";
@@ -136,7 +137,7 @@ class Room_reservation extends MX_Controller {
             $row[] =$value->date_time;
             $row[] =$status;
             $row[] =$paymentStatus;
-            $row[] =$update.$invoice.$view.$Payment;
+            $row[] =$update.$invoice.$view.$Payment. $service;
             $data[] = $row;
 
         }
@@ -522,7 +523,7 @@ class Room_reservation extends MX_Controller {
 
                     );
 
-               //     echo '<pre>';print_r($postData);exit();
+              //      echo '<pre>';print_r($postData);exit();
 
                     $this->roomreservation_model->create($postData,$bk,$st);
 
@@ -588,6 +589,36 @@ class Room_reservation extends MX_Controller {
             echo Modules::run('template/layout', $data);
         }
 
+    }
+
+    public function add_service(){
+
+        $bookingnumber = $this->input->post('booking_number', TRUE);
+        $grand_total = $this->input->post('grand_total', TRUE);
+        $service_total = $this->input->post('service_total', TRUE);
+        $service_id = $this->input->post('service', TRUE);
+        $variation_id = $this->input->post('variation_id', TRUE);
+        $rate = $this->input->post('rate', TRUE);
+
+        $this->db->set('service_total',$service_total);
+        $this->db->where('booking_number',$bookingnumber);
+        $this->db->update('booked_info');
+
+        foreach ($service_id as $key => $value) {
+
+            $data_service['service_no'] = $value;
+            $data_service['booking_number'] = $bookingnumber;
+            $data_service['variation_no'] = $variation_id[$key];
+            $data_service['rate'] = $rate[$key];
+
+            // echo '<pre>';print_r($data_service);exit();
+
+            if (!empty($value) && !empty($rate[$key]) && !empty($variation_id[$key])) {
+                $this->db->insert('booked_services', $data_service);
+            }
+        }
+
+        redirect("room_reservation/booking-list");
     }
 
     public function booking_edit_form($id = null)
@@ -866,6 +897,37 @@ class Room_reservation extends MX_Controller {
         $data['service_list']   = $service_list;
         $data['service']   = $service_list;
         $this->load->view('room_reservation/reservationedit', $data);
+    }
+
+    public function service_form($id){
+
+
+        $data['title'] = 'Add Service';
+        $data["roomlist"] = $this->roomreservation_model->allrooms();
+        $data["customerlist"] = $this->roomreservation_model->customerlist();
+        $data['intinfo']   = $this->roomreservation_model->findById($id);
+
+
+
+        $booking_number=$data['intinfo']->booking_number;
+      //  $roomname=$data['intinfo']->roomid;
+        $checkin=$data['intinfo']->checkindate;
+        $checkout=$data['intinfo']->checkoutdate;
+        $status=1;
+        $data['v_list']   = $this->roomreservation_model->booked_service($booking_number);
+
+
+        $room_type=$this->roomreservation_model->room_type_by_booking_number($booking_number);
+
+
+        $service_list=$this->db->select('*')->from('service_table')->get()->result();
+
+        $data['module'] = "room_reservation";
+        $data['page']   = "reservationedit";
+
+        $data['service_list']   = $service_list;
+        $data['service']   = $service_list;
+        $this->load->view('room_reservation/add_service_modal', $data);
     }
 
     public function delete($id = null)

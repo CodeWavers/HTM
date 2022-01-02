@@ -215,10 +215,7 @@
                  type="hidden" placeholder="<?php echo display('check_out') ?>"
                  value="<?php echo html_escape((!empty($intinfo->checkoutdate) ? $intinfo->checkoutdate : null)) ?>"
                  id="">
-          <input name="sub_total" autocomplete="off" class="form-control sub_total" type="hidden"
-                 readonly="readonly" placeholder=""
-                 value="<?php echo html_escape((!empty($intinfo->sub_total) ? $intinfo->sub_total : 0)) ?>"
-                 id="sub_total">
+
           <input name="total_price" autocomplete="off" class="form-control total_price" type="hidden"
                  readonly="readonly" placeholder=""
                  value="<?php echo html_escape((!empty($intinfo->total_price) ? $intinfo->total_price : 0)) ?>"

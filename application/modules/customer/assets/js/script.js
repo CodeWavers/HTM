@@ -38,6 +38,23 @@ function editinforoom(id){
 			 $('select').selectpicker();
 		 } 
 	});
+
+	}
+	function serviceinforoom(id){
+	'use strict';
+	   var geturl=$("#url_"+id).val();
+	   var myurl =geturl+'/'+id;
+	    var dataString = "id="+id;
+		 $.ajax({
+		 type: "GET",
+		 url: myurl,
+		 data: dataString,
+		 success: function(data) {
+			 $('.serviceinfo').html(data);
+			 $('#service').modal('show');
+			 $('select').selectpicker();
+		 }
+	});
 	}
 
 $(document).ready(function(){
